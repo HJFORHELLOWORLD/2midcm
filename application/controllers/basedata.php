@@ -120,24 +120,33 @@ class Basedata extends CI_Controller {
         $page = max(intval($this->input->get_post('page',TRUE)),1);
         $rows = max(intval($this->input->get_post('rows',TRUE)),100);
         $skey = str_enhtml($this->input->get('skey',TRUE));
-        /*		$categoryid   = intval($this->input->get('assistId',TRUE));*/
+        $categoryid   = intval($this->input->get('assistId',TRUE));
         $where = '';
         if ($skey) {
             $where .= ' and ( PK_BOM_ID like "%'.$skey.'%"' . ' or BOMModel like "%'.$skey.'%"' . ' or BOMName like "%'.$skey.'%" )';
         }
-        /*		if ($categoryid > 0) {
-                    $cid = $this->cache_model->load_data(CATEGORY,'(1=1) and find_in_set('.$categoryid.',path)','id');
-                    if (count($cid)>0) {
-                        $cid = join(',',$cid);
-                        $where .= ' and categoryid in('.$cid.')';
-                    }
-                }*/
+        if ($categoryid > 0) {
+            $table = BOM_CATEGORY2;
+            $key = 'PK_BOMCat_ID2';
+
+            if($categoryid > 10000){ //category1
+                $categoryid = $categoryid - 10000;
+                $table = BOM_CATEGORY1;
+                $key = 'PK_BOMCat_ID1';
+            }
+
+            $cid = $this->cache_model->load_data($table,'(1=1) and '.$key .'=' .$categoryid );
+            if (count($cid)>0) {
+                $key = $key == 'PK_BOMCat_ID1'? 'BOMCat_ID1' : 'BOMCat_ID2';
+                $where .= ' and '. $key .'='.$categoryid;
+            }
+                }
         $offset = $rows*($page-1);
         $data['data']['page']      = $page;                                                      //当前页
         /*		$list = $this->cache_model->load_data(BOM_BASE,$where.' order by PK_BOM_ID desc limit '.$offset.','.$rows.'');*/
-        $data['data']['records']   = $this->cache_model->load_total(BOM_BASE,'(1=1)' . $where. '');   //总条数
-        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
         $list = $this->data_model->bomBaseList($where, ' order by PK_BOM_ID desc limit '.$offset.','.$rows.'');
+        $data['data']['records']   = count($list);//$this->cache_model->load_total(BOM_BASE,'(1=1)' . $where. '');   //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
         foreach ($list as $arr=>$row) {
             $v[$arr]['PK_BOM_ID']        = $row['PK_BOM_ID'];
             $v[$arr]['BOMModel']        = $row['BOMModel'];
@@ -145,7 +154,7 @@ class Basedata extends CI_Controller {
             $v[$arr]['isVirt']       = ($row['isVirt']);
             $v[$arr]['bomCat_id1']     = $row['bomCat_id1'];
             $v[$arr]['bomCat_id2']     = $row['bomCat_id2'];
-            $v[$arr]['desc'] = $row['desc'];
+            $v[$arr]['desc'] = $row['des'];
             $v[$arr]['fk_unitClass_id'] = $row['fk_unitClass_id'];
             $v[$arr]['bomAttr'] = $row['bomAttr'];
             $v[$arr]['bomAttr1'] = $row['bomAttr1'];
@@ -214,36 +223,40 @@ class Basedata extends CI_Controller {
 	
 	//分类接口
 	public function category() {
-	    $v = '';
 	    $data['status'] = 200;
-		$data['msg']    = 'success'; 
-	    $type   = str_enhtml($this->input->get('typeNumber',TRUE));
-		$skey   = str_enhtml($this->input->get('skey',TRUE));
+		$data['msg']    = 'success';
 		
 		$where = '';
-		if ($type) {
-			$where .= ' and type="'.$type.'"';
+		$cat1  = $this->cache_model->load_data(BOM_CATEGORY1,$where);
+		$cat2 = $this->cache_model->load_data(BOM_CATEGORY2,$where);
+        $v = array();
+        foreach ($cat1 as $arr=>$row) {
+            $v[$arr]['coId']     = 0;
+            $v[$arr]['detail']   = false;
+            $v[$arr]['id']       = intval($row['PK_BOMCat_ID1']) + 10000;//避免和下面cat2的id冲突，因此加10000
+            $v[$arr]['level']    = 1;
+            $v[$arr]['name']     = $row['Name'];
+            $v[$arr]['parentId'] = 0;
+            $v[$arr]['remark']   = '';
+            $v[$arr]['sortIndex'] = 0;
+            $v[$arr]['status'] = 0;
+            $v[$arr]['uuid'] = '';
+        }
+        $size = count($v);
+		foreach ($cat2 as $arr=>$row) {
+		    $key = $size + $arr;
+		    $v[$key]['coId']     = 0;
+			$v[$key]['detail']   = true;
+			$v[$key]['id']       = intval($row['PK_BOMCat_ID2']);
+			$v[$key]['level']    = 2;
+			$v[$key]['name']     = $row['Name'];
+			$v[$key]['parentId'] = intval($row['PK_BOMCat_ID1']) + 10000;
+			$v[$key]['remark']   = '';
+			$v[$key]['sortIndex'] = 0;
+			$v[$key]['status'] = 0;
+			$v[$key]['uuid'] = '';
 		}
-		if ($skey) {
-			$where .= ' and name like "%'.$skey.'%"';
-		}
-		$pid  = $this->cache_model->load_data(CATEGORY,'(status=1) '.$where.' order by id','pid');  
-		$list = $this->cache_model->load_data(CATEGORY,'(status=1) '.$where.' order by path');  
-		foreach ($list as $arr=>$row) {
-		    $v[$arr]['coId']     = 0;
-			$v[$arr]['detail']   = in_array($row['id'],$pid) ? false : true;
-			$v[$arr]['id']       = intval($row['id']);
-			$v[$arr]['level']    = $row['depth'];
-			$v[$arr]['name']     = $row['name'];
-			$v[$arr]['parentId'] = intval($row['pid']);
-			$v[$arr]['remark']   = '';
-			$v[$arr]['sortIndex'] = 0;
-			$v[$arr]['status'] = 0;
-			$v[$arr]['typeNumber'] = $row['type']; 
-			$v[$arr]['uuid'] = '';
-		}
-		$data['data']['items']      = is_array($v) ? $v : '';
-		$data['data']['totalsize']  = $this->cache_model->load_total(CATEGORY,'(1=1) '.$where.'');
+		$data['data']['items']      = is_array($v) ? $v : '';//echo json_encode($data);exit;
 		die(json_encode($data));
 	}
 	
