@@ -164,6 +164,7 @@ class Basedata extends CI_Controller {
             $v[$arr]['bomAttr5'] = $row['bomAttr5'];
             $v[$arr]['bomAttr6'] = $row['bomAttr6'];
             $v[$arr]['bomAttr7'] = $row['bomAttr7'];
+            $v[$arr]['unitName']  = $row['unitName'];
         }
         $data['data']['rows']   = $v;
         die(json_encode($data));
