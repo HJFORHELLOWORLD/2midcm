@@ -37,15 +37,15 @@ class Stock extends CI_Controller {
      * @number 3
      */
 	public function save() {
-	    $data = 
 
-
+        $data=$this->input->post('data',true);
+        $data = json_decode($data,true);
         $act = str_enhtml($this->input->get('act',TRUE));
-        $info['pk_stock_id'] = $data['pk_stock_id'] = $this->input->post('pk_stock_id',TRUE);
-        $info['stock_name']     = $data['stock_name'] = $this->input->post('stock_name',TRUE);
-        $info['desc']       = $data['desc']   = $this->input->post('desc',TRUE);
-        $info['head_id']     = $data['head_id'] = $this->input->post('head_id',TRUE);
-        $info['creator_id']     = $data['creator_id'] = $this->input->post('creator_id',TRUE);
+        $info['pk_stock_id'] = $data['pk_stock_id'] ;
+        $info['stock_name']     = $data['stock_name'] ;
+        $info['desc']       = $data['desc'];
+        $info['head_id']     = $data['head_id'];
+        $info['creator_id']     = $data['creator_id'];
 //		strlen($data['stock_id']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
 //		strlen($data['head_id']) < 1  && die('{"status":-1,"msg":"请添加负责人"}');
 
@@ -54,7 +54,7 @@ class Stock extends CI_Controller {
 			$this->mysql_model->db_count(STOCK,'(stock_name="'.$data['stock_name'].'")') > 0 && die('{"status":-1,"msg":"仓库编号重复"}');
 		    $sql = $this->mysql_model->db_inst(STOCK,$data);
 			if ($sql) {
-			    $info['id'] = $sql;
+			    $info['pk_stock_id'] = $sql;
 				$this->cache_model->delsome(STOCK);
 				$this->data_model->logs('新增仓库:'.$data['stock_name']);
 				die('{"status":200,"msg":"success","data":'.json_encode($info).'}');

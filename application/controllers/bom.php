@@ -16,8 +16,8 @@ class Bom extends CI_Controller {
     /**
      * showdoc
      * @catalog 开发文档/仓库
-     * @title 商品管理新增修改
-     * @description 商品添加修改的接口
+     * @title 物料管理新增修改
+     * @description 物料添加修改的接口
      * @method get
      * @url https://www.2midcm.com/goods/save
      * @param categoryName 必选 string 商品类别
