@@ -1,0 +1,11 @@
+<?php if(!defined('BASEPATH')) exit('No direct script access allowed'); 
+define('SITE_WEBNAME','广州元利信息科技');
+define('SITE_HTML','2');
+define('SITE_SUFFIX','');
+define('F','-');
+define('SITE_CACHE','0');
+define('SITE_CACHETIME','6000');
+define('SITE_LOGO','/data/upfile/201309/201309291425463101.jpg');
+define('SEO_TITLE','广州市元利信息技术有限公司');
+define('SEO_KEY','广州市元利信息技术有限公司');
+define('SEO_DESC','广州市元利信息技术有限公司');
