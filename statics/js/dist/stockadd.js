@@ -1,4 +1,4 @@
-!  function() {
+! function() {
     $(".wrapper").on("click", "#registerBtn", function(t) {
         t.preventDefault();
         var i = {
