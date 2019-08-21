@@ -52,7 +52,7 @@
         var design_edit    = "<?=site_url('design/edit')?>";
         var workcenter_add = "<?=site_url('workcenter/add')?>";
         var stock_add = "<?=site_url('stock/add')?>";
-        var stock_list = "<?=site_url('stock/list')?>";
+        var stock_lists = "<?=site_url('stock/lists')?>";
         var stock_index = "<?=site_url('stock/index')?>";
         var stock_save = "<?=site_url('stock/save')?>";
 
@@ -69,13 +69,13 @@
 <div class="wrapper">
     <div class="mod-search cf">
         <div class="fl">
-            <ul class="ul-inline">
-                <li>
-                    <input type="text" id="matchCon" class="ui-input ui-input-ph" value="请输入工作中心编号或工作中心名称">
-                </li>
+<!--            <ul class="ul-inline">-->
+<!--                <li>-->
+<!--                    <input type="text" id="matchCon" class="ui-input ui-input-ph" value="请输入工作中心编号或工作中心名称">-->
+<!--                </li>-->
 
-                <li><a class="ui-btn" id="search">查询</a><!--<a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a>--></li>
-            </ul>
+<!--                <li><a class="ui-btn" id="search">查询</a><!--<a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a>-->
+<!--            </ul>-->
         </div>
         <div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a>
             <!--<a class="ui-btn" id="print" target="_blank" href="javascript:void(0);">打印</a>-->
@@ -91,6 +91,6 @@
         <div id="page"></div>
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/stock.js?0"></script>
+<script src="<?=skin_url()?>/js/dist/stock.js?55"></script>
 </body>
 </html>
