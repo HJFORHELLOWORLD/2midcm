@@ -33,7 +33,7 @@
                 a.markRow = [];
                 $("#grid").jqGrid({
                     //url: "/scm/invPu.do?action=list",
-                    url: database_area,
+                    url: basedata_area,
                     postData: queryConditions,
                     datatype: "json",
                     autowidth: !0,

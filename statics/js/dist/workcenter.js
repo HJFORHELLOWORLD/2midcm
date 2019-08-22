@@ -34,7 +34,7 @@ var queryConditions = {
             a.markRow = [];
             $("#grid").jqGrid({
                 //url: "/scm/invPu.do?action=list",
-                url: workcenter_index,
+                url: workcenter_lists,
                 postData: queryConditions,
                 datatype: "json",
                 autowidth: !0,

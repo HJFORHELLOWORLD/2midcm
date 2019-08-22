@@ -210,7 +210,6 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
                         width: 200,
                         title: !0,
                         align: "right",
-                        formatter: "currency",
                         editable: !0
                     },
                     {
