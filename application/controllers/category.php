@@ -56,6 +56,54 @@ class Category extends CI_Controller {
 	}
 
 
+    //采购单列表
+    public function lists() {
+        $v = '';
+        $data['status'] = 200;
+        $data['msg']    = 'success';
+        $page = max(intval($this->input->get_post('page',TRUE)),1);
+        $rows = max(intval($this->input->get_post('rows',TRUE)),100);
+        $key  = str_enhtml($this->input->get_post('matchCon',TRUE));
+        $stt  = str_enhtml($this->input->get_post('beginDate',TRUE));
+        $ett  = str_enhtml($this->input->get_post('endDate',TRUE));
+        $where = '';
+        if (strlen($key)>0) {
+            $where .= ' and (a.PK_Industry_ID like "%'.$key.'%" or a.Name like "%'.$key.'%" )';
+        }
+        if (strlen($stt)>0) {
+            $where .= ' and a.Create_Date>="'.$stt.'"';
+        }
+        if (strlen($ett)>0) {
+            $where .= ' and a.Create_Date<="'.$ett.' 23:59:59"';
+        }
+        else{
+            $where .= ' and a.Status != 0';   //排除掉是采购计划的数据
+        }
+
+        $offset = $rows * ($page-1);
+        $data['data']['page']      = $page;
+        /*		$data['data']['records']   = $this->cache_model->load_total(PURORDER,'(1=1) '.$where);   //总条数
+                $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数*/
+        //$list = $this->cache_model->load_data(PURORDER,'(1=1) '.$where.' order by id desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->IndustryList($where, ' order by a.Create_Date desc limit '.$offset.','.$rows.'');
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['id']           = "$" . $row['PK_Industry_ID'] . "$";
+            $v[$arr]['PK_Industry_ID'] =  $row['PK_Industry_ID'];
+            $v[$arr]['Name']  = $row['Name'];
+            $v[$arr]['orderName']  = $row['orderName'];
+            $v[$arr]['PurOrder_Total']       = (float)abs($row['PurOrder_Total']);
+            $v[$arr]['Create_Date']     = $row['Create_Date'];
+            $v[$arr]['Username']     = $row['Username'];
+            $v[$arr]['PurOrder_Payment'] = $row['PurOrder_Payment'];
+
+        }
+        $data['data']['records']   = count($list);  //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数
+        $data['data']['rows']      = is_array($v) ? $v : '';
+        die(json_encode($data));
+    }
+
+
 
 
 	
