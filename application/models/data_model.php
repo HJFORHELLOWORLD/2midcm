@@ -410,16 +410,16 @@ class Data_model extends CI_Model{
     //bom设计列表
     public function designList($where='',$order=''){
         $where = $where ? 'where (1=1) '.$where : '';
-        $sql = 'SELECT a.id AS id, a.name AS _name, a.desc AS description, a.wcId AS wcId,a.up_bom_id AS up_bom_id, b.name AS up_bom_name,
-                a.down_bom_id AS down_bom_id, c.name AS down_bom_name, a.down_bom_number AS down_bom_number
+        $sql = 'SELECT a.PK_BOM_Desi_ID AS PK_BOM_Desi_ID, a.Name AS Name, a.desc AS desc, a.WC_ID AS WC_ID,a.UpBOM_ID AS UpBOM_ID , b.DownBOM_ID AS DownBOM_ID,
+                a.DownBom_Amount AS DownBom_Amount, c.BOMName AS BOMName, a.DownBOM_Amount AS DownBOM_Amount
                 FROM 
-                '.BOM_DESIGN.' as a 
-                LEFT JOIN '
-                .GOODS.' as b
-                ON a.up_bom_id=b.id
-                LEFT JOIN '
-                .GOODS.' as c
-                ON a.down_bom_id = c.id
+               t_ '.BOM_DESIGN.' as a 
+                LEFT JOIN 
+                t_'.BOM_BASE.' as b
+                ON a.UpBOM_ID=b.PK_BOM_ID
+                LEFT JOIN 
+               t_ '.BOM_BASE.' as c
+                ON a.DownBom_ID = c.PK_BOM_ID
                 '.$where.'
                 '.$order.'
                 ';
@@ -442,6 +442,25 @@ class Data_model extends CI_Model{
                 ';
         return $this->cache_model->load_sql(BOM_BASE,$sql,2);
     }
+
+    //往来单位类别列表
+    public function IndustryList($where='',$order=''){
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.PK_Industry_ID AS PK_Industry_ID, a.Name AS Name, a.desc AS desc, a.Creator_ID AS Creator_ID,
+                a.Create_Date AS Create_Date               
+                FROM 
+                t_'.INDUSTRY.' as a 
+                LEFT JOIN t_'
+            .BETWEENUNIT.' as b
+                ON a.Name=b.Name        
+                '.$where.'
+                '.$order.'
+                ';//var_dump($sql);exit;
+        return $this->cache_model->load_sql(INDUSTRY,$sql,2);
+    }
+
+
+
 
     //采购列表
     public function purOrderList($where='',$order=''){
