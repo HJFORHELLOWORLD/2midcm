@@ -86,6 +86,43 @@ class Workcenter extends CI_Controller {
         }
     }
 
+    public function lists() {
+        $v = '';
+        $data['status'] = 200;
+        $data['msg']    = 'success';
+        $type   = intval($this->input->get('type',TRUE));
+        $skey   = str_enhtml($this->input->get('skey',TRUE));
+        $page = max(intval($this->input->get_post('page',TRUE)),1);
+        $rows = max(intval($this->input->get_post('rows',TRUE)),100);
+        $where  = '';
+        if ($skey) {
+            $where .= ' and (Head_ID like "%'.$skey.'%"' . ' or WC_Name like "%'.$skey.'%"' . ')';
+        }
+        if ($type) {
+            $where .= ' and PK_WC_ID IN ('.$type.',4)';
+        }
+        $offset = $rows * ($page-1);
+        $data['data']['page']      = $page;                                                      //当前页
+        $data['data']['records']   = $this->cache_model->load_total(WORK_CERTER,'(1=1) '.$where.'');     //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
+        $list = $this->cache_model->load_data(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['pk_wc_id']           = intval($row['PK_WC_ID']);
+            $v[$arr]['wc_name']         = $row['WC_Name'];
+            $v[$arr]['desc']       = $row['Desc'];
+            $v[$arr]['head_id']       = $row['Head_ID'];
+            $v[$arr]['creator_id']       = $row['Creator_ID'];
+            $v[$arr]['create_date']       = $row['Create_Date'];
+            $v[$arr]['modify_id']       = $row['Modify_ID'];
+            $v[$arr]['modify_date']       = $row['Modify_Date'];
+
+
+        }
+
+        $data['data']['totalsize']  = $this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');
+        die(json_encode($data));
+    }
+
 
 
 

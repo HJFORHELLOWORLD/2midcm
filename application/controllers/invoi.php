@@ -37,143 +37,143 @@ class Invoi extends CI_Controller {
      * @remark 这里是备注信息
      * @number 3
      */
-    public function in() {
-        $this->purview_model->checkpurview(90);
-        $data = $this->input->post('postData', TRUE);
-//        $act = $this->input->get('act', TRUE);
-        if (strlen($data) > 0) {
-            $data = (array)json_decode($data);
-            if (is_array($data['entries'])) {
-                foreach ($data['entries'] as $arr => $row) {
-                    $v[$arr]['pk_bom_stock_id'] =$row->pk_bom_stock_id ;
-                    $v[$arr]['stock_id']      = $row->stock_id ;
-                    $v[$arr]['bom_id']      = $row->bom_id ;
-                    $v[$arr]['account']     =   $row->account;
-                    $v[$arr]['minAccount']    =  $row->minAccount ;
-                    $v[$arr]['cost']           =  $row->cost ;
-                    $v[$arr]['costType']        =   $row->costType;
-                    $v[$arr]['creator_id']         =  $row->creator_id;
-//                    $v[$arr]['create_date']   =   $row->create_date;
-                    $v[$arr]['modify_id']      =  $row->modify_id  ;
-//                    $v[$arr]['modify_date']      =  $row->modify_date ;
-                }
-                $this->mysql_model->db_inst(BOM_STOCK, $v);
-                $this->cache_model->delsome(BOM_STOCK);
-                $name=$v[$arr]['creator_id'] ;
-                 $this->data_model->logs('操作人：ID_' . $name .'新增入库信息');
-                die('{"status":200,"msg":"success"}');
-            }
-        } else {
-            $this->load->view('invoi/in', $data);
-        }
-    }
-
-
-
-
-
-//    public function in(){
-//	    $this->purview_model->checkpurview(15);
-//	    $data = $this->input->post('postData',TRUE);
-//		if (strlen($data)>0) {
-//		     $data = (array)json_decode($data);
-///*
-// * 其他入库为其他入库，是工厂生成产品入库，此时应是不用选供应商的,又或者选择车间入库生产品？
-// *
-// *
-// */
-///*(!isset($data['buId']) || $data['buId']<1) && die('{"status":-1,"msg":"请选择购货单位"}');
-//			 $contact = $this->mysql_model->db_one(CONTACT,'(id='.intval($data['buId']).')');
-//			 count($contact)<1 && die('{"status":-1,"msg":"请选择购货单位"}');
-//            if(isset($data['buId']) && intval($data['buId']) > 0){
-//                $contact = $this->mysql_model->db_one(CONTACT,'(id='.intval($data['buId']).')');
-//            }*/
-//            $contact = '';
-//			 $info['pk_bom_stock_id']  = $data['pk_bom_stock_id'];//str_no('QTRK');
-//			 $info['stock_id']   = intval($data['stock_id']);
-//			 $info['bom_id'] = $data['bom_id'];//is_array($contact) ? $contact['number'].' '.$contact['name'] : '';
-//			 $info['account']    = $data['account'];
-//			 $info['minAccount']        = intval($data['minAccount']);
-//			 $info['cost']    = $data['cost'];
-//			 $info['costType'] = $data['costType'];
-//			 $info['creator_id'] = $data['creator_id'];
-//			 $info['create_date']    = date('Y-m-d H:i:s',time());
-//			 $info['modify_id']    = $data['modify_id'];
-//			 $info['modify_date']    = date('Y-m-d H:i:s',time()) ;
-//			 $info['uid']         = $this->uid;
-//			 $info['username']    = $this->name;
-//			 $info['billtype']    = 1;
-//
-//
-//			 $invoiid = $this->mysql_model->db_inst(BOM_STOCK,$info);
-//			 $v = array();
-//			 if (is_array($data['entries'])) {
-//                 $values = array();
-//                 $bomArr = array();
-//			     foreach ($data['entries'] as $arr=>$row) {
-//					 $v[$arr]['pk_bom_stock_id'] =$info['pk_bom_stock_id'] ;
-//					 $v[$arr]['stock_id']      = $info['stock_id'] ;
-//					 $v[$arr]['bom_id']      = $info['bom_id']  ;
-//					 $v[$arr]['account']     =   $info['account'];
-//					 $v[$arr]['minAccount']    =  $info['minAccount'] ;
-//					 $v[$arr]['cost']           =  $info['cost'] ;
-//					 $v[$arr]['costType']        =   $info['costType'];
-//					 $v[$arr]['creator_id']         =  $info['creator_id'];
-//					 $v[$arr]['create_date']   =   $info['create_date'];
-//                     $v[$arr]['modify_id']      =  $info['modify_id']  ;
-//                     $v[$arr]['modify_date']      =  $info['modify_date'] ;
-//
-//                     //处理入库数据
-//                     if(!isset($values[$row->invId])) {
-//                         $bomArr[] = $row->invId;
-//                         $values[$row->invId]['bom_id'] = $row->invId;
-//                         $values[$row->invId]['num'] = (float)$row->qty;
-//                     }else{
-//                         $values[$row->invId]['num'] += (float)$row->qty;
-//                     }
-//
-//				}
-//
-//                 $cacheData = $this->cache->get('inventory.dataLock');
-//                 if($cacheData['lock'] == 1){//处于盘点状态
-//                     $cacheData['data']['in'][] = $values;
-//                     if(!$this->cache->save('inventory.dataLock',$cacheData,86400)){
-//                         die('{"status":-1,"msg":"success","入库失败');
-//                     }
-//                 }else{           //不处于盘点状态
-//                     $bomStr = implode(',',$bomArr);
-//                     $sql = 'select bom_id, num from '.BOM_STOCK .' where bom_id in (' . $bomStr .')';
-//                     $list = $this->mysql_model->db_sql($sql,2);
-//                     $updateArr = array();
-//                     foreach ($list as $val){
-//                         if(isset($values[$val['bom_id']])) {
-//                             $values[$val['bom_id']]['num'] += (float)$val['num'];
-//                             $updateArr[] = $values[$val['bom_id']];
-//                             unset($values[$val['bom_id']]);
-//                         }
-//                     }
-//
-//                     if (count($values) > 0) {
-//                         $this->mysql_model->db_inst(BOM_STOCK, array_values($values));
-//                     }
-//                 }
-//
-//			 }
-//			 $this->mysql_model->db_inst(BOM_STOCK,$v);
-//			 if ($this->db->trans_status() === FALSE) {
-//			    $this->db->trans_rollback();
-//				die();
-//			 } else {
-//
+//    public function in() {
+//        $this->purview_model->checkpurview(90);
+//        $data = $this->input->post('postData', TRUE);
+////        $act = $this->input->get('act', TRUE);
+//        if (strlen($data) > 0) {
+//            $data = (array)json_decode($data);
+//            if (is_array($data['entries'])) {
+//                foreach ($data['entries'] as $arr => $row) {
+//                    $v[$arr]['pk_bom_stock_id'] =$row['pk_bom_stock_id'];
+//                    $v[$arr]['stock_id']      = $row['stock_id'];
+//                    $v[$arr]['bom_id']      = $row['bom_id '];
+//                    $v[$arr]['account']     =   $row['account'];
+//                    $v[$arr]['minAccount']    =  $row['minAccount'] ;
+//                    $v[$arr]['cost']           =  $row['cost'] ;
+//                    $v[$arr]['costType']        =   $row['costType'];
+//                    $v[$arr]['creator_id']         =  $row['creator_id'];
+////                    $v[$arr]['create_date']   =   $row->create_date;
+//                    $v[$arr]['modify_id']      =  $row['modify_id']  ;
+////                    $v[$arr]['modify_date']      =  $row->modify_date ;
+//                }
+//                $this->mysql_model->db_inst(BOM_STOCK, $v);
 //                $this->cache_model->delsome(BOM_STOCK);
-//                $this->data_model->logs('新增其他入库 单据编号：'.$info['billno']);
-//			    die('{"status":200,"msg":"success","data":{"id":'.intval($invoiid).'}}');
-//			 }
-//		} else {
-//		    $data['billno'] = str_no('QTRK');
-//		    $this->load->view('invoi/in',$data);
-//		}
-//	}
+//                $name=$v[$arr]['creator_id'] ;
+//                 $this->data_model->logs('操作人：ID_' . $name .'新增入库信息');
+//                die('{"status":200,"msg":"success"}');
+//            }
+//        } else {
+//            $this->load->view('invoi/in', $data);
+//        }
+//    }
+//
+
+
+
+
+    public function in(){
+	    $this->purview_model->checkpurview(15);
+	    $data = $this->input->post('postData',TRUE);
+		if (strlen($data)>0) {
+		     $data = (array)json_decode($data);
+/*
+ * 其他入库为其他入库，是工厂生成产品入库，此时应是不用选供应商的,又或者选择车间入库生产品？
+ *
+ *
+ */
+/*(!isset($data['buId']) || $data['buId']<1) && die('{"status":-1,"msg":"请选择购货单位"}');
+			 $contact = $this->mysql_model->db_one(CONTACT,'(id='.intval($data['buId']).')');
+			 count($contact)<1 && die('{"status":-1,"msg":"请选择购货单位"}');
+            if(isset($data['buId']) && intval($data['buId']) > 0){
+                $contact = $this->mysql_model->db_one(CONTACT,'(id='.intval($data['buId']).')');
+            }*/
+            $contact = '';
+			 $info['pk_bom_stock_id']  = $data['pk_bom_stock_id'];//str_no('QTRK');
+			 $info['stock_id']   = intval($data['stock_id']);
+			 $info['bom_id'] = $data['bom_id'];//is_array($contact) ? $contact['number'].' '.$contact['name'] : '';
+			 $info['account']    = $data['account'];
+			 $info['minAccount']        = intval($data['minAccount']);
+			 $info['cost']    = $data['cost'];
+			 $info['costType'] = $data['costType'];
+			 $info['creator_id'] = $data['creator_id'];
+			 $info['create_date']    = date('Y-m-d H:i:s',time());
+			 $info['modify_id']    = $data['modify_id'];
+			 $info['modify_date']    = date('Y-m-d H:i:s',time()) ;
+			 $info['uid']         = $this->uid;
+			 $info['username']    = $this->name;
+			 $info['billtype']    = 1;
+
+
+			 $invoiid = $this->mysql_model->db_inst(BOM_STOCK,$info);
+			 $v = array();
+			 if (is_array($data['entries'])) {
+                 $values = array();
+                 $bomArr = array();
+			     foreach ($data['entries'] as $arr=>$row) {
+					 $v[$arr]['pk_bom_stock_id'] =$info['pk_bom_stock_id'] ;
+					 $v[$arr]['stock_id']      = $info['stock_id'] ;
+					 $v[$arr]['bom_id']      = $info['bom_id']  ;
+					 $v[$arr]['account']     =   $info['account'];
+					 $v[$arr]['minAccount']    =  $info['minAccount'] ;
+					 $v[$arr]['cost']           =  $info['cost'] ;
+					 $v[$arr]['costType']        =   $info['costType'];
+					 $v[$arr]['creator_id']         =  $info['creator_id'];
+					 $v[$arr]['create_date']   =   $info['create_date'];
+                     $v[$arr]['modify_id']      =  $info['modify_id']  ;
+                     $v[$arr]['modify_date']      =  $info['modify_date'] ;
+
+                     //处理入库数据
+                     if(!isset($values[$row->invId])) {
+                         $bomArr[] = $row->invId;
+                         $values[$row->invId]['bom_id'] = $row->invId;
+                         $values[$row->invId]['num'] = (float)$row->qty;
+                     }else{
+                         $values[$row->invId]['num'] += (float)$row->qty;
+                     }
+
+				}
+
+                 $cacheData = $this->cache->get('inventory.dataLock');
+                 if($cacheData['lock'] == 1){//处于盘点状态
+                     $cacheData['data']['in'][] = $values;
+                     if(!$this->cache->save('inventory.dataLock',$cacheData,86400)){
+                         die('{"status":-1,"msg":"success","入库失败');
+                     }
+                 }else{           //不处于盘点状态
+                     $bomStr = implode(',',$bomArr);
+                     $sql = 'select bom_id, num from '.BOM_STOCK .' where bom_id in (' . $bomStr .')';
+                     $list = $this->mysql_model->db_sql($sql,2);
+                     $updateArr = array();
+                     foreach ($list as $val){
+                         if(isset($values[$val['bom_id']])) {
+                             $values[$val['bom_id']]['num'] += (float)$val['num'];
+                             $updateArr[] = $values[$val['bom_id']];
+                             unset($values[$val['bom_id']]);
+                         }
+                     }
+
+                     if (count($values) > 0) {
+                         $this->mysql_model->db_inst(BOM_STOCK, array_values($values));
+                     }
+                 }
+
+			 }
+			 $this->mysql_model->db_inst(BOM_STOCK,$v);
+			 if ($this->db->trans_status() === FALSE) {
+			    $this->db->trans_rollback();
+				die();
+			 } else {
+
+                $this->cache_model->delsome(BOM_STOCK);
+                $this->data_model->logs('新增其他入库 单据编号：'.$info['billno']);
+			    die('{"status":200,"msg":"success","data":{"id":'.intval($invoiid).'}}');
+			 }
+		} else {
+		    $data['billno'] = str_no('QTRK');
+		    $this->load->view('invoi/in',$data);
+		}
+	}
 
     /**
      * showdoc
@@ -356,23 +356,21 @@ class Invoi extends CI_Controller {
                     $this->db->trans_rollback();   //数据回滚
                     die('{"status":-1,"msg":"'. $missStr .'没有库存记录"}');
                 }
-
-                if (count($updateArr) > 0) {
-                    $this->mysql_model->db_upd(BOM_STOCK, $updateArr, 'bom_id');
-                }
-
+//                if (count($updateArr) > 0) {
+//                    $this->mysql_model->db_upd(BOM_STOCK, $updateArr, 'bom_id');
+//                }
             }
-            $this->mysql_model->db_inst(INVOI_INFO,$v);
+            $this->mysql_model->db_inst(BOM_STOCK_ORDER,$v);
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 die();
             } else {
                 $this->db->trans_commit();
-                $this->cache_model->delsome(GOODS);
+                $this->cache_model->delsome(BOM_BASE);
                 $this->cache_model->delsome(BOM_STOCK);
-                $this->cache_model->delsome(INVOI_INFO);
-                $this->data_model->logs('新增其他出库 单据编号：'.$info['billno']);
-                die('{"status":200,"msg":"success","data":{"id":'.intval($invoiid).'}}');
+                $this->cache_model->delsome(BOM_STOCK_ORDER);
+                $this->data_model->logs('新增其他出库 单据编号：'.$info['PK_BOM_SO_ID']);
+                die('{"status":200,"msg":"success","data":{"id":'.intval($Order_ID).'}}');
             }
         } else {
             $data['billno'] = str_no('QTCK');
@@ -496,7 +494,7 @@ class Invoi extends CI_Controller {
         $ett  = str_enhtml($this->input->get_post('endDate',TRUE));
         $where = '';
         if ($key) {
-            $where .= ' and (pk_bom_stock_id like "%'.$key.'%" or bom_id like "%'.$key.'%" or description like "%'.$key.'%")';
+            $where .= ' and (pk_bom_stock_id like "%'.$key.'%" or bom_id like "%'.$key.'%" or stock_id like "%'.$key.'%")';
         }
         if ($stt) {
             $where .= ' and create_date>="'.$stt.'"';
@@ -508,9 +506,9 @@ class Invoi extends CI_Controller {
         $data['data']['page']      = $page;
         $data['data']['records']   = $this->cache_model->load_total(BOM_STOCK,'(billtype=1) '.$where);     //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);                             //总分页数
-        $list = $this->cache_model->load_data(BOM_STOCK,'(1=1) and billtype=1 '.$where.' order by id desc limit '.$offset.','.$rows.'');
+        $list = $this->cache_model->load_data(BOM_STOCK,'(1=1) and billtype=1 '.$where.' order by pk_bom_stock_id desc limit '.$offset.','.$rows.'');
         foreach ($list as $arr=>$row) {
-            $v[$arr]['pk_bom_stock_id']       = (float)abs($row['pk_bom_stock_id']);
+            $v[$arr]['pk_bom_stock_id']    = (float)abs($row['pk_bom_stock_id']);
             $v[$arr]['stock_id']           = intval($row['stock_id']);
             $v[$arr]['bom_id']    = intval($row['bom_id']);;
             $v[$arr]['number']     = intval($row['number']);;
@@ -553,7 +551,7 @@ class Invoi extends CI_Controller {
         $ett  = str_enhtml($this->input->get_post('endDate',TRUE));
         $where = '';
         if ($key) {
-            $where .= ' and (pk_bom_stock_id like "%'.$key.'%" or bom_id like "%'.$key.'%" or description like "%'.$key.'%")';
+            $where .= ' and (pk_bom_stock_id like "%'.$key.'%" or bom_id like "%'.$key.'%" or stock_id like "%'.$key.'%")';
         }
         if ($stt) {
             $where .= ' and create_date>="'.$stt.'"';
@@ -563,9 +561,9 @@ class Invoi extends CI_Controller {
         }
         $offset = $rows*($page-1);
         $data['data']['page']      = $page;
-        $data['data']['records']   = $this->cache_model->load_total(BOM_STOCK,'(billtype=2) '.$where.'');   //总条数
+        $data['data']['records']   = $this->cache_model->load_total(BOM_STOCK_ORDER,'(type=2) '.$where.'');   //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数
-        $list = $this->cache_model->load_data(BOM_STOCK,'(1=1)  and billtype=2 '.$where.' order by id desc limit '.$offset.','.$rows.'');
+        $list = $this->cache_model->load_data(BOM_STOCK_ORDER,'(1=1)  and type=2 '.$where.' order by id desc limit '.$offset.','.$rows.'');
         foreach ($list as $arr=>$row) {
             $info['pk_bom_stock_id']     = $data['pk_bom_stock_id'];//str_no('QTRK');
             $info['stock_id']   = intval($data['stock_id']);

@@ -471,6 +471,28 @@ class Basedata extends CI_Controller {
 //    }
 
 
+    //单位接口
+    public function area() {
+        $v = '';
+        $data['status'] = 200;
+        $data['msg']    = 'success';
+        $list = $this->cache_model->load_data(AREA,'(status=1) order by PK_Area_ID desc');
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['default'] = false;
+            $v[$arr]['pk_area_id']      = intval($row['pk_area_id']);
+            $v[$arr]['UpArea_id']      = intval($row['UpArea_id']);
+            $v[$arr]['name']    = $row['name'];
+            $v[$arr]['Creator_id']    = $row['Creator_id'];
+            $v[$arr]['create_date']    = $row['create_date'];
+            $v[$arr]['modify_id']    = $row['modify_id'];
+            $v[$arr]['modify_date']    = $row['modify_date'];
+        }
+        $data['data']['items']   = is_array($v) ? $v : '';
+        $data['data']['totalsize']  = $this->cache_model->load_total(AREA);
+        die(json_encode($data));
+    }
+
+
 
     //日志用户接口
     public function admin() {

@@ -96,6 +96,40 @@ class Stock extends CI_Controller {
 //			}
 //		}
 //	}
+    public function lists() {
+        $v = '';
+        $data['status'] = 200;
+        $data['msg']    = 'success';
+        $type   = intval($this->input->get('type',TRUE));
+        $skey   = str_enhtml($this->input->get('skey',TRUE));
+        $page = max(intval($this->input->get_post('page',TRUE)),1);
+        $rows = max(intval($this->input->get_post('rows',TRUE)),100);
+        $where  = '';
+        if ($skey) {
+            $where .= ' and ( Head_ID like "%'.$skey.'%"' . ' or Stock_Name like "%'.$skey.'%"' . ')';
+        }
+        if ($type) {
+            $where .= ' and Pk_Stock_ID IN ('.$type.',4)';
+        }
+        $offset = $rows * ($page-1);
+        $data['data']['page']      = $page;                                                      //当前页
+        $data['data']['records']   = $this->cache_model->load_total(STOCK,'(1=1) '.$where.'');     //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
+        $list = $this->cache_model->load_data(STOCK,'(Status=1) '.$where.' order by PK_Stock_ID desc limit '.$offset.','.$rows.'');
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['pk_stock_id']           = intval($row['PK_Stock_ID']);
+            $v[$arr]['stock_name']         = $row['Stock_Name'];
+            $v[$arr]['beginDate']    = 1409500800000;
+            $v[$arr]['head_id']       = $row['Head_ID'];
+            $v[$arr]['creator_id']       = $row['Creator_ID'];
+            $v[$arr]['create_date']       = $row['Create_Date'];
+            $v[$arr]['desc']       = $row['Desc'];
+
+        }
+        $data['data']['rows']   = is_array($v) ? $v : '';
+        $data['data']['totalsize']  = $this->cache_model->load_total(STOCK,'(Status=1) '.$where.' order by PK_Stock_ID desc');
+        die(json_encode($data));
+    }
 
 
 }
