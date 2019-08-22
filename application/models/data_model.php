@@ -429,9 +429,10 @@ class Data_model extends CI_Model{
     //bom列表
     public function bomBaseList($where='',$order=''){
         $where = $where ? 'where (1=1) '.$where : '';
-        $sql = 'SELECT a.PK_BOM_ID AS PK_BOM_ID, a.BOMModel AS BOMModel,a.BOMName AS BOMName,a.isVirt AS isVirt,
-                a.bomCat_id1 AS bomCat_id1,a.bomCat_id2 AS bomCat_id2,a.desc AS desc,a.bomAttr AS bomAttr,a.bomAttr1 AS bomAttr1,
-                a.bomAttr2 AS bomAttr2,a.bomAttr3 AS bomAttr3,a.bomAttr4 AS bomAttr4,a.bomAttr5 AS bomAttr5, b.name AS unitName
+        $sql = 'SELECT a.PK_BOM_ID AS PK_BOM_ID, a.BOMModel AS BOMModel,a.BOMName AS BOMName,a.IsVirt AS isVirt,
+                a.BOMCat_ID1 AS bomCat_id1,a.BOMCat_ID2 AS bomCat_id2,a.Desc AS des,a.BOMAttr AS bomAttr,a.BOMAttr1 AS bomAttr1,
+                a.BOMAttr2 AS bomAttr2,a.BOMAttr3 AS bomAttr3,a.BOMAttr4 AS bomAttr4,a.BOMAttr5 AS bomAttr5,a.BOMAttr6 AS bomAttr6,a.BOMAttr7 AS bomAttr7,
+                b.name AS unitName, a.FK_UnitClass_ID AS fk_unitClass_id
                 FROM 
                 t_'.BOM_BASE.' as a 
                 LEFT JOIN t_'

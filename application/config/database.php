@@ -47,10 +47,10 @@
 $active_group = 'default';
 $active_record = TRUE;
 
-$db['default']['hostname'] = '127.0.0.1';
-$db['default']['username'] = 'root';
-$db['default']['password'] = '123456';
-$db['default']['database'] = 'test7';
+$db['default']['hostname'] = DB_HOST;
+$db['default']['username'] = DB_USER;
+$db['default']['password'] = DB_PWD;
+$db['default']['database'] = DB_NAME;
 $db['default']['dbdriver'] = 'mysql';
 $db['default']['dbprefix'] = 't_';
 $db['default']['pconnect'] = TRUE;
