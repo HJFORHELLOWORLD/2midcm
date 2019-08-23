@@ -199,7 +199,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     fixed: !0,
                     formatter: Public.billsOper,
                     align: "center"
-                }, {
+                }/*, {
                     name: "pk_bu_id",
                     label: "往来单位编号",
                     width: 120,
@@ -212,7 +212,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                         handle: n,
                         trigger: "ui-icon-edit"
                     }
-                }, {
+                }*/, {
                     name: "name",
                     label: "单位名称",
                     width: 120,
@@ -265,59 +265,14 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     editable: !0
                 },{
                     name: "linkMans",
-                    label: "客户联系方式",
+                    label: "联系方式",
                     width: 120,
                     align: "right",
                     formatoptions: {
                         decimalPlaces: qtyPlaces
                     },
                     editable: !0
-                },{
-                    name: "status",
-                    label: "状态",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "creator_id",
-                    label: "创建人",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "create_date",
-                    label: "创建时间",
-                    width: 100,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "modify_id",
-                    label: "变更人",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "modify_date",
-                    label: "变更时间",
-                    width: 100,
-                    align: "left",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },
+                }
      ];
 
             f.push(
@@ -849,11 +804,8 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             for (var t = [], e = $("#grid").jqGrid("getDataIDs"), i = 0, a = e.length; a > i; i++) {
                 var r, n = e[i],
                     o = $("#grid").jqGrid("getRowData", n);
-                if ("" !== o.billno) {
-                    var s = $("#" + n).data("goodsInfo"),
-                        l = $("#" + n).data("storageInfo");
+                if ("" !== o.name) {
                     r = {
-                        pk_bu_id: o.pk_bu_id,
                         name: o.name,
                         desc: o.desc,
                         area_id:o.area_id,

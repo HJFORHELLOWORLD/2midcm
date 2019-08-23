@@ -6,6 +6,7 @@ class BetweenUnit extends CI_Controller {
         parent::__construct();
 		$this->purview_model->checkpurview(58);
 		$this->load->model('data_model');
+        $this->uid   = $this->session->userdata('uid');
 
     }
 
@@ -44,31 +45,29 @@ class BetweenUnit extends CI_Controller {
      * @number 5
      */
     public function save() {
-        $this->purview_model->checkpurview(90);
+        $this->purview_model->checkpurview(59);
         $data = $this->input->post('postData', TRUE);
-        $act = $this->input->get('act', TRUE);
         if (strlen($data) > 0) {
             $data = (array)json_decode($data);
             if (is_array($data['entries'])) {
                 foreach ($data['entries'] as $arr => $row) {
-                    $v[$arr]['pk_bu_id'] = $row->pk_bu_id;
                     $v[$arr]['name'] = $row->name;
                     $v[$arr]['desc'] = $row->desc;
                     $v[$arr]['area_id'] = $row->area_id;
                     $v[$arr]['bu_cat'] = $row->bu_cat;
                     $v[$arr]['industry_id'] = $row->industry_id;
                     $v[$arr]['taxRate'] = $row->taxRate;
-                    $v[$arr]['linkMans'] = $row->linkMans;
-                    $v[$arr]['status'] = $row->status;
-                    $v[$arr]['creator_id'] = $row->creator_id;
-                    $v[$arr]['create_date'] = date('Y-m-d H:i:s', time());
-                    $v[$arr]['modify_id'] = $row->modify_id;
-                    $v[$arr]['modify_date'] = date('Y-m-d H:i:s', time());
+
+                    //后期需要扩充联系方式时可兼容
+                    $links[0]['linkPhone']       = $row->linkMans;
+                    $v[$arr]['linkMans'] = json_encode($links);
+                    $v[$arr]['status'] = 1; //正常
+                    $v[$arr]['creator_id'] = $this->uid;
                 }
                 $name= $v[$arr]['name'];
                 $this->mysql_model->db_inst(BETWEENUNIT, $v);
                 $this->cache_model->delsome(BETWEENUNIT);
-                $this->data_model->logs('操作人：ID_' . $name.'新增物流信息');
+                $this->data_model->logs('操作人：ID_' . $name.'新增往来单位信息');
                 die('{"status":200,"msg":"success"}');
             }
         } else {
@@ -76,6 +75,48 @@ class BetweenUnit extends CI_Controller {
         }
     }
 
+    public function modify(){
+        $this->purview_model->checkpurview(60);
+
+        $id = intval($this->input->post('pk_bu_id',TRUE));
+
+       // $data['linkmans']    = $this->input->post('linkMans',TRUE);
+        $data['name']      = str_enhtml($this->input->post('name',TRUE));
+        strlen($data['name']) < 1 && die('{"status":-1,"msg":"客户名称不能为空"}');
+
+        $data['BU_Cat']   = str_enhtml($this->input->post('BU_Cat',TRUE));
+        $data['Industry_ID']  = intval($this->input->post('Industry_ID',TRUE));
+        $data['Area_ID']        = str_enhtml($this->input->post('Area_ID',TRUE));
+        $data['Taxrate']      = str_enhtml($this->input->post('Taxrate',TRUE));
+        $data['Desc']      = str_enhtml($this->input->post('remark',TRUE));
+        $phone = str_enhtml($this->input->post('phone',TRUE));
+        $data['Modify_ID'] = $this->uid;
+        $data['Modify_Date'] = date('Y-m-d H:i:s',time());
+        $links = array();
+        if (strlen($phone)>0) {
+          //  $list = (array)json_decode($data['linkmans']);
+           // if (count($list)>0) {
+               // foreach ($list as $arr=>$row) {
+                    //if ($row->linkFirst==1) {
+            $links[0]['linkPhone']       = $phone;
+            $data['Linkmans'] = json_encode($links);
+                    //}
+              //  }
+            //}
+        }
+        //$name = $this->mysql_model->db_one(BETWEENUNIT,'(PK_BU_ID='.$id.')','name');
+        //$sql = $this->mysql_model->db_upd(BETWEENUNIT,array_filter($data),'(PK_BU_ID='.$id.')');
+        $sql = $this->mysql_model->db_upd(BETWEENUNIT,$data,'(PK_BU_ID='.$id.')');
+        if ($sql) {
+            $this->cache_model->delsome(PURORDER);
+            $this->cache_model->delsome(BETWEENUNIT);
+            $this->cache_model->delsome(SALEORDER);
+            $this->data_model->logs('修改了往来单位:'.$id);
+            die('{"status":200,"msg":"success"}');
+        } else {
+            die('{"status":-1,"msg":"修改失败"}');
+        }
+    }
 
 
 
@@ -124,15 +165,16 @@ class BetweenUnit extends CI_Controller {
 	    $this->purview_model->checkpurview(61);
 	    $id = str_enhtml($this->input->post('id',TRUE));
 		if (strlen($id) > 0) {
-		    $this->mysql_model->db_count(SALEORDER,'(contactid in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有客户发生业务不可删除"}');
-			$name = $this->mysql_model->db_select(BETWEENUNIT,'(id in('.$id.'))','name');
+		    $this->mysql_model->db_count(SALEORDER,'(Customer_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有客户发生业务不可删除"}');
+            $this->mysql_model->db_count(PURORDER,'(Supplier_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有客户发生业务不可删除"}');
+			$name = $this->mysql_model->db_select(BETWEENUNIT,'(PK_BU_ID in('.$id.'))','name');
 			if (count($name)>0) {
 			    $name = join(',',$name);
 			}
-		    $sql = $this->mysql_model->db_del(BETWEENUNIT,'(id in('.$id.'))');
+		    $sql = $this->mysql_model->db_del(BETWEENUNIT,'(PK_BU_ID in('.$id.'))');
 		    if ($sql) {
 			    $this->cache_model->delsome(BETWEENUNIT);
-				$this->data_model->logs('删除客户:ID='.$id.' 名称:'.$name);
+				$this->data_model->logs('删除往来单位:PK_BU_ID='.$id.' 名称:'.$name);
 				die('{"status":200,"msg":"success","data":{"msg":"","id":['.$id.']}}');
 			} else {
 			    die('{"status":-1,"msg":"删除失败"}');

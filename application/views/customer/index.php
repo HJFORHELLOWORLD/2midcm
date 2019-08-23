@@ -56,7 +56,7 @@ var customer_del    = "<?=site_url('customer/del')?>";
 	    <div class="fl">
 	      <ul class="ul-inline">
 	        <li>
-	          <input type="text" id="matchCon" class="ui-input ui-input-ph matchCon" value="输入编号 / 名称 / 联系人 / 电话查询">
+	          <input type="text" id="matchCon" class="ui-input ui-input-ph matchCon" value="输入编号 / 名称 / 电话查询">
 	        </li>
 	        <li><a class="ui-btn mrb" id="search">查询</a></li>
 	      </ul>

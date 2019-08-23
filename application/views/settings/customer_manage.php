@@ -48,7 +48,7 @@ var category_save = "<?=site_url('category/save')?>";
 var basedata_contact_query = "<?=site_url('basedata/contact_query')?>";
 var basedata_contact_getnextno = "<?=site_url('basedata/contact_getnextno')?>";
 var basedata_contact_checkname = "<?=site_url('basedata/contact_checkname')?>";
-var customer_save = "<?=site_url('customer/save')?>";
+var betweenUnit_modify  = "<?=site_url('betweenUnit/modify')?>";
 var settings_customer_cate_manage = "<?=site_url('settings/customer_cate_manage')?>";
 
 </script>
@@ -79,45 +79,53 @@ body{background: #fff;}
     <div id="manage-wrap" class="manage-wrap">
     	<form id="manage-form" action="">
     		<ul class="mod-form-rows base-form" id="base-form">
-    			<li class="row-item odd">
+<!--    			<li class="row-item odd">
     				<div class="label-wrap"><label for="number">客户编号</label></div>
     				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="number" id="number"></div>
-    			</li>
-    			<li class="row-item">
-    				<div class="label-wrap"><label for="name">客户名称</label></div>
-    				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name"></div>
-    			</li>
-    			<li class="row-item odd row-category">
-    				<div class="label-wrap"><label for="category">客户类别</label></div>
-    				<div class="ctn-wrap"><span id="category"></span></div>
-    			</li>
-    			<li class="row-item">
-    				<div class="label-wrap"><label for="date">余额日期</label></div>
-    				<div class="ctn-wrap"><input type="text" value="" class="ui-input ui-datepicker-input" name="date" id="date" /></div>
+    			</li>-->
+                <li class="row-item odd">
+                    <div class="label-wrap"><label for="name">单位名称</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name"></div>
+                </li>
+                <li class="row-item odd">
+                    <div class="label-wrap"><label for="remark">描述</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="remark" id="remark"></div>
+                </li>
+                <li class="row-item odd">
+                    <div class="label-wrap"><label for="Area_ID">地区编号</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Area_ID" id="Area_ID"></div>
+                </li>
+                <li class="row-item odd">
+                    <div class="label-wrap"><label for="BU_Cat">类别</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="BU_Cat" id="BU_Cat"></div>
+                </li>
+                <li class="row-item odd">
+                    <div class="label-wrap"><label for="Industry_ID">所属行业</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Industry_ID" id="Industry_ID"></div>
+                </li>
+    			<li class="row-item odd">
+    				<div class="label-wrap"><label for="Taxrate">税率</label></div>
+    				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Taxrate" id="Taxrate"></div>
     			</li>
     			<li class="row-item odd">
-    				<div class="label-wrap"><label for="receiveFunds">期初应收款</label></div>
-    				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="receiveFunds" id="receiveFunds"></div>
-    			</li>
-    			<li class="row-item">
-    				<div class="label-wrap"><label for="periodReceiveFunds">期初预收款</label></div>
-    				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="periodReceiveFunds" id="periodReceiveFunds"></div>
+    				<div class="label-wrap"><label for="phone">联系方式</label></div>
+    				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="phone" id="phone"></div>
     			</li>
     		</ul>
-    		<div class="contacters">
+<!--    		<div class="contacters">
     			<h3 class="dn">联系方式</h3>
     			<div class="grid-wrap">
 				  <table id="grid">
 				  </table>
 				  <div id="page"></div>
 				</div>
-    		</div>
-    		<ul class="mod-form-rows">
+    		</div>-->
+<!--    		<ul class="mod-form-rows">
     			<li class="row-item pb0">
-    				<!-- <div class="label-wrap"><label for="note">备注</label></div> -->
+    				<div class="label-wrap"><label for="note">备注</label></div>
     				<div class="ctn-wrap"><textarea name="" id="note" class="ui-input ui-input-ph">添加备注信息</textarea></div>
     			</li>
-    		</ul>
+    		</ul>-->
     	</form>
 
     </div>

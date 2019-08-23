@@ -325,20 +325,29 @@ class Basedata extends CI_Controller {
 			$v[$arr]['beginDate']    = 1409500800000;
 			$v[$arr]['remark']       = $row['Desc'];
 			$v[$arr]['links'] = '';
+
+			$v[$arr]['Taxrate'] = $row['Taxrate'];
+            $v[$arr]['Industry_ID'] = $row['Industry_ID'];
+			$v[$arr]['Area_ID'] = $row['Area_ID'];
+			$v[$arr]['BU_Cat'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : '第三方');
+			$v[$arr]['Status'] = $row['Status'] == 0 ? '不正常' : '正常';
+
 			if (strlen($row['Linkmans'])>0) {                             //获取首个联系人
-				$list = (array)json_decode($row['Linkmans']);
-				foreach ($list as $arr1=>$row1) {
-					if ($row1->linkFirst==1) {
-						$v[$arr]['contacter']        = $row1->linkName;
-						$v[$arr]['mobile']           = $row1->linkMobile; 
-						$v[$arr]['telephone']        = $row1->linkPhone; 
-						$v[$arr]['linkIm']           = $row1->linkIm; 
-						$v[$arr]['firstLink']['first']   = $row1->linkFirst; 
-						if ($type==1) {//客户
-							$v[$arr]['deliveryAddress']  = isset($row1->linkAddress) ? $row1->linkAddress : '';
-						}
-					}
-				} 
+                $list = (array)json_decode($row['Linkmans']);
+                if (count($list) > 0){
+                    foreach ($list as $arr1 => $row1) {
+                        if ($row1->linkFirst == 1) {
+                            $v[$arr]['contacter'] = $row1->linkName;
+                            $v[$arr]['mobile'] = $row1->linkMobile;
+                            $v[$arr]['telephone'] = $row1->linkPhone;
+                            $v[$arr]['linkIm'] = $row1->linkIm;
+                            $v[$arr]['firstLink']['first'] = $row1->linkFirst;
+                            if ($type == 1) {//客户
+                                $v[$arr]['deliveryAddress'] = isset($row1->linkAddress) ? $row1->linkAddress : '';
+                            }
+                        }
+                    }
+            }
 		    }
 		}
 		$data['data']['rows']   = is_array($v) ? $v : '';
@@ -351,31 +360,34 @@ class Basedata extends CI_Controller {
 	public function contact_query() {
 	    $id   = intval($this->input->post('id',TRUE));
 		$type = intval($this->input->get('type',TRUE));
-	    $data = $this->cache_model->load_one(CONTACT,'(type='.$type.') and (id='.$id.')');
+	    $data = $this->cache_model->load_one(BETWEENUNIT,'(PK_BU_ID='.$id.')');
 		 
 		if (count($data)>0) {
-			$info['id']          = intval($data['id']);
-			$info['cCategory']   = intval($data['categoryid']);
-			$info['number']      = $data['number'];
-			$info['name']        = $data['name'];
+			$info['id']          = intval($data['PK_BU_ID']);
+			$info['Industry_ID']   = intval($data['Industry_ID']);
+			//$info['number']      = $data['number'];
+			$info['name']        = $data['Name'];
 			//$info['beginDate']   = $data['beginDate'];
-			$info['amount']      = (float)$data['amount'];
-			$info['periodMoney'] = (float)$data['periodmoney'];
-			$info['remark']      = $data['remark'];
-			$info['taxRate']     = (float)$data['taxrate'];
-			$info['links'] = array();	
-		    if (strlen($data['linkmans'])>0) {                               //获取首个联系人
-				$list = (array)json_decode($data['linkmans']);
-				foreach ($list as $arr=>$row) {
-					$info['links'][$arr]['name']        = $row->linkName;
-					$info['links'][$arr]['mobile']      = $row->linkMobile; 
-					$info['links'][$arr]['phone']       = $row->linkPhone; 
-					$info['links'][$arr]['im']          = $row->linkIm; 
-					$info['links'][$arr]['first']       = $row->linkFirst==1 ? true : false; 
-					if ($type==1) {
-						$info['links'][$arr]['address'] = $row->linkAddress; 
-					}
-				}  
+			$info['Area_ID']      = $data['Area_ID'];
+			$info['Taxrate'] = (float)$data['Taxrate'];
+            $info['BU_Cat'] = (float)$data['BU_Cat'];
+			$info['remark']      = $data['Desc'];
+			$info['links']['phone'] = '';
+		    if (strlen($data['Linkmans'])>0) {                               //获取首个联系人
+                $list = (array)json_decode($data['Linkmans']);
+                if(count($list) > 0){
+                foreach ($list as $arr => $row) {
+                    /*					$info['links'][$arr]['name']        = $row->linkName;
+                                        $info['links'][$arr]['mobile']      = $row->linkMobile;
+                                        $info['links'][$arr]['phone']       = $row->linkPhone;
+                                        $info['links'][$arr]['im']          = $row->linkIm;
+                                        $info['links'][$arr]['first']       = $row->linkFirst==1 ? true : false;
+                                        if ($type==1) {
+                                            $info['links'][$arr]['address'] = $row->linkAddress;
+                                        }*/
+                    $info['links']['phone'] = $row->linkPhone;
+                }
+            }
 		    }
 		    unset($data['linkmans']);
 			die('{"status":200,"msg":"success","data":'.json_encode($info).'}');
@@ -396,11 +408,11 @@ class Basedata extends CI_Controller {
 	    $id   = intval($this->input->post('id',TRUE));
 		$type = intval($this->input->get('type',TRUE));
 	    $name = str_enhtml($this->input->post('name',TRUE));
-		!in_array($type,array(1,2)) && die('{"status":-1,"msg":"参数错误"}'); 
+		//!in_array($type,array(1,2)) && die('{"status":-1,"msg":"参数错误"}');
 		if ($id > 0) {
-		    $this->cache_model->load_total(CONTACT,'(type='.$type.') and (id<>'.$id.') and (name="'.$name.'")') > 0 && die('{"status":-1,"msg":"客户名称重复"}'); 
+		    $this->cache_model->load_total(BETWEENUNIT,'(PK_BU_ID<>'.$id.') and (Name="'.$name.'")') > 0 && die('{"status":-1,"msg":"客户名称重复"}');
 		} else {
-		    $this->cache_model->load_total(CONTACT,'(type='.$type.') and (name="'.$name.'")') > 0 && die('{"status":-1,"msg":"客户名称重复"}'); 
+		    $this->cache_model->load_total(BETWEENUNIT,'(Name="'.$name.'")') > 0 && die('{"status":-1,"msg":"客户名称重复"}');
 		} 
 	    die('{"status":200,"msg":"success"}');
 	}

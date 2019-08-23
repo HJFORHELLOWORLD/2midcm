@@ -42,7 +42,7 @@ var basedata_contact  = "<?=site_url('basedata/contact')?>";
 var settings_inventory =  "<?=site_url('settings/inventory')?>";          
 var settings_skins =  "<?=site_url('settings/skins')?>";
 var customer_export  = "<?=site_url('customer/export')?>";
-var customer_del    = "<?=site_url('customer/del')?>";
+var betweenUnit_del    = "<?=site_url('betweenUnit/del')?>";
 var betweenUnit_add    = "<?=site_url('betweenUnit/add')?>";
 var betweenUnit_save    = "<?=site_url('betweenUnit/save')?>";
 </script>
@@ -56,7 +56,7 @@ var betweenUnit_save    = "<?=site_url('betweenUnit/save')?>";
 	    <div class="fl">
 	      <ul class="ul-inline">
 	        <li>
-	          <input type="text" id="matchCon" class="ui-input ui-input-ph matchCon" value="输入单位编号/ 名称/ 联系人/ 电话查询">
+	          <input type="text" id="matchCon" class="ui-input ui-input-ph matchCon" value="输入单位编号/ 名称 / 电话查询">
 	        </li>
 	        <li><a class="ui-btn mrb" id="search">查询</a></li>
 	      </ul>
