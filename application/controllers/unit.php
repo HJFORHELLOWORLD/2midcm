@@ -50,7 +50,7 @@ class Unit extends CI_Controller {
 	    $id = intval($this->input->post('id',TRUE));
 		$data = $this->mysql_model->db_one(UNIT,'(id='.$id.')');   
 		if (count($data) > 0) {
-		    $this->mysql_model->db_count(GOODS,'(unitid='.$id.')')>0 && die('{"status":-1,"msg":"发生业务不可删除"}');
+		    $this->mysql_model->db_count(BOM_BASE,'(FK_UnitClass_ID='.$id.')')>0 && die('{"status":-1,"msg":"发生业务不可删除"}');
 		    $sql = $this->mysql_model->db_del(UNIT,'(id='.$id.')');   
 		    if ($sql) {
 			    $this->data_model->logs('删除单位:ID='.$id.' 名称：'.$data['name']);
