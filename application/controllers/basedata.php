@@ -336,16 +336,16 @@ class Basedata extends CI_Controller {
                 $list = (array)json_decode($row['Linkmans']);
                 if (count($list) > 0){
                     foreach ($list as $arr1 => $row1) {
-                        if ($row1->linkFirst == 1) {
-                            $v[$arr]['contacter'] = $row1->linkName;
-                            $v[$arr]['mobile'] = $row1->linkMobile;
+                      //  if ($row1->linkFirst == 1) {
+                           // $v[$arr]['contacter'] = $row1->linkName;
+                          //  $v[$arr]['mobile'] = $row1->linkMobile;
                             $v[$arr]['telephone'] = $row1->linkPhone;
-                            $v[$arr]['linkIm'] = $row1->linkIm;
-                            $v[$arr]['firstLink']['first'] = $row1->linkFirst;
+                           // $v[$arr]['linkIm'] = $row1->linkIm;
+                          //  $v[$arr]['firstLink']['first'] = $row1->linkFirst;
                             if ($type == 1) {//客户
                                 $v[$arr]['deliveryAddress'] = isset($row1->linkAddress) ? $row1->linkAddress : '';
                             }
-                        }
+                     //   }
                     }
             }
 		    }

@@ -33,7 +33,7 @@ class Cache_model extends CI_Model{
 	public function load_data($table,$where,$filed='*'){
 	    $name = $table.'/'.md5($table.$where.$filed);
 		dir_add($this->path.$table);
-		$data = $this->cache->get($name);$data=0;
+		$data = $this->cache->get($name);
 		if (!$data) {
 			$data = $this->mysql_model->db_select($table,$where,$filed);
 			$this->cache->save($name,$data,3600000);

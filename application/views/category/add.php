@@ -62,23 +62,15 @@
         </ul>-->
         <div class="authority-ctn-wrap">
             <div class="register-wrap">
-                <h3>新增单位类别</h3>
+                <h3>新增往来单位类别</h3>
                 <form action="#" id="registerForm" class="register-form">
                     <ul class="mod-form-rows">
                         <li class="row-item">
                             <div class="label-wrap">
-                                <label for="number">行业编号</label>
+                                <label for="name">单位名称</label>
                             </div>
                             <div class="ctn-wrap">
-                                <input type="text" class="ui-input" id="number"  style="ime-mode:disabled;" onpaste="return false;"/>
-                            </div>
-                        </li>
-                        <li class="row-item">
-                            <div class="label-wrap">
-                                <label for="id">单位名称</label>
-                            </div>
-                            <div>
-                                <input type="text" id="id" class="ui-input" />
+                                <input type="text" class="ui-input"id="name" style="ime-mode:disabled;" onpaste="return false;"/>
                             </div>
                         </li>
                         <li class="row-item">
@@ -87,23 +79,6 @@
                             </div>
                             <div class="ctn-wrap">
                                 <input type="text" class="ui-input"id="desc" style="ime-mode:disabled;" onpaste="return false;"/>
-                            </div>
-                        </li>
-                        <li class="row-item">
-                            <div class="label-wrap">
-                                <label for="realName">创建人</label>
-                            </div>
-                            <div class="ctn-wrap">
-                                <input type="text" class="ui-input" id="realName" name="realName"/>
-<!--                                <p class="msg">负责人将应用在单据和账表打印中，请如实填写</p>-->
-                            </div>
-                        </li>
-                        <li class="row-item">
-                            <div class="label-wrap">
-                                <label for="founder">创建时间</label>
-                            </div>
-                            <div class="ctn-wrap">
-                                <input type="text" id="founder" class="ui-input" />
                             </div>
                         </li>
                         <li class="row-item">

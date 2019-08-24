@@ -191,7 +191,10 @@ class Settings extends CI_Controller {
         $this->load->view('goods/spec_info',$result);
     }
 
-
+    //往来单位类别
+    public function category_manage() {
+        $this->load->view('settings/category_manage');
+    }
 
 }
 
