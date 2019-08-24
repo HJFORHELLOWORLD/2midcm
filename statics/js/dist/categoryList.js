@@ -1,21 +1,17 @@
 function initEvent() {
     $("#btn-add").click(function(t) {
         t.preventDefault();
-        Business.verifyRight("UNIT_ADD") && handle.operate("add")
+        handle.operate("add")
     });
     $("#grid").on("click", ".operating .ui-icon-pencil", function(t) {
         t.preventDefault();
-        if (Business.verifyRight("UNIT_UPDATE")) {
             var e = $(this).parent().data("id");
             handle.operate("edit", e)
-        }
     });
     $("#grid").on("click", ".operating .ui-icon-trash", function(t) {
         t.preventDefault();
-        if (Business.verifyRight("UNIT_DELETE")) {
             var e = $(this).parent().data("id");
             handle.del(e)
-        }
     });
     $("#btn-refresh").click(function(t) {
         t.preventDefault();
@@ -82,7 +78,7 @@ function initGrid() {
                 }
                 $("#grid").data("gridData", e)
             } else {
-                var r = 250 == t.status ? "没有往来单位类别数据！" : "获取往来单位类别失败！" + t.msg;
+                var r = 250 == t.status ? "没有往来单位类别数据！" : "获取往来单位类别数据失败！" + t.msg;
                 parent.Public.tips({
                     type: 2,
                     content: r

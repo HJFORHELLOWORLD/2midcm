@@ -196,6 +196,11 @@ class Settings extends CI_Controller {
         $this->load->view('settings/category_manage');
     }
 
+    //工作中心
+    public function workcenter_manage() {
+        $this->load->view('settings/workcenter_manage');
+    }
+
 }
 
 /* End of file welcome.php */

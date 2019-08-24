@@ -20,7 +20,7 @@ class Category extends CI_Controller {
 
     /**
      * showdoc
-     * @catalog 开发文档/仓库
+     * @catalog 开发文档
      * @title 往来单位类别新增
      * @description 类别添加的接口
      * @method get

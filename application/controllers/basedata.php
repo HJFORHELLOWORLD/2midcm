@@ -441,7 +441,7 @@ class Basedata extends CI_Controller {
         $data['data']['page']      = $page;                                                      //当前页
         $data['data']['records']   = $this->cache_model->load_total(LOGBOOK,'(1=1) '.$where.'');     //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
-        $list = $this->data_model->logList($where, ' order by Log_Date desc');
+        $list = $this->data_model->logList($where, ' order by Log_Date desc limit '.$offset.','.$rows.'');
         foreach ($list as $arr=>$row) {
             $v[$arr]['id']              = intval($row['PK_Log_ID']);
             $v[$arr]['name']            = $row['username'];

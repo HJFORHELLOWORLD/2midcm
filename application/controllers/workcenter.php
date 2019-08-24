@@ -1,11 +1,13 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
+//工作中心
 class Workcenter extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
-        $this->purview_model->checkpurview(82);
+        $this->purview_model->checkpurview(112);
         $this->uid   = $this->session->userdata('uid');
+        $this->load->model('data_model');
     }
 
     public function index(){
@@ -21,9 +23,9 @@ class Workcenter extends CI_Controller {
 
     /**
      * showdoc
-     * @catalog 开发文档/用户
-     * @title 用户注册
-     * @description 用户注册的接口
+     * @catalog 开发文档
+     * @title 工作中心
+     * @description 工作中心的接口
      * @method get
      * @url https://www.2midcm.com/workcenter/add
      * @param pk_wc_id 必选 string 工作中心编号
@@ -36,50 +38,39 @@ class Workcenter extends CI_Controller {
      * @remark 这里是备注信息
      * @number 1
      */
-    public function save()
-    {
-
-        $data = ($this->input->post('data',TRUE));
-        $data= json_decode($data,true);
-//        print_r($data);
-//        var_dump($data);
-        $id  = intval($this->input->post('pk_wc_id',TRUE));
-        $act = str_enhtml($this->input->get('act', TRUE));
-        $info['pk_wc_id'] = $data['pk_wc_id'];
-        $info['wc_name'] = $data['wc_name'];
-        $info['desc'] = $data['desc'] ;
-        $info['head_id'] = $data['head_id'];
-        $info['creator_id'] = $data['creator_id'] ;
-
-//        strlen($data['wc_name']) < 1 && die('{"status":-1,"msg":"工作中心名称不能为空"}');
-//		$info['categoryName']   = $data['categoryname'] = $this->mysql_model->db_one(CATEGORY,'(id='.$data['categoryid'].')','name');
-//		$info['unitName']   = $data['unitname']     = $this->mysql_model->db_one(UNIT,'(id='.$data['unitid'].')','name');
-//		!$data['categoryname'] || !$data['unitname']  && die('{"status":-1,"msg":"参数错误"}');
-        /*		var_dump($info,$data);*/
-        if ($act == 'add') {
-            $this->purview_model->checkpurview(69);
-            $this->mysql_model->db_count(WORK_CERTER, '(pk_wc_id="' . $data['pk_wc_id'] . '")') > 0 && die('{"status":-1,"msg":"工作中心编号重复"}');
-            $sql = $this->mysql_model->db_inst(WORK_CERTER, $data);
-            if ($sql) {
-                $info['pk_wc_id'] = $sql;
-                $this->mysql_model->db_inst(WORK_CERTER, array('pk_wc_id' => $sql, 'num' => 0));
+    public function save(){
+        $act  = str_enhtml($this->input->get('act',TRUE));
+        $id   = intval($this->input->post('id',TRUE));
+        $data['WC_Name'] = str_enhtml($this->input->post('name',TRUE));
+        $data['Desc'] = str_enhtml($this->input->post('desc',TRUE));
+        $data['Head_ID'] = str_enhtml($this->input->post('head_id',TRUE));
+        $data['IsKey'] = str_enhtml($this->input->post('IsKey',TRUE));
+        if ($act=='add') {
+            $this->purview_model->checkpurview(113);
+            strlen($data['WC_Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+            $this->mysql_model->db_count(WORK_CERTER,'(WC_Name="'.$data['WC_Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该工作中心"}');
+            $data['id'] = $this->mysql_model->db_inst(WORK_CERTER,$data);
+            $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
+            if ($data['id']) {
+                $this->data_model->logs('新增往来单位类别:'.$data['WC_Name']);
                 $this->cache_model->delsome(WORK_CERTER);
-//                $this->data_model->logs('新增工作中心:' . $data['wc_name']);
-                die('{"status":200,"msg":"success","data":' . json_encode($info) . '}');
+                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
             } else {
                 die('{"status":-1,"msg":"添加失败"}');
             }
-        } elseif ($act == 'update') {
-            $this->purview_model->checkpurview(70);
-            $this->mysql_model->db_count(WORK_CERTER, '(pk_bom_id<>' . $id . ') and (number="' . $data['number'] . '")') > 0 && die('{"status":-1,"msg":"商品编号重复"}');
-            $name = $this->mysql_model->db_one(BOM_BASE, '(pk_bom_id=' . $id . ')', 'name');
-            $sql = $this->mysql_model->db_upd(BOM_BASE, $data, '(pk_bom_id=' . $id . ')');
+        } elseif ($act=='update') {
+            $this->purview_model->checkpurview(114);
+            strlen($data['WC_Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+            $this->mysql_model->db_count(WORK_CERTER,'(PK_WC_ID<>'.$id.') and (WC_Name="'.$data['WC_Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该工作中心"}');
+            $data['Modify_ID'] = $this->uid;
+            $data['Modify_Date'] = date('Y-m-d H:i:s',time());
+            $sql = $this->mysql_model->db_upd(WORK_CERTER,$data,'(PK_WC_ID='.$id.')');
             if ($sql) {
-                $info['pk_bom_id'] = $id;
-                $info['propertys'] = array();
-                $this->cache_model->delsome(BOM_BASE);
-                $this->data_model->logs('修改商品:' . $name . ' 修改为 ' . $data['name']);
-                die('{"status":200,"msg":"success","data":' . json_encode($info) . '}');
+                $data['id'] = $id;
+                $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
+                $this->data_model->logs('修改工作中心:'.$data['WC_Name']);
+                $this->cache_model->delsome(WORK_CERTER);
+                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
             } else {
                 die('{"status":-1,"msg":"修改失败"}');
             }
@@ -90,41 +81,51 @@ class Workcenter extends CI_Controller {
         $v = '';
         $data['status'] = 200;
         $data['msg']    = 'success';
-        $type   = intval($this->input->get('type',TRUE));
         $skey   = str_enhtml($this->input->get('skey',TRUE));
         $page = max(intval($this->input->get_post('page',TRUE)),1);
         $rows = max(intval($this->input->get_post('rows',TRUE)),100);
         $where  = '';
-        if ($skey) {
-            $where .= ' and (Head_ID like "%'.$skey.'%"' . ' or WC_Name like "%'.$skey.'%"' . ')';
-        }
-        if ($type) {
-            $where .= ' and PK_WC_ID IN ('.$type.',4)';
-        }
+/*        if ($skey) {
+            $where .= ' and (PK_WC_ID like "%'.$skey.'%"' . ' or WC_Name like "%'.$skey.'%"' . ')';
+        }*/
+
         $offset = $rows * ($page-1);
         $data['data']['page']      = $page;                                                      //当前页
         $data['data']['records']   = $this->cache_model->load_total(WORK_CERTER,'(1=1) '.$where.'');     //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
-        $list = $this->cache_model->load_data(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->workcenterList($where, ' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
+       // $list = $this->cache_model->load_data(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
         foreach ($list as $arr=>$row) {
-            $v[$arr]['pk_wc_id']           = intval($row['PK_WC_ID']);
-            $v[$arr]['wc_name']         = $row['WC_Name'];
-            $v[$arr]['desc']       = $row['Desc'];
-            $v[$arr]['head_id']       = $row['Head_ID'];
-            $v[$arr]['creator_id']       = $row['Creator_ID'];
-            $v[$arr]['create_date']       = $row['Create_Date'];
-            $v[$arr]['modify_id']       = $row['Modify_ID'];
-            $v[$arr]['modify_date']       = $row['Modify_Date'];
-
-
+            $v[$arr]['id']           = intval($row['PK_WC_ID']);
+            $v[$arr]['WC_Name']         = $row['WC_Name'];
+            $v[$arr]['Desc']       = $row['Desc'];
+            $v[$arr]['headName']       = $row['headName'];
+            $v[$arr]['IsKey']       = $row['IsKey'] == 0 ? '不关键' : '关键';
         }
-
-        $data['data']['totalsize']  = $this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');
+        $data['data']['items']   = is_array($v) ? $v : '';
+        $data['data']['totalsize']  = count($list);//$this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');
         die(json_encode($data));
     }
 
 
 
+    //删除
+    public function del(){
+        $this->purview_model->checkpurview(115);
+        $id = intval($this->input->post('id',TRUE));
+        $data = $this->mysql_model->db_one(WORK_CERTER,'(PK_WC_ID='.$id.')');
+        if (count($data) > 0) {
+            $this->mysql_model->db_count(BOM_DESIGN,'(WC_ID='.$id.')')>0 && die('{"status":-1,"msg":"发生业务不可删除"}');
+            $sql = $this->mysql_model->db_del(WORK_CERTER,'(PK_WC_ID='.$id.')');
+            if ($sql) {
+                $this->data_model->logs('删除工作中心:ID='.$id.' 名称：'.$data['WC_Name']);
+                $this->cache_model->delsome(WORK_CERTER);
+                die('{"status":200,"msg":"success"}');
+            } else {
+                die('{"status":-1,"msg":"修改失败"}');
+            }
+        }
+    }
 
 
 }

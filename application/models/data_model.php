@@ -548,5 +548,19 @@ class Data_model extends CI_Model{
         }
     }
 
+    //工作中心列表
+    public function workcenterList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Username as headName  FROM 
+            t_'.WORK_CERTER.' as a 
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Head_ID=b.PK_User_ID
+            '.$where.'
+            '.$order.'
+            ';//var_dump($sql);exit;
+        return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
+    }
+
 }
 ?>
