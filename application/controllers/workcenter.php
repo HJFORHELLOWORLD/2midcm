@@ -105,18 +105,16 @@ class Workcenter extends CI_Controller {
         $data['data']['page']      = $page;                                                      //当前页
         $data['data']['records']   = $this->cache_model->load_total(WORK_CERTER,'(1=1) '.$where.'');     //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
-        $list = $this->cache_model->load_data(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->workcenterList($where,' order by PK_WC_ID desc .');
         foreach ($list as $arr=>$row) {
-            $v[$arr]['pk_wc_id']           = intval($row['PK_WC_ID']);
-            $v[$arr]['wc_name']         = $row['WC_Name'];
-            $v[$arr]['desc']       = $row['Desc'];
-            $v[$arr]['head_id']       = $row['Head_ID'];
-            $v[$arr]['creator_id']       = $row['Creator_ID'];
-            $v[$arr]['create_date']       = $row['Create_Date'];
-            $v[$arr]['modify_id']       = $row['Modify_ID'];
-            $v[$arr]['modify_date']       = $row['Modify_Date'];
-
-
+            $v[$arr]['PK_WC_ID']           = intval($row['PK_WC_ID']);
+            $v[$arr]['WC_Name']         = $row['WC_Name'];
+            $v[$arr]['Desc']       = $row['Desc'];
+            $v[$arr]['Head_ID']       = $row['Head_ID'];
+            $v[$arr]['Creator_ID']       = $row['Creator_ID'];
+            $v[$arr]['Create_Date']       = $row['Create_Date'];
+            $v[$arr]['Modify_ID']       = $row['Modify_ID'];
+            $v[$arr]['Modify_Date']       = $row['Modify_Date'];
         }
 
         $data['data']['totalsize']  = $this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');

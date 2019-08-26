@@ -85,6 +85,11 @@ class Settings extends CI_Controller {
 	public function unit_manage() {
 		$this->load->view('settings/unit_manage');	
 	}
+
+    //人员
+    public function user_manage() {
+        $this->load->view('settings/user_manage');
+    }
 	
 	//高级查询
 	public function other_search() {

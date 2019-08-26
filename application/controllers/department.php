@@ -83,7 +83,7 @@ class Department extends CI_Controller {
         $v = array();
         $data['status'] = 200;
         $data['msg']    = 'success';
-        $list = $this->cache_model->load_data(DEPARTMENT,'(1=1) order by roleid');
+        $list = $this->data_model->departmentList(DEPARTMENT,'(1=1) order by roleid');
         foreach ($list as $arr=>$row) {
             $v[$arr]['pk_dept_id']       = $row['pk_dept_id'] ;
             $v[$arr]['name']      = intval($row['nameD']);

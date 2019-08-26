@@ -147,6 +147,7 @@ class Basedata extends CI_Controller {
         $list = $this->data_model->bomBaseList($where, ' order by PK_BOM_ID desc limit '.$offset.','.$rows.'');
         $data['data']['records']   = count($list);//$this->cache_model->load_total(BOM_BASE,'(1=1)' . $where. '');   //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
+//        var_dump($list);
         foreach ($list as $arr=>$row) {
             $v[$arr]['PK_BOM_ID']        = $row['PK_BOM_ID'];
             $v[$arr]['BOMModel']        = $row['BOMModel'];
@@ -296,7 +297,30 @@ class Basedata extends CI_Controller {
 		$data['data']['totalsize']  = $this->cache_model->load_total(UNIT);
 		die(json_encode($data));
 	}
-	
+
+
+
+    //人员接口
+    public function user() {
+        $v = '';
+        $data['status'] = 200;
+        $data['msg']    = 'success';
+        $list = $this->cache_model->load_data(USER,'(status=1) order by PK_User_ID desc');
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['default'] = false;
+            $v[$arr]['guid']    = false;
+            $v[$arr]['PK_User_ID']      = intval($row['PK_User_ID']);
+            $v[$arr]['Username']    = $row['Username'];
+            $v[$arr]['Status']    = $row['Status'];
+//            $v[$arr]['User']    = $row['Username'];
+            $v[$arr]['rate']    = 0;
+            $v[$arr]['isdelete']   = 0;
+            $v[$arr]['unitTypeId'] = 0;
+        }
+        $data['data']['items']   = is_array($v) ? $v : '';
+        $data['data']['totalsize']  = $this->cache_model->load_total(USER);
+        die(json_encode($data));
+    }
 	
 	//客户、供应商接口
 	public function contact() {
@@ -485,7 +509,7 @@ class Basedata extends CI_Controller {
 //    }
 
 
-    //单位接口
+    //地区接口
     public function area() {
         $v = '';
         $data['status'] = 200;
