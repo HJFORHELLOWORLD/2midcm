@@ -132,7 +132,7 @@ class Data_model extends CI_Model{
 	    $sql = 'select a.* , 
 					b.number as number, b.spec as spec, b.name as goodsname,b.unitname as unitname,b.unitid as unitid
 		        from '.INVSA_INFO.' as a 
-				left join '.GOODS.' as b
+				left join '.BOM_BASE.' as b
 					on a.goodsid=b.id 
 				'.$where.' 
 				'.$order.'
@@ -376,19 +376,15 @@ class Data_model extends CI_Model{
     //物流信息列表
     public function logisticsList($where='',$order='') {
         $where = $where ? 'where (1=1) '.$where : '';
-        $sql = 'select a.*, b.contactname as contactname, c.name as operatorName 
-		        from '.LOGISTICS_INFO.' as a 
-				left join 
-				'. INVSA .' as b
-				on a.billno=b.billno
-				left join
-				'. ADMIN .' as c
-				on a.operator=c.uid
+        $sql = 'select *
+		        from 
+		        t_'.BOM_LOGORDER.' 	
+				
 				'.$where.' 
 				'.$order.'
 				';
+        return $this->cache_model->load_sql(BOM_LOGORDER,$sql,2);
 
-        return $this->cache_model->load_sql(LOGISTICS_INFO,$sql,2);
     }
 
     //某个采购计划信息表
@@ -459,6 +455,41 @@ class Data_model extends CI_Model{
                 ';//var_dump($sql);exit;
         return $this->cache_model->load_sql(INDUSTRY,$sql,2);
     }
+
+
+    //仓库列表
+    public  function stockList($where='',$order='')
+    {
+        $where = $where ? 'where (1=1) ' . $where : '';
+        $sql = 'SELECT * FROM 
+               t_' . STOCK . '
+                ' . $where . '
+                ' . $order . '
+                ';
+//        var_dump($sql);
+//        $res=  $this->cache_model->load_sql(STOCK,$sql,2);
+//        var_dump($res); exit;
+        return $this->cache_model->load_sql(STOCK, $sql, 2);
+    }
+
+
+        public  function workcenterList($where='',$order=''){
+            $where = $where ? 'where (1=1) '.$where : '';
+            $sql = 'SELECT * FROM 
+               t_'.WORK_CERTER.'
+                '.$where.'
+                '.$order.'
+                ';
+       var_dump($sql);
+        $res=  $this->cache_model->load_sql(WORK_CERTER,$sql,2);
+        var_dump($res); exit;
+            return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
+        }
+
+
+
+
+
 
 
 
