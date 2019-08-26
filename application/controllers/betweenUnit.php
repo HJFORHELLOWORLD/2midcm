@@ -51,21 +51,21 @@ class BetweenUnit extends CI_Controller {
             $data = (array)json_decode($data);
             if (is_array($data['entries'])) {
                 foreach ($data['entries'] as $arr => $row) {
-                    $v[$arr]['pk_bu_id'] = $row->pk_bu_id;
-                    $v[$arr]['name'] = $row->name;
+                    $v[$arr]['PK_BU_ID'] = $row->PK_BU_ID;
+                    $v[$arr]['Name'] = $row->Name;
                     $v[$arr]['desc'] = $row->desc;
-                    $v[$arr]['area_id'] = $row->area_id;
-                    $v[$arr]['bu_cat'] = $row->bu_cat;
-                    $v[$arr]['industry_id'] = $row->industry_id;
-                    $v[$arr]['taxRate'] = $row->taxRate;
-                    $v[$arr]['linkMans'] = $row->linkMans;
-                    $v[$arr]['status'] = $row->status;
-                    $v[$arr]['creator_id'] = $row->creator_id;
-                    $v[$arr]['create_date'] = date('Y-m-d H:i:s', time());
-                    $v[$arr]['modify_id'] = $row->modify_id;
-                    $v[$arr]['modify_date'] = date('Y-m-d H:i:s', time());
+                    $v[$arr]['Area_ID'] = $row->Area_ID;
+                    $v[$arr]['BU_Cat'] = $row->BU_Cat;
+                    $v[$arr]['Industry_ID'] = $row->Industry_ID;
+                    $v[$arr]['Taxrate'] = $row->Taxrate;
+                    $v[$arr]['LinkMans'] = $row->LinkMans;
+                    $v[$arr]['Status'] = $row->Status;
+                    $v[$arr]['Creator_ID'] = $row->Creator_ID;
+                    $v[$arr]['Create_Date'] = date('Y-m-d H:i:s', time());
+                    $v[$arr]['Modify_id'] = $row->modify_id;
+                    $v[$arr]['Modify_Date'] = date('Y-m-d H:i:s', time());
                 }
-                $name= $v[$arr]['name'];
+                $name= $v[$arr]['Name'];
                 $this->mysql_model->db_inst(BETWEENUNIT, $v);
                 $this->cache_model->delsome(BETWEENUNIT);
                 $this->data_model->logs('操作人：ID_' . $name.'新增物流信息');
