@@ -64,12 +64,20 @@
                 <h3>新建地区编号</h3>
                 <form action="#" id="registerForm" class="register-form">
                     <ul class="mod-form-rows">
-                        <li class="row-item">
+<!--                        <li class="row-item">
                             <div class="label-wrap">
                                 <label >地区编码</label>
                             </div>
                             <div class="ctn-wrap">
                                 <input type="text" class="ui-input" id="number" style="ime-mode:disabled;" onpaste="return false;"/>
+                            </div>
+                        </li>-->
+                        <li class="row-item">
+                            <div class="label-wrap">
+                                <label >地区名称</label>
+                            </div>
+                            <div>
+                                <input type="text" id="id" class="ui-input" />
                             </div>
                         </li>
                         <li class="row-item">
@@ -78,14 +86,6 @@
                             </div>
                             <div>
                                 <input type="text" id="id" class="ui-input" />
-                            </div>
-                        </li>
-                        <li class="row-item">
-                            <div class="label-wrap">
-                                <label >地区名称</label>
-                            </div>
-                            <div class="ctn-wrap">
-                                <input type="text" class="ui-input" id="desc" style="ime-mode:disabled;" onpaste="return false;"/>
                             </div>
                         </li>
                         <li class="row-item">

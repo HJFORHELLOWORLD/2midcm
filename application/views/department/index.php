@@ -43,17 +43,11 @@
         var settings_inventory =  "<?=site_url('settings/inventory')?>";
         var settings_skins =  "<?=site_url('settings/skins')?>";
 
-        var invpu_lists = "<?=site_url('invpu/lists')?>";
-        var invpu_add   = "<?=site_url('invpu/add')?>";
-        var logistics_export    = "<?=site_url('logistics/export')?>";
-        var design_del    = "<?=site_url('design/del')?>";
-        var design_lists  = "<?=site_url('design/lists')?>";
-        var design_add    = "<?=site_url('design/add')?>";
-        var design_edit    = "<?=site_url('design/edit')?>";
         var department_add = "<?=site_url('department/add')?>";
         var department_save = "<?=site_url('department/save')?>";
-        var department_index = "<?=site_url('department/index')?>";
+        var department_del = "<?=site_url('department/del')?>";
         var department_lists = "<?=site_url('department/lists')?>";
+        var settings_department_manage = "<?=site_url('settings/department_manage')?>";       //增修改
     </script>
     <style>
         #matchCon { width: 280px; }
@@ -65,20 +59,24 @@
 
 <body>
 <div class="wrapper">
-    <div class="mod-search cf">
+<!--    <div class="mod-search cf">
         <div class="fl">
             <ul class="ul-inline">
                 <li>
                     <input type="text" id="matchCon" class="ui-input ui-input-ph" value="请输入部门编号或部门名称">
                 </li>
 
-                <li><a class="ui-btn" id="search">查询</a><!--<a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a>--></li>
+                <li><a class="ui-btn" id="search">查询</a><a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a></li>
             </ul>
         </div>
-        <div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a>
-            <!--<a class="ui-btn" id="print" target="_blank" href="javascript:void(0);">打印</a>-->
-            <!--<a class="ui-btn" id="export" target="_blank" href="javascript:void(0);">导出</a>--><a class="ui-btn dn" id="audit">审核</a><a class="ui-btn" id="reAudit">反审核</a></div>
+        <div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a></div>
+    </div>-->
+
+    <div class="mod-toolbar-top cf">
+        <div class="fl"><strong class="tit">部门</strong></div>
+        <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a><a class="ui-btn" id="btn-refresh">刷新</a></div>
     </div>
+
     <!--  <div class="mod-toolbar-top cf">
         <div class="fl"><strong class="tit">仓库</strong></div>
         <div class="fr"><a class="ui-btn ui-btn-sp mrb" id="search">新增</a><a class="ui-btn" id="export">导出</a></div>

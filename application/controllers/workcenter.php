@@ -52,7 +52,7 @@ class Workcenter extends CI_Controller {
             $data['id'] = $this->mysql_model->db_inst(WORK_CERTER,$data);
             $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
             if ($data['id']) {
-                $this->data_model->logs('新增往来单位类别:'.$data['WC_Name']);
+                $this->data_model->logs('新增工作中心:'.$data['WC_Name']);
                 $this->cache_model->delsome(WORK_CERTER);
                 die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
             } else {
@@ -100,6 +100,7 @@ class Workcenter extends CI_Controller {
             $v[$arr]['WC_Name']         = $row['WC_Name'];
             $v[$arr]['Desc']       = $row['Desc'];
             $v[$arr]['headName']       = $row['headName'];
+            $v[$arr]['Head_ID']       = $row['Head_ID'];
             $v[$arr]['IsKey']       = $row['IsKey'] == 0 ? '不关键' : '关键';
         }
         $data['data']['items']   = is_array($v) ? $v : '';

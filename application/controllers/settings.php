@@ -201,6 +201,16 @@ class Settings extends CI_Controller {
         $this->load->view('settings/workcenter_manage');
     }
 
+    //地区分类
+    public function area_manage() {
+        $this->load->view('settings/area_manage');
+    }
+
+    //部门
+    public function department_manage() {
+        $this->load->view('settings/department_manage');
+    }
+
 }
 
 /* End of file welcome.php */

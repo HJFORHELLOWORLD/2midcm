@@ -562,5 +562,33 @@ class Data_model extends CI_Model{
         return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
     }
 
+    //地区分类列表
+    public function areaList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Name as upareaName  FROM 
+            t_'.AREA.' as a 
+            LEFT JOIN t_'
+            .AREA.' as b
+            ON a.UpArea_ID=b.PK_Area_ID
+            '.$where.'
+            '.$order.'
+            ';
+        return $this->cache_model->load_sql(AREA,$sql,2);
+    }
+
+    //部门列表
+    public function departmentList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Username as headName  FROM 
+            t_'.DEPARTMENT.' as a 
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Head_ID=b.PK_User_ID
+            '.$where.'
+            '.$order.'
+            ';//var_dump($sql);exit;
+        return $this->cache_model->load_sql(DEPARTMENT,$sql,2);
+    }
+
 }
 ?>

@@ -115,12 +115,8 @@ var queryConditions = {
 					width: 150,
 					align: "center"
 				}, {
-					name: "PK_Log_ID",
-					label: "日志ID",
-					width: 150
-				}, {
-					name: "FK_Operator_ID",
-					label: "操作者ID",
+					name: "name",
+					label: "操作人",
 					width: 150
 				},
 				//{

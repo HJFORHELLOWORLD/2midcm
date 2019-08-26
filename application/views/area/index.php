@@ -43,11 +43,11 @@ var basedata_contact  = "<?=site_url('basedata/contact')?>";
 var settings_inventory =  "<?=site_url('settings/inventory')?>";          
 var settings_skins =  "<?=site_url('settings/skins')?>";
 
-var database_area = "<?=site_url('database/area')?>";
+var basedata_area = "<?=site_url('basedata/area')?>";
 var area_add = "<?=site_url('area/add')?>";
-
-var category_del = "<?=site_url('category/del')?>";
-var category_save= "<?=site_url('category/save')?>";
+var area_del = "<?=site_url('area/del')?>";
+var area_save= "<?=site_url('area/save')?>";
+var settings_area_manage = "<?=site_url('settings/area_manage')?>";       //增修改
 </script>
 <style>
 .manage-wrap{margin: 0 auto;width: 300px;}
@@ -67,7 +67,7 @@ var category_save= "<?=site_url('category/save')?>";
 </head>
 <body>
 <div class="wrapper">
-	<div class="mod-toolbar-top cf">
+<!--	<div class="mod-toolbar-top cf">
 	    <div class="left">
           <div class="mod-crumb fl"><span class="cur"></span></div>
           <div id="assisting-category-select" class="ui-tab-select">
@@ -86,9 +86,14 @@ var category_save= "<?=site_url('category/save')?>";
           </div>
         </div>
 	    <div class="fr"><a  class="ui-btn ui-btn-sp" id="add">新增</a>
-<!--            <a class="ui-btn" id="btn-refresh">刷新</a>-->
+            <a class="ui-btn" id="btn-refresh">刷新</a>
         </div>
-	  </div>
+	  </div>-->
+    <div class="mod-toolbar-top cf">
+        <div class="fl"><strong class="tit">地区分类</strong></div>
+        <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a><a class="ui-btn" id="btn-refresh">刷新</a></div>
+    </div>
+
     <div class="grid-wrap">
 	    <table id="grid">
 	    </table>

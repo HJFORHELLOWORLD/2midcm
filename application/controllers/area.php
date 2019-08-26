@@ -6,7 +6,7 @@ class Area extends CI_Controller
     public function __construct()
     {
         parent::__construct();
-        $this->purview_model->checkpurview(68);
+        $this->purview_model->checkpurview(116);
         $this->load->model('data_model');
     }
 
@@ -37,26 +37,57 @@ class Area extends CI_Controller
      * @remark 这里是备注信息
      * @number 3
      */
-    public function save()
-    {
-        $data = ($this->input->post('data',TRUE));
-        $data= json_decode($data,true);
-        $act = str_enhtml($this->input->get('act', TRUE));
-        $info['pk_area_id'] = $data['pk_area_id'];
-        $info['upArea_id'] = $data['upArea_id'];
-        $info['name'] = $data['name'];
-        $info['creator_id'] = $data['creator_id'];
-        if ($act == 'add') {
-            $this->purview_model->checkpurview(69);
-            $this->mysql_model->db_count(AREA, '(name="' . $data['name'] . '")') > 0 && die('{"status":-1,"msg":"地区编号重复"}');
-            $sql = $this->mysql_model->db_inst(AREA, $data);
-            if ($sql) {
-                $info['id'] = $sql;
+    public function save(){
+        $act  = str_enhtml($this->input->get('act',TRUE));
+        $id   = intval($this->input->post('id',TRUE));
+        $data['Name'] = str_enhtml($this->input->post('name',TRUE));
+        $data['UpArea_ID'] = str_enhtml($this->input->post('uparea_id',TRUE));
+        if ($act=='add') {
+            $this->purview_model->checkpurview(117);
+            strlen($data['Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+            $this->mysql_model->db_count(AREA,'(Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该地区分类"}');
+            $data['id'] = $this->mysql_model->db_inst(AREA,$data);
+            $data['upareaName'] = str_enhtml($this->input->post('uparea_name',TRUE));
+            if ($data['id']) {
+                $this->data_model->logs('新增地区分类:'.$data['Name']);
                 $this->cache_model->delsome(AREA);
-                $this->data_model->logs('新增地区:' . $data['name']);
-                die('{"status":200,"msg":"success","data":' . json_encode($info) . '}');
+                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
             } else {
                 die('{"status":-1,"msg":"添加失败"}');
+            }
+        } elseif ($act=='update') {
+            $this->purview_model->checkpurview(118);
+            strlen($data['Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+            $this->mysql_model->db_count(AREA,'(PK_Area_ID<>'.$id.') and (Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该地区分类"}');
+            $data['Modify_ID'] = $this->uid;
+            $data['Modify_Date'] = date('Y-m-d H:i:s',time());
+            $sql = $this->mysql_model->db_upd(AREA,$data,'(PK_Area_ID='.$id.')');
+            if ($sql) {
+                $data['id'] = $id;
+                $data['upareaName'] = str_enhtml($this->input->post('uparea_name',TRUE));
+                $this->data_model->logs('修改地区分类:'.$data['Name']);
+                $this->cache_model->delsome(AREA);
+                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
+            } else {
+                die('{"status":-1,"msg":"修改失败"}');
+            }
+        }
+    }
+
+    //删除
+    public function del(){
+        $this->purview_model->checkpurview(119);
+        $id = intval($this->input->post('id',TRUE));
+        $data = $this->mysql_model->db_one(AREA,'(PK_Area_ID='.$id.')');
+        if (count($data) > 0) {
+            $this->mysql_model->db_count(BETWEENUNIT,'(Area_ID='.$id.')')>0 && die('{"status":-1,"msg":"发生业务不可删除"}');
+            $sql = $this->mysql_model->db_del(AREA,'(PK_Area_ID='.$id.')');
+            if ($sql) {
+                $this->data_model->logs('删除往来单位类别:ID='.$id.' 名称：'.$data['Name']);
+                $this->cache_model->delsome(AREA);
+                die('{"status":200,"msg":"success"}');
+            } else {
+                die('{"status":-1,"msg":"修改失败"}');
             }
         }
     }
