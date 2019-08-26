@@ -123,6 +123,6 @@
             <div>
             </div>
         </div>
-        <script src="<?=skin_url()?>/js/dist/workcenteradd.js?444"></script>
+        <script src="<?=skin_url()?>/js/dist/workcenteradd.js?999"></script>
 </body>
 </html>

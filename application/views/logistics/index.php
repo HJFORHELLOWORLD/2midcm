@@ -90,6 +90,6 @@
         <div id="page"></div>
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/logisticsList.js?66"></script>
+<script src="<?=skin_url()?>/js/dist/logisticsList.js?636"></script>
 </body>
 </html>

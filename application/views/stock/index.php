@@ -91,6 +91,6 @@
         <div id="page"></div>
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/stock.js?55"></script>
+<script src="<?=skin_url()?>/js/dist/stock.js?5665"></script>
 </body>
 </html>

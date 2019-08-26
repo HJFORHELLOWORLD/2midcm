@@ -92,7 +92,7 @@
     </div>
 
 </div>
-<script src="<?=skin_url()?>/js/dist/logistics.js?96"></script>
+<script src="<?=skin_url()?>/js/dist/logistics.js?996"></script>
 </body>
 </html>
 

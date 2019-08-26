@@ -78,11 +78,11 @@
                           <i class="ui-icon-ellipsis"></i></span></dd>-->
                 <dd class="pct25 tc">
                     <label>单据日期：</label>
-                    <input type="text" id="date" class="ui-input ui-datepicker-input" value="2014-10-21">
+                    <input type="text" id="date" class="ui-input ui-datepicker-input" value="2018-8-21">
                 </dd>
                 <dd id="identifier" class="pct25 tc">
                     <label>单据编号：</label>
-                    <span id="number"></span></dd>
+                    <span id="number"><?=$billno?></span></dd>
                 <dd class="fr pct20 tr">
                     <label>业务类别：</label>
                     <span class="ui-combo-wrap" id="transType">
@@ -117,7 +117,7 @@
     <div id="storageBox" class="shadow target_box dn">
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/otherWarehouse.js?159"></script>
+<script src="<?=skin_url()?>/js/dist/otherWarehouse.js?222"></script>
 </body>
 </html>
 

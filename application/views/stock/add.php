@@ -124,6 +124,6 @@
             <div>
             </div>
         </div>
-        <script src="<?=skin_url()?>/js/dist/stockadd.js?99"></script>
+        <script src="<?=skin_url()?>/js/dist/stockadd.js?9999"></script>
 </body>
 </html>

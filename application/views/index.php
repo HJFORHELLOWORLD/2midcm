@@ -814,11 +814,17 @@ var list = {
 //		target: "setting-base"
 //	},
 	storageList: {
-		name: "BOM",
-		href: "<?=site_url('bom')?>",
-		dataRight: "INVLOCTION_QUERY",
-		target: "setting-base"
-	},
+            name: "BOM",
+            href: "<?=site_url('bom')?>",
+            dataRight: "INVLOCTION_QUERY",
+            target: "setting-base"
+        },
+   userList: {
+       name: "人员",
+       href: "<?=site_url('user')?>",
+       dataRight: "INVLOCTION_QUERY",
+       target: "setting-base"
+   },
 	//settlementaccount: {
 //		name: "账户管理",
 //		href: "<?=site_url('admin')?>",

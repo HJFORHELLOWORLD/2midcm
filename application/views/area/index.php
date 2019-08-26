@@ -43,7 +43,7 @@ var basedata_contact  = "<?=site_url('basedata/contact')?>";
 var settings_inventory =  "<?=site_url('settings/inventory')?>";          
 var settings_skins =  "<?=site_url('settings/skins')?>";
 
-var database_area = "<?=site_url('database/area')?>";
+var basedata_area = "<?=site_url('basedata/area')?>";
 var area_add = "<?=site_url('area/add')?>";
 
 var category_del = "<?=site_url('category/del')?>";
@@ -95,7 +95,7 @@ var category_save= "<?=site_url('category/save')?>";
 	    <div id="page"></div>
 	</div>
 </div>
-<script src="<?=skin_url()?>/js/dist/areaList.js?168"></script>
+<script src="<?=skin_url()?>/js/dist/areaList.js?1989"></script>
 
 </body>
 </html>

@@ -53,6 +53,7 @@
         var workcenter_add = "<?=site_url('workcenter/add')?>";
         var workcenter_save = "<?=site_url('workcenter/save')?>";
         var workcenter_index = "<?=site_url('workcenter/index')?>";
+        var workcenter_lists = "<?=site_url('workcenter/lists')?>";
     </script>
     <style>
         #matchCon { width: 280px; }
@@ -88,6 +89,6 @@
         <div id="page"></div>
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/workcenter.js?09"></script>
+<script src="<?=skin_url()?>/js/dist/workcenter.js?099"></script>
 </body>
 </html>

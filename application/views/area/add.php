@@ -38,8 +38,10 @@
         var settings_goods_batch  = "<?=site_url('settings/goods_batch')?>";
         var basedata_goods = "<?=site_url('basedata/goods')?>";
         var basedata_unit  = "<?=site_url('basedata/unit')?>";
+        var basedata_area  = "<?=site_url('basedata/area')?>";
         var settings_unit_manage = "<?=site_url('settings/unit_manage')?>";
         var basedata_contact  = "<?=site_url('basedata/contact')?>";
+        var basedata_area  = "<?=site_url('basedata/area')?>";
         var settings_inventory =  "<?=site_url('settings/inventory')?>";
         var settings_skins =  "<?=site_url('settings/skins')?>";
 
@@ -76,8 +78,8 @@
                             <div class="label-wrap">
                                 <label >上级区域</label>
                             </div>
-                            <div>
-                                <input type="text" id="id" class="ui-input" />
+                            <div class="ctn-wrap">
+                                <input type="text" class="ui-input" id="number" style="ime-mode:disabled;" onpaste="return false;"/>
                             </div>
                         </li>
                         <li class="row-item">
@@ -85,7 +87,13 @@
                                 <label >地区名称</label>
                             </div>
                             <div class="ctn-wrap">
-                                <input type="text" class="ui-input" id="desc" style="ime-mode:disabled;" onpaste="return false;"/>
+                        <li>
+                            <select  class="ui-input">
+                                <div class="ctn-wrap">
+                                    <input type="text" class="ui-input" id="number" style="ime-mode:disabled;" onpaste="return false;"/>
+                                </div>
+                            </select>
+                        </li>
                             </div>
                         </li>
                         <li class="row-item">
@@ -113,6 +121,6 @@
             <div>
             </div>
         </div>
-        <script src="<?=skin_url()?>/js/dist/arealistadd.js?199"></script>
+        <script src="<?=skin_url()?>/js/dist/arealistadd.js?99"></script>
 </body>
 </html>

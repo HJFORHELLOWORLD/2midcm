@@ -52,7 +52,6 @@ var invoi_outedit  = "<?=site_url('invoi/outedit')?>";
 var invoi_info  = "<?=site_url('invoi/info')?>";
 var invoi_del   = "<?=site_url('invoi/del')?>";
 var invoi_type  = "<?=site_url('invoi/type')?>";
-var invoi_export  = "<?=site_url('invoi/export')?>";
 
 </script>
 </head>
@@ -63,7 +62,7 @@ var invoi_export  = "<?=site_url('invoi/export')?>";
     <div class="fl">
       <ul class="ul-inline">
         <li>
-          <input type="text" id="matchCon" class="ui-input ui-input-ph con" value="请输入订单编号或客户名或备注">
+          <input type="text" id="matchCon" class="ui-input ui-input-ph con" value="请输入单据号或客户名或备注">
         </li>
         <li>
           <label>日期:</label>
@@ -74,7 +73,7 @@ var invoi_export  = "<?=site_url('invoi/export')?>";
         <li><!--<a class="mrb more" id="moreCon">(高级搜索)</a>--><a class="ui-btn mrb" id="search">查询</a></li>
       </ul>
     </div>
-    <div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a><a class="ui-btn" id="export">导出</a></div>
+    <div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a><!--<a class="ui-btn" id="export">导出</a>--></div>
   </div>
   <div class="grid-wrap">
     <table id="grid">
