@@ -54,63 +54,63 @@ var queryConditions = {
                     formatter: t,
                     align: "center"
                 }, {
-                    name: "pk_bom_log_id",
-                    index: "pk_bom_log_id",
+                    name: "PK_BOM_Log_ID",
+                    index: "PK_BOM_Log_ID",
                     width: 150,
                     align: "center"
                 }, {
-                    name: "fk_supplier_id",
-                    index: "fk_supplier_id",
+                    name: "FK_Supplier_ID",
+                    index: "FK_Supplier_ID",
                     width: 100,
                     align: "center"
                 },{
-                    name: "name",
-                    index: "name",
+                    name: "Name",
+                    index: "Name",
                     width: 100,
                     align: "center"
                 }, {
-                    name: "desc",
-                    index: "desc",
+                    name: "Desc",
+                    index: "Desc",
                     width: 200,
                     align: "center"
                 },{
-                    name: "signPer_id",
-                    index: "signPer_id",
+                    name: "SignPer_ID",
+                    index: "SignPer_ID",
                     width: 80,
                     align: "center"
                 },{
-                    name: "sign_date",
-                    index: "sign_date",
+                    name: "Sign_Date",
+                    index: "Sign_Date",
                     width: 100,
                     align: "center"
                 },{
-                    name: "status",
-                    index: "status",
+                    name: "Status",
+                    index: "Status",
                     width: 80,
                     align: "center"
                 },{
-                    name: "review_id",
-                    index: "review_id",
+                    name: "Review_id",
+                    index: "Review_id",
                     width: 80,
                     align: "center"
                 },{
-                    name: "purOrder_amount",
-                    index: "purOrder_amount",
+                    name: "PurOrder_Amount",
+                    index: "PurOrder_Amount",
                     width: 80,
                     align: "center"
                 },{
-                    name: "purOrder_payment",
-                    index: "purOrder_payment",
+                    name: "PurOrder_Payment",
+                    index: "PurOrder_Payment",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "creator_id",
-                    index: "creator_id",
+                    name: "Creator_ID",
+                    index: "Creator_ID",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "create_date",
-                    index: "create_date",
+                    name: "Create_Date",
+                    index: "Create_Date",
                     width: 100,
                     align: "center"
                 }],

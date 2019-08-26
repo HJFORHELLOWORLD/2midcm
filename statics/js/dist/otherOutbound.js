@@ -64,7 +64,7 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 					id: e.buId,
 					name: e.contactName
 				});
-				/*this.customerCombo.input.val(e.contactName);*/
+				this.customerCombo.input.val(e.contactName);
 				this.$_number.text(e.billNo);
 				this.$_date.val(e.date);
 				this.$_note.val(e.description);
@@ -136,15 +136,15 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 				onselectrow: !1,
 				colModel: [{
 					name: "operating",
-					label: "操作",
+					label: " ",
 					width: 40,
 					fixed: !0,
 					formatter: Public.billsOper,
 					align: "center"
 				}, {
-					name: "pk_bom_stock_id",
-					label: "编号",
-					width: 100,
+					name: "goods",
+					label: "",
+					width: 320,
 					title: !0,
 					classes: "ui-ellipsis",
 					formatter: t,
@@ -157,37 +157,45 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 						trigger: "ui-icon-ellipsis"
 					}
 				}, {
-					name: "stock_id",
-					label: "仓库编号",
-					width: 60,
-				    title:0,
-					editable:!0
+					name: "mainUnit",
+					label: "单位",
+					width: 60
 				}, {
-                    name: "bom_id",
-                    label: "物料编号",
-                    width: 60,
-                    title:0,
-                    editable:!0
-                },{
 					name: "qty",
 					label: "数量",
 					width: 80,
 					align: "right",
 					formatter: "number",
+					formatoptions: {
+						decimalPlaces: qtyPlaces
+					},
 					editable: !0
 				}, {
-					name: "cost",
-					label: "出库成本",
+					name: "price",
+					label: "出库单价",
+					hidden: hiddenAmount,
 					width: 100,
-                    title:0,
-                    editable:!0
-
+					fixed: !0,
+					align: "right",
+					formatter: "currency",
+					formatoptions: {
+						showZero: !0,
+						decimalPlaces: pricePlaces
+					},
+					editable: !0
 				}, {
-					name: "costType",
-					label: "成本计算方式",
+					name: "amount",
+					label: "出库金额",
+					hidden: hiddenAmount,
 					width: 100,
-                    title:0,
-                    editable:!0
+					fixed: !0,
+					align: "right",
+					formatter: "currency",
+					formatoptions: {
+						showZero: !0,
+						decimalPlaces: amountPlaces
+					},
+					editable: !0
 				},
 				//{
 //					name: "locationName",
@@ -202,28 +210,10 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 //						handle: s,
 //						trigger: "ui-icon-triangle-1-s"
 //					}
-//				}{
-                {       name: "creator_id",
-                        label: "创建人",
-                        width: 80,
-                        title: !0,
-                        editable: !0
-                    },
-                    {   name: "create_date",
-                        label: "创建时间",
-                        width: 150,
-                        title: !0,
-                        editable: !0
-                    },
-                    {   name: "modify_id",
-                        label: "变更人",
-                        width: 80,
-                        title: !0,
-                        editable: !0
-                    },
-                {
-					name: "modify_date",
-					label: "变更时间",
+//				}, 
+				{
+					name: "description",
+					label: "备注",
 					width: 150,
 					title: !0,
 					editable: !0
@@ -495,16 +485,15 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 					postData: JSON.stringify(i)
 				}, function(t) {
 					if (200 === t.status) {
-/*						e.$_number.text(t.data.billNo);
+						e.$_number.text(t.data.billNo);
 						$("#grid").clearGridData();
 						$("#grid").clearGridData(!0);
 						for (var i = 1; 8 >= i; i++) $("#grid").jqGrid("addRowData", i, {});
 						e.newId = 9;
-						e.$_note.val("");*/
+						e.$_note.val("");
 						parent.Public.tips({
 							content: "保存成功！"
-						});
-                        window.location.reload(true);
+						})
 					} else parent.Public.tips({
 						type: 1,
 						content: t.msg
@@ -532,7 +521,7 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 		//		LODOP.SET_SHOW_MODE("MESSAGE_GETING_URL",""); //该语句隐藏进度条或修改提示信息
 		//		LODOP.SET_SHOW_MODE("MESSAGE_PARSING_URL","");//该语句隐藏进度条或修改提示信息
 				LODOP.PREVIEW();	
-				return false ;
+				return false											 
 				Business.verifyRight("IO_PRINT") || e.preventDefault()
 			});
 			$("#prev").click(function(t) {
@@ -631,17 +620,16 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 					//var a = o.goods;
 					//s = a.split(" ");	
 					r = {
-						'pk_bom_stock_id':o.pk_bom_stock_id,
-						'stock_id':o.stock_id,
-						'bom_id':o.bom_id,
-						'account':o.account,
-						'minAccount':o.minAccount,
-						'cost':o.cost,
-						'costType':o.costType,
-						'creator_id':o.creator_id,
-						'modify_id':o.modify_id
-
-						// description: o.description
+						invId: s.id,
+						invNumber: s.number,
+						invName: s.name,
+						invSpec: s.spec,
+						unitId: s.unitId,
+						mainUnit: s.unitName,
+						qty: o.qty,
+						price: o.price,
+						amount: o.amount,
+						description: o.description
 						//locationId: l.id,
 						//locationName: l.name
 					};
@@ -689,8 +677,8 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 					transTypeId: e.transTypeCombo.getValue(),
 					transTypeName: e.transTypeCombo.getText(),
 					entries: r,
-					// totalQty: $("#grid").jqGrid("footerData", "get").qty.replace(/,/g, ""),
-					// totalAmount: $("#grid").jqGrid("footerData", "get").amount.replace(/,/g, ""),
+					totalQty: $("#grid").jqGrid("footerData", "get").qty.replace(/,/g, ""),
+					totalAmount: $("#grid").jqGrid("footerData", "get").amount.replace(/,/g, ""),
 					description: $.trim(e.$_note.val())
 				};
 				return n

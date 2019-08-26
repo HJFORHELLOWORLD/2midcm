@@ -23,6 +23,8 @@ define('USER','user');                          //（内部）用户基础表
 define('WORK_CERTER','work_certer');            //工作中心基础表
 define('MENU','menu');                          //导航栏菜单
 define('UNIT','unit');                          //导航栏菜单
+define('INVOI','invoi');
+define('INVOI_INFO','invoi_info');
 
 
 /* End of file inter.php */

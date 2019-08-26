@@ -969,6 +969,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             }
             var r = this._getEntriesData();
             if (r.length > 0) {
+                e.calTotal();
                 var n = {
                     entries: r,
                 };

@@ -50,43 +50,43 @@ var queryConditions = {
                     formatter: t,
                     align: "center"
                 },{
-                    name: "pk_wc_id",
-                    index: "pk_wc_id",
+                    name: "PK_WC_ID",
+                    index: "PK_WC_ID",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "wc_name",
-                    index: "wc_name",
+                    name: "WC_Name",
+                    index: "WC_Name",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "desc",
-                    index: "desc",
+                    name: "Desc",
+                    index: "Desc",
                     width: 500,
                     align: "center"
                 },{
-                    name: "head_id",
-                    index: "head_id",
+                    name: "Head_id",
+                    index: "Head_id",
                     width: 60,
                     align: "center"
                 },{
-                    name: "iskey",
-                    index: "iskey",
+                    name: "IsKey",
+                    index: "IsKey",
                     width: 60,
                     align: "center"
                 },{
-                    name: "creator_id",
-                    index: "creator_id",
+                    name: "Creator_ID",
+                    index: "Creator_ID",
                     width: 60,
                     align: "center"
                 },{
-                    name: "create_date",
-                    index: "create_date",
+                    name: "Create_Date",
+                    index: "Create_Date",
                     width: 180,
                     align: "center"
                 }, {
-                    name: "modify_id",
-                    index: "modify_id",
+                    name: "Modify_ID",
+                    index: "Modify_ID",
                     width: 60,
                     align: "center",
                     formatter: "number",
@@ -94,8 +94,8 @@ var queryConditions = {
                         decimalPlaces: qtyPlaces
                     }
                 },{
-                    name: "modify_date",
-                    index: "modify_date",
+                    name: "Modify_Date",
+                    index: "Modify_Date",
                     width: 180,
                     align: "center"
                 }],
@@ -132,7 +132,7 @@ var queryConditions = {
         reloadData: function(t) {
             this.markRow = [];
             $("#grid").jqGrid("setGridParam", {
-                url: design_lists,
+                url: workcenter_lists,
                 //url: "/scm/invPu.do?action=list",
                 datatype: "json",
                 postData: t

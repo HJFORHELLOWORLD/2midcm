@@ -22,7 +22,7 @@ var queryConditions = {
 		},
 		loadGrid: function() {
 			function e(e, t, i) {
-				var a = '<div class="operating" data-id="' + i.id + '"><span class="ui-icon ui-icon-search" title="查看"></span><span class="ui-icon ui-icon-trash" title="删除"></span></div>';
+				var a = '<div class="operating" data-id="' + i.id + '"><span class="ui-icon ui-icon-pencil" title="修改"></span><span class="ui-icon ui-icon-trash" title="删除"></span></div>';
 				return a
 			}
 			var t = Public.setGrid();
@@ -48,12 +48,12 @@ var queryConditions = {
 					align: "center"
 				}, {
 					name: "billDate",
-					label: "订单日期",
-					width: 120,
+					label: "单据日期",
+					width: 100,
 					align: "center"
 				}, {
 					name: "billNo",
-					label: "订单编号",
+					label: "单据编号",
 					width: 150,
 					align: "center"
 				}, {
@@ -107,7 +107,7 @@ var queryConditions = {
 				},
 				loadError: function() {},
 				ondblClickRow: function(e) {
-					$("#" + e).find(".ui-icon-search").trigger("click")
+					$("#" + e).find(".ui-icon-pencil").trigger("click")
 				}
 			})
 		},
@@ -155,36 +155,8 @@ var queryConditions = {
 					})
 				}
 			});
-            $(".grid-wrap").on("click", ".ui-icon-search", function(e) {
-                e.preventDefault();
-                var t = $(this).parent().data("id");
-                parent.tab.addTabItem({
-                    tabid: "storage-otherOutbound",
-                    text: "其他出库",
-                    //url: "/storage/other-warehouse.jsp?id=" + t
-                    url: invoi_outedit+"?id=" + t
-
-                });
-                $("#grid").jqGrid("getDataIDs");
-                parent.salesListIds = $("#grid").jqGrid("getDataIDs")
-            });
-            $(".wrapper").on("click", "#export", function(t) {
-                if (Business.verifyRight("PU_EXPORT")) {
-                    var e = $("#grid").jqGrid("getGridParam", "selarrrow"),
-                        i = e.join();
-                    //if (i) $(this).attr("href", "/scm/invSa.do?action=exportInvSa&id=" + i);
-                    if (i) $(this).attr("href", invoi_export+"?type=out&id=" + i);
-                    else {
-                        parent.Public.tips({
-                            type: 2,
-                            content: "请先选择需要导出的项！"
-                        });
-                        t.preventDefault()
-                    }
-                } else t.preventDefault()
-            });
 			$("#search").click(function() {
-				queryConditions.matchCon = "请输入订单编号或客户名或备注" === e.$_matchCon.val() ? "" : e.$_matchCon.val();
+				queryConditions.matchCon = "请输入单据号或客户名或备注" === e.$_matchCon.val() ? "" : e.$_matchCon.val();
 				queryConditions.beginDate = e.$_beginDate.val();
 				queryConditions.endDate = e.$_endDate.val();
 				queryConditions.locationId = -1;

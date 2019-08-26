@@ -49,33 +49,33 @@
                         formatter: t,
                         align: "center"
                     },{
-                        name: "pk_area_id",
-                        index: "pk_area_id",
+                        name: "PK_Area_ID",
+                        index: "PK_Area_ID",
                         width: 80,
                         align: "center"
                     }, {
-                        name: "upArea_id",
-                        index: "upArea_id",
+                        name: "UpArea_ID",
+                        index: "UpArea_ID",
                         width: 80,
                         align: "center"
                     }, {
-                        name: "name",
-                        index: "name",
+                        name: "Name",
+                        index: "Name",
                         width: 500,
                         align: "center"
                     },{
-                        name: "creator_id",
-                        index: "creator_id",
+                        name: "Creator_ID",
+                        index: "Creator_ID",
                         width: 60,
                         align: "center"
                     },{
-                        name: "create_date",
-                        index: "create_date",
+                        name: "Create_Date",
+                        index: "Create_Date",
                         width: 180,
                         align: "center"
                     }, {
-                        name: "modify_id",
-                        index: "modify_id",
+                        name: "Modify_ID",
+                        index: "Modify_ID",
                         width: 60,
                         align: "center",
                         formatter: "number",
@@ -83,8 +83,8 @@
                             decimalPlaces: qtyPlaces
                         }
                     },{
-                        name: "modify_date",
-                        index: "modify_date",
+                        name: "Modify_Date",
+                        index: "Modify_Date",
                         width: 180,
                         align: "center"
                     }],

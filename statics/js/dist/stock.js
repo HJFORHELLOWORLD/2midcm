@@ -50,33 +50,33 @@ var queryConditions = {
                     formatter: t,
                     align: "center"
                 },{
-                    name: "pk_stock_id",
-                    index: "pk_stock_id",
+                    name: "PK_Stock_ID",
+                    index: "PK_Stock_ID",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "stock_name",
-                    index: "stock_name",
+                    name: "Stock_Name",
+                    index: "Stock_Name",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "desc",
-                    index: "desc",
+                    name: "Desc",
+                    index: "Desc",
                     width: 500,
                     align: "center"
                 },{
-                    name: "head_id",
-                    index: "head_id",
+                    name: "Head_ID",
+                    index: "Head_ID",
                     width: 60,
                     align: "center"
                 },{
-                    name: "creator_id",
-                    index: "creator_id",
+                    name: "Creator_ID",
+                    index: "Creator_ID",
                     width: 60,
                     align: "center"
                 },{
-                    name: "create_date",
-                    index: "create_date",
+                    name: "Create_Date",
+                    index: "Create_date",
                     width: 180,
                     align: "center"
                 }, {
@@ -127,7 +127,7 @@ var queryConditions = {
         reloadData: function(t) {
             this.markRow = [];
             $("#grid").jqGrid("setGridParam", {
-                url: design_lists,
+                url: stock_lists,
                 //url: "/scm/invPu.do?action=list",
                 datatype: "json",
                 postData: t
