@@ -92,7 +92,7 @@ body{background: #fff;}
                     <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="remark" id="remark"></div>
                 </li>
                 <li class="row-item odd">
-                    <div class="label-wrap"><label for="Area_ID">地区编号</label></div>
+                    <div class="label-wrap"><label for="Area_ID">地区</label></div>
                     <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Area_ID" id="Area_ID"></div>
                 </li>
                 <li class="row-item odd">

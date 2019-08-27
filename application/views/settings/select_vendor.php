@@ -54,7 +54,7 @@ var settings_skins =  "<?=site_url('settings/skins')?>";
 	    <div class="fl">
 	      <ul class="ul-inline">
 	        <li>
-	          <input type="text" id="matchCon" class="ui-input ui-input-ph" value="输入编号 / 名称 / 联系人 / 电话查询">
+	          <input type="text" id="matchCon" class="ui-input ui-input-ph" value="输入编号 / 名称 / 联系方式查询">
 	        </li>
 	        <li><a class="ui-btn mrb" id="search">查询</a><!-- <a class="ui-btn" id="refresh">刷新</a> --></li>
 	      </ul>

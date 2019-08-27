@@ -63,7 +63,7 @@ var betweenUnit_save    = "<?=site_url('betweenUnit/save')?>";
 	    </div>
 	    <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a><!--<a href="#" class="ui-btn mrb" id="btn-print">打印</a>-->
 		<!--<a href="#" class="ui-btn mrb" id="btn-import">导入</a>-->
-		<a href="#" class="ui-btn mrb" id="btn-export">导出</a>
+<!--		<a href="#" class="ui-btn mrb" id="btn-export">导出</a>-->
 		<a href="#" class="ui-btn" id="btn-batchDel">删除</a></div>
 	  </div>
     <div class="grid-wrap">

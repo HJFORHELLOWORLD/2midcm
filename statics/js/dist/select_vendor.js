@@ -57,9 +57,9 @@ var THISPAGE = {
 			align: "center",
 			classes: "ui-ellipsis"
 		},*/ {
-			name: "mobile",
-			label: "手机",
-			index: "mobile",
+			name: "telephone",
+			label: "联系方式",
+			index: "telephone",
 			width: 100,
 			align: "center",
 			title: !1
@@ -113,7 +113,7 @@ var THISPAGE = {
 			Business.forSearch(e, "")
 		});
 		$("#search").click(function() {
-			var e = "输入编号 / 名称 / 电话查询" === t.$_matchCon.val() ? "" : t.$_matchCon.val();
+			var e = "输入编号 / 名称 / 联系方式查询" === t.$_matchCon.val() ? "" : t.$_matchCon.val();
 			t.reloadData(e)
 		});
 		$("#refresh").click(function() {

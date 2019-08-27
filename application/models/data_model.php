@@ -586,8 +586,26 @@ class Data_model extends CI_Model{
             ON a.Head_ID=b.PK_User_ID
             '.$where.'
             '.$order.'
-            ';//var_dump($sql);exit;
+            ';
         return $this->cache_model->load_sql(DEPARTMENT,$sql,2);
+    }
+
+    //往来单位列表
+    public function betweenunitList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*,if(a.Industry_ID =0,"其他", c.Name) AS industry, b.name AS area
+                FROM 
+                t_'.BETWEENUNIT.' as a 
+                LEFT JOIN t_'
+            .AREA.' as b
+                ON a.Area_ID=b.PK_Area_ID
+                LEFT JOIN t_'
+            .INDUSTRY.' as c
+                ON a.Industry_ID=c.PK_Industry_ID
+                '.$where.'
+                '.$order.'
+                ';
+        return $this->cache_model->load_sql(BETWEENUNIT,$sql,2);
     }
 
 }

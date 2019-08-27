@@ -309,16 +309,18 @@ class Basedata extends CI_Controller {
 		$rows = max(intval($this->input->get_post('rows',TRUE)),100);
 		$where  = '';
 		if ($skey) {
-			$where .= ' and (Linkmans like "%'.$skey.'%"' . ' or Name like "%'.$skey.'%"' . ' or PK_BU_ID like "%'.$skey.'%"' . ')';
+			$where .= ' and (Linkmans like "%'.$skey.'%"' . ' or a.Name like "%'.$skey.'%"' . ' or PK_BU_ID like "%'.$skey.'%"' . ')';
 		}
 		if ($type) {
-			$where .= ' and BU_Cat IN ('.$type.',4)';
+			$where .= ' and BU_Cat IN ('.$type.',4) and Status = 1';//有type证明是选择供应商/客户，此时不展示不正常数据
 		}
 		$offset = $rows * ($page-1);
 		$data['data']['page']      = $page;                                                      //当前页
-		$data['data']['records']   = $this->cache_model->load_total(BETWEENUNIT,'(1=1) '.$where.'');     //总条数
-		$data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
-		$list = $this->cache_model->load_data(BETWEENUNIT,'(Status=1) '.$where.' order by PK_BU_ID desc limit '.$offset.','.$rows.'');
+
+		//$list = $this->cache_model->load_data(BETWEENUNIT,'(Status=1) '.$where.' order by PK_BU_ID desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->betweenunitList($where, ' order by PK_BU_ID desc limit '.$offset.','.$rows.'');
+        $data['data']['records']   = count($list);//$this->cache_model->load_total(BETWEENUNIT,'(1=1) '.$where.'');     //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
 		foreach ($list as $arr=>$row) {
 		    $v[$arr]['id']           = intval($row['PK_BU_ID']);
 			$v[$arr]['name']         = $row['Name'];
@@ -327,8 +329,8 @@ class Basedata extends CI_Controller {
 			$v[$arr]['links'] = '';
 
 			$v[$arr]['Taxrate'] = $row['Taxrate'];
-            $v[$arr]['Industry_ID'] = $row['Industry_ID'];
-			$v[$arr]['Area_ID'] = $row['Area_ID'];
+            $v[$arr]['Industry_ID'] = $row['industry'];
+			$v[$arr]['Area_ID'] = $row['area'];
 			$v[$arr]['BU_Cat'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : '第三方');
 			$v[$arr]['Status'] = $row['Status'] == 0 ? '不正常' : '正常';
 
@@ -351,7 +353,7 @@ class Basedata extends CI_Controller {
 		    }
 		}
 		$data['data']['rows']   = is_array($v) ? $v : '';
-		$data['data']['totalsize']  = $this->cache_model->load_total(BETWEENUNIT,'(Status=1) '.$where.' order by PK_BU_ID desc');
+		//$data['data']['totalsize']  = $this->cache_model->load_total(BETWEENUNIT, $where.' order by PK_BU_ID desc');
 		die(json_encode($data));
 	}
 	
@@ -539,6 +541,30 @@ class Basedata extends CI_Controller {
         $this->cache_model->load_total(USER,'(Username="'.$username.'")') > 0 && die('{"status":200,"msg":"success"}');
 		die('{"status":502,"msg":"用户名不存在"}');
 	}
+
+	public function getGroupContractNum(){
+        $type = str_enhtml($this->input->get('type',TRUE));
+        $data[] = array('key' => '', 'name' => '');
+        switch ($type){
+            case 'area' :
+                $list = $this->data_model->areaList('', ' order by PK_Area_ID desc');
+                foreach ($list as $arr=>$row) {
+                    $data[] = array('key' => intval($row['PK_Area_ID']), 'name' => $row['Name']);
+                }
+                break;
+
+            case 'industry' :
+                $list = $this->cache_model->load_data(INDUSTRY,'(1=1) order by PK_Industry_ID desc');
+                $data[] = array('key' => 0, 'name' => '其他');
+                foreach ($list as $arr=>$row) {
+                    $data[] = array('key' => intval($row['PK_Industry_ID']), 'name' => $row['Name']);
+                }
+                break;
+        }
+
+        die(json_encode($data));
+
+    }
 
 }
 
