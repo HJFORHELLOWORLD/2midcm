@@ -406,19 +406,17 @@ class Data_model extends CI_Model{
     //bom设计列表
     public function designList($where='',$order=''){
         $where = $where ? 'where (1=1) '.$where : '';
-        $sql = 'SELECT a.PK_BOM_Desi_ID AS PK_BOM_Desi_ID, a.Name AS Name, a.desc AS desc, a.WC_ID AS WC_ID,a.UpBOM_ID AS UpBOM_ID , b.DownBOM_ID AS DownBOM_ID,
+        $sql = 'SELECT a.PK_BOM_Desi_ID AS PK_BOM_Desi_ID, a.Name AS Name, a.Desc AS Des, a.WC_ID AS WC_ID,a.UpBOM_ID AS UpBOM_ID,b.DownBOM_ID AS DownBOM_ID,
                 a.DownBom_Amount AS DownBom_Amount, c.BOMName AS BOMName, a.DownBOM_Amount AS DownBOM_Amount
                 FROM 
-               t_ '.BOM_DESIGN.' as a 
+               t_'.BOM_DESIGN.' as a 
                 LEFT JOIN 
                 t_'.BOM_BASE.' as b
-                ON a.UpBOM_ID=b.PK_BOM_ID
-                LEFT JOIN 
-               t_ '.BOM_BASE.' as c
-                ON a.DownBom_ID = c.PK_BOM_ID
+                ON a.UpBOM_ID=b.PK_BOM_ID             
                 '.$where.'
                 '.$order.'
                 ';
+         var_dump($sql);
         return $this->cache_model->load_sql(BOM_DESIGN,$sql,2);
     }
 
@@ -473,18 +471,18 @@ class Data_model extends CI_Model{
     }
 
 
-        public  function workcenterList($where='',$order=''){
-            $where = $where ? 'where (1=1) '.$where : '';
-            $sql = 'SELECT * FROM 
-               t_'.WORK_CERTER.'
-                '.$where.'
-                '.$order.'
-                ';
-       var_dump($sql);
-        $res=  $this->cache_model->load_sql(WORK_CERTER,$sql,2);
-        var_dump($res); exit;
-            return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
-        }
+//        public  function workcenterList($where='',$order=''){
+//            $where = $where ? 'where (1=1) '.$where : '';
+//            $sql = 'SELECT * FROM
+//               t_'.WORK_CERTER.'
+//                '.$where.'
+//                '.$order.'
+//                ';
+//       var_dump($sql);
+//        $res=  $this->cache_model->load_sql(WORK_CERTER,$sql,2);
+//        var_dump($res); exit;
+//            return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
+//        }
 
 
 
@@ -578,6 +576,40 @@ class Data_model extends CI_Model{
             return array('code' => 0, 'errorCode' => $exception->getCode(), 'msg' => $exception->getMessage());
         }
     }
+
+    //工作中心列表
+    public function workcenterList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Username as headName  FROM 
+            t_'.WORK_CERTER.' as a 
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Head_ID=b.PK_User_ID
+            '.$where.'
+            '.$order.'
+            ';//var_dump($sql);exit;
+        return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
+    }
+
+
+    //部门列表
+    public function departmentList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'select a.*,b.Username as Header
+		        FROM 
+		        t_'.DEPARTMENT.'as a 
+		         LEFT JOIN t_'
+            .USER.' as b
+            ON a.Head_ID=b.PK_User_ID
+				
+				'.$where.' 
+				'.$order.'
+				';
+        var_dump($sql);
+        return $this->cache_model->load_sql(DEPARTMENT,$sql,2);
+
+    }
+
 
 }
 ?>

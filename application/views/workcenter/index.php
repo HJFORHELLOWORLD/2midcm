@@ -43,17 +43,15 @@
         var settings_inventory =  "<?=site_url('settings/inventory')?>";
         var settings_skins =  "<?=site_url('settings/skins')?>";
 
-        var invpu_lists = "<?=site_url('invpu/lists')?>";
-        var invpu_add   = "<?=site_url('invpu/add')?>";
-        var logistics_export    = "<?=site_url('logistics/export')?>";
-        var design_del    = "<?=site_url('design/del')?>";
-        var design_lists  = "<?=site_url('design/lists')?>";
-        var design_add    = "<?=site_url('design/add')?>";
-        var design_edit    = "<?=site_url('design/edit')?>";
         var workcenter_add = "<?=site_url('workcenter/add')?>";
         var workcenter_save = "<?=site_url('workcenter/save')?>";
         var workcenter_index = "<?=site_url('workcenter/index')?>";
         var workcenter_lists = "<?=site_url('workcenter/lists')?>";
+<<<<<<< HEAD
+=======
+        var workcenter_del = "<?=site_url('workcenter/del')?>";
+        var settings_workcenter_manage = "<?=site_url('settings/workcenter_manage')?>";       //增修改
+>>>>>>> cf9cdda5184e19d1894f75e5422b3df45511de2a
     </script>
     <style>
         #matchCon { width: 280px; }
@@ -66,16 +64,17 @@
 <body>
 <div class="wrapper">
     <div class="mod-search cf">
-        <div class="fl">
+<!--        <div class="fl">
             <ul class="ul-inline">
                 <li>
                     <input type="text" id="matchCon" class="ui-input ui-input-ph" value="请输入工作中心编号或工作中心名称">
                 </li>
 
-                <li><a class="ui-btn" id="search">查询</a><!--<a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a>--></li>
+                <li><a class="ui-btn" id="search">查询</a><a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a></li>
             </ul>
-        </div>
-        <div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a>
+        </div>-->
+        <!--<div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a>-->
+        <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a><a class="ui-btn" id="btn-refresh">刷新</a></div>
             <!--<a class="ui-btn" id="print" target="_blank" href="javascript:void(0);">打印</a>-->
             <!--<a class="ui-btn" id="export" target="_blank" href="javascript:void(0);">导出</a>--><a class="ui-btn dn" id="audit">审核</a><a class="ui-btn" id="reAudit">反审核</a></div>
     </div>

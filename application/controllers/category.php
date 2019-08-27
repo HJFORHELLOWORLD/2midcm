@@ -1,11 +1,13 @@
 <?php if (!defined('BASEPATH')) exit('No direct script access allowed');
 
+//往来单位类别管理controller
 class Category extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
-		$this->purview_model->checkpurview(73);
+		$this->purview_model->checkpurview(108);
 		$this->load->model('data_model');
+        $this->uid   = $this->session->userdata('uid');
     }
 	
 	public function index(){
@@ -18,7 +20,7 @@ class Category extends CI_Controller {
 
     /**
      * showdoc
-     * @catalog 开发文档/仓库
+     * @catalog 开发文档
      * @title 往来单位类别新增
      * @description 类别添加的接口
      * @method get
@@ -29,80 +31,75 @@ class Category extends CI_Controller {
      * @remark 这里是备注信息
      * @number 3
      */
-	public function save(){
-	    $data = $this->input->post('data',TRUE);
-	    $data = json_decode($data,true);
-        $act = str_enhtml($this->input->get('act', TRUE));
-	    $this->purview_model->checkpurview(74);
-        $info['pk_industry_id'] = $data['pk_industry_id'];
-        $info['name'] = $data['name'];
-        $info['desc'] = $data['desc'] ;
-        $info['creator_id'] = $data['creator_id'] ;
-        $info['create_time'] = $data['create_time'] ;
-		$this->mysql_model->db_count(INDUSTRY,'(name="'.$data['name'].'") ') > 0 && die('{"status":-1,"msg":"单位名称重复"}');
-        if ($act == 'add') {
-            $this->purview_model->checkpurview(69);
-            $this->mysql_model->db_count(INDUSTRY, '(name="' . $data['name'] . '")') > 0 && die('{"status":-1,"msg":"单位名称重复"}');
-            $sql = $this->mysql_model->db_inst(INDUSTRY, $data);
-            if ($sql) {
-                $info['id'] = $sql;
+    public function save(){
+        $act  = str_enhtml($this->input->get('act',TRUE));
+        $id   = intval($this->input->post('id',TRUE));
+        $data['Name'] = str_enhtml($this->input->post('name',TRUE));
+        $data['Desc'] = str_enhtml($this->input->post('desc',TRUE));
+        if ($act=='add') {
+            $this->purview_model->checkpurview(109);
+            strlen($data['Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+            $this->mysql_model->db_count(INDUSTRY,'(Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该往来单位类别"}');
+            $data['id'] = $this->mysql_model->db_inst(INDUSTRY,$data);
+            if ($data['id']) {
+                $this->data_model->logs('新增往来单位类别:'.$data['Name']);
                 $this->cache_model->delsome(INDUSTRY);
-                $this->data_model->logs('新增行业:' . $data['name']);
-                die('{"status":200,"msg":"success","data":' . json_encode($info) . '}');
+                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
             } else {
                 die('{"status":-1,"msg":"添加失败"}');
             }
+        } elseif ($act=='update') {
+            $this->purview_model->checkpurview(110);
+            strlen($data['Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+            $this->mysql_model->db_count(INDUSTRY,'(PK_Industry_ID<>'.$id.') and (Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该往来单位类别"}');
+            $data['Modify_ID'] = $this->uid;
+            $data['Modify_Date'] = date('Y-m-d H:i:s',time());
+            $sql = $this->mysql_model->db_upd(INDUSTRY,$data,'(PK_Industry_ID='.$id.')');
+            if ($sql) {
+                $data['id'] = $id;
+                $this->data_model->logs('修改往来单位类别:'.$data['Name']);
+                $this->cache_model->delsome(INDUSTRY);
+                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
+            } else {
+                die('{"status":-1,"msg":"修改失败"}');
+            }
         }
-	}
+    }
 
 
-    //采购单列表
+    //往来单位类别列表
     public function lists() {
         $v = '';
         $data['status'] = 200;
         $data['msg']    = 'success';
-        $page = max(intval($this->input->get_post('page',TRUE)),1);
-        $rows = max(intval($this->input->get_post('rows',TRUE)),100);
-        $key  = str_enhtml($this->input->get_post('matchCon',TRUE));
-        $stt  = str_enhtml($this->input->get_post('beginDate',TRUE));
-        $ett  = str_enhtml($this->input->get_post('endDate',TRUE));
-        $where = '';
-        if (strlen($key)>0) {
-            $where .= ' and (a.PK_Industry_ID like "%'.$key.'%" or a.Name like "%'.$key.'%" )';
-        }
-        if (strlen($stt)>0) {
-            $where .= ' and a.Create_Date>="'.$stt.'"';
-        }
-        if (strlen($ett)>0) {
-            $where .= ' and a.Create_Date<="'.$ett.' 23:59:59"';
-        }
-        else{
-            $where .= ' and a.Status != 0';   //排除掉是采购计划的数据
-        }
-
-        $offset = $rows * ($page-1);
-        $data['data']['page']      = $page;
-        /*		$data['data']['records']   = $this->cache_model->load_total(PURORDER,'(1=1) '.$where);   //总条数
-                $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数*/
-        //$list = $this->cache_model->load_data(PURORDER,'(1=1) '.$where.' order by id desc limit '.$offset.','.$rows.'');
-        $list = $this->data_model->IndustryList($where, ' order by a.Create_Date desc limit '.$offset.','.$rows.'');
+        $list = $this->cache_model->load_data(INDUSTRY,'(1=1) order by PK_Industry_ID desc');
         foreach ($list as $arr=>$row) {
-            $v[$arr]['id']           = "$" . $row['PK_Industry_ID'] . "$";
-            $v[$arr]['PK_Industry_ID'] =  $row['PK_Industry_ID'];
-            $v[$arr]['Name']  = $row['Name'];
-            $v[$arr]['orderName']  = $row['orderName'];
-            $v[$arr]['PurOrder_Total']       = (float)abs($row['PurOrder_Total']);
-            $v[$arr]['Create_Date']     = $row['Create_Date'];
-            $v[$arr]['Username']     = $row['Username'];
-            $v[$arr]['PurOrder_Payment'] = $row['PurOrder_Payment'];
-
+            $v[$arr]['id']      = intval($row['PK_Industry_ID']);
+            $v[$arr]['Name']    = $row['Name'];
+            $v[$arr]['Desc'] = $row['Desc'];
         }
-        $data['data']['records']   = count($list);  //总条数
-        $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数
-        $data['data']['rows']      = is_array($v) ? $v : '';
+        $data['data']['items']   = is_array($v) ? $v : '';
+        $data['data']['totalsize']  = $this->cache_model->load_total(INDUSTRY);
         die(json_encode($data));
     }
 
+    //删除
+    public function del(){
+        $this->purview_model->checkpurview(111);
+        $id = intval($this->input->post('id',TRUE));
+        $data = $this->mysql_model->db_one(INDUSTRY,'(PK_Industry_ID='.$id.')');
+        if (count($data) > 0) {
+            $this->mysql_model->db_count(BETWEENUNIT,'(Industry_ID='.$id.')')>0 && die('{"status":-1,"msg":"发生业务不可删除"}');
+            $sql = $this->mysql_model->db_del(INDUSTRY,'(PK_Industry_ID='.$id.')');
+            if ($sql) {
+                $this->data_model->logs('删除往来单位类别:ID='.$id.' 名称：'.$data['Name']);
+                $this->cache_model->delsome(INDUSTRY);
+                die('{"status":200,"msg":"success"}');
+            } else {
+                die('{"status":-1,"msg":"修改失败"}');
+            }
+        }
+    }
 
 
 

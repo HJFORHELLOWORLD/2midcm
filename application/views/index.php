@@ -801,6 +801,7 @@ var list = {
             target: "setting-base"
         },
 
+
      designList: {
      name: "BOM设计管理",
      href: "<?=site_url('design')?>",
@@ -822,6 +823,12 @@ var list = {
    userList: {
        name: "人员",
        href: "<?=site_url('user')?>",
+       dataRight: "INVLOCTION_QUERY",
+       target: "setting-base"
+   },
+   bomCategoryList: {
+       name: "物料类别",
+       href: "<?=site_url('bomCategory')?>",
        dataRight: "INVLOCTION_QUERY",
        target: "setting-base"
    },
@@ -881,8 +888,6 @@ var list = {
        dataRight: "UNIT_QUERY",
        target: "setting-auxiliary"
    },
-
-
         parameter: {
 		name: "系统参数",
 		href: "<?=site_url('settings/parameter')?>",
@@ -901,7 +906,6 @@ var list = {
 		dataRight: "OPERATE_QUERY",
 		target: "setting-advancedSetting"
 	},
-	
 	backup: {
 		name: "备份与恢复",
 		href: "<?=site_url('backup')?>",
@@ -909,12 +913,13 @@ var list = {
 		target: "setting-advancedSetting"
 	},
 	reInitial: {
-		name: "重新初始化",
-		href: "",
-		dataRight: "",
-		id: "reInitial",
-		target: "setting-advancedSetting-right"
-	}
+            name: "重新初始化",
+            href: "",
+            dataRight: "",
+            id: "reInitial",
+            target: "setting-advancedSetting-right"
+        }
+
 	
 },
 	menu = {

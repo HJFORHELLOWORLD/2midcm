@@ -49,14 +49,14 @@ var THISPAGE = {
 			index: "name",
 			width: 220,
 			classes: "ui-ellipsis"
-		}, {
+		},/* {
 			name: "contacter",
 			label: "联系人",
 			index: "contacter",
 			width: 100,
 			align: "center",
 			classes: "ui-ellipsis"
-		}, {
+		}, */{
 			name: "mobile",
 			label: "手机",
 			index: "mobile",
@@ -113,7 +113,7 @@ var THISPAGE = {
 			Business.forSearch(e, "")
 		});
 		$("#search").click(function() {
-			var e = "输入编号 / 名称 / 联系人 / 电话查询" === t.$_matchCon.val() ? "" : t.$_matchCon.val();
+			var e = "输入编号 / 名称 / 电话查询" === t.$_matchCon.val() ? "" : t.$_matchCon.val();
 			t.reloadData(e)
 		});
 		$("#refresh").click(function() {

@@ -1,6 +1,6 @@
 function initGrid() {
 	var e = Public.setGrid(),
-		t = ["操作","往来单位编号", "单位名称", "描述", "地区编号", "类别", "所属行业", "税率", "客户联系方式", "状态","创建人","创建时间","变更人","变更时间"],
+		t = ["操作","往来单位编号", "单位名称", "描述", "地区编号", "类别", "所属行业", "税率", "客户联系方式", "状态"],
 		i = !(parent.SYSTEM.isAdmin || parent.SYSTEM.rights.AMOUNT_OUTAMOUNT),
 		a = [{
 			name: "operate",
@@ -9,8 +9,8 @@ function initGrid() {
 			formatter: Public.operFmatter,
 			title: !1
 		}, {
-			name: "pk_bu_id",
-			index: "pk_bu_id",
+			name: "id",
+			index: "id",
 			width: 100,
 			fixed: !0,
 			title: !1
@@ -20,69 +20,48 @@ function initGrid() {
 			width: 100,
 			title: !1
 		}, {
-			name: "desc",
-			index: "desc",
+			name: "remark",
+			index: "remark",
 			width: 220,
 			classes: "ui-ellipsis"
 		}, {
-			name: "area_id",
-			index: "area_id",
+			name: "Area_ID",
+			index: "Area_ID",
 			width: 80,
 			align: "right",
 			fixed: !0
 		}, {
-			name: "bu_cat",
-			index: "bu_cat",
+			name: "BU_Cat",
+			index: "BU_Cat",
 			width: 100,
 			align: "center",
 			title: !1
 		}, {
-			name: "industry_id",
-			index: "industry_id",
+			name: "Industry_ID",
+			index: "Industry_ID",
 			width: 100,
 			title: !1
 		}, {
-			name: "taxRate",
-			index: "taxRate",
+			name: "Taxrate",
+			index: "Taxrate",
 			width: 80,
 			title: !1
 		}, {
-			name: "linkMans",
-			index: "linkMans",
+			name: "telephone",
+			index: "telephone",
 			width: 100,
 			align: "right",
 			title: !1,
-			formatter: "currency",
 			hidden: i
 		},{
-            name: "status",
-            index: "status",
+            name: "Status",
+            index: "Status",
             width: 80,
             title: !1
-        },{
-            name: "creator_id",
-            index: "creator_id",
-            width: 80,
-            title: !1
-        },{
-            name: "create_date",
-            index: "create_date",
-            width: 80,
-            title: !1
-        },{
-            name: "modify_id",
-            index: "modify_id",
-            width: 80,
-            title: !1
-        },{
-			name: "modify_date",
-			index: "modify_date",
-			width: 200,
-			classes: "ui-ellipsis"
-		}];
+        }];
 	$("#grid").jqGrid({
 		//url: "../basedata/contact.do?action=list&isDelete=2",
-		url: basedata_contact+"?type=1",
+		url: basedata_contact,
 		datatype: "json",
 		autowidth: !0,
 		height: e.h,
@@ -168,7 +147,7 @@ function initEvent() {
 	});
 	$("#btn-export").on("click", function() {
 		if (Business.verifyRight("BU_EXPORT")) {
-			var e = "输入客户编号/ 名称/ 联系人/ 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
+			var e = "输入客户编号/ 名称 / 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
 			 
 			//$(this).attr("href", "/basedata/customer.do?action=exporter&isDelete=2&skey=" + e)
 			$(this).attr("href", customer_export+"?skey=" + e)
@@ -205,12 +184,12 @@ function initEvent() {
 var searchFlag = !1,
 	filterClassCombo, handle = {
 		operate: function(e, t) {
-			if ("add" == e) var i = "新增单位",
+			if ("add" == e) var i = "新增往来单位",
 				a = {
 					oper: e,
 					callback: this.callback
 				};
-			else var i = "修改单位",
+			else var i = "修改往来单位",
 				a = {
 					oper: e,
 					rowId: t,
@@ -232,7 +211,7 @@ var searchFlag = !1,
 		del: function(e) {
 			$.dialog.confirm("删除的单位将不能恢复，请确认是否删除？", function() {
 				//Public.ajaxPost("../basedata/contact.do?action=delete", {
-				Public.ajaxPost(customer_del, {	
+				Public.ajaxPost(betweenUnit_del, {
 					id: e
 				}, function(t) {
 					if (t && 200 == t.status) {
