@@ -43,8 +43,8 @@ function initValidator() {
 function postData() {
 	if ($("#manage-form").validate().form()) {
 		var t = $.trim($("#name").val()),
-			h = $.trim($("#upareaName").val()),	//后期改为upareaId
-			n = $.trim($("#upareaName").val())
+			h = upareaCombo.getValue();//$.trim($("#upareaName").val()),	//后期改为upareaId
+			n = upareaCombo.getText();
 			e = {
 				id: rowData.id,
 				name: t,
@@ -74,6 +74,25 @@ var api = frameElement.api,
 	oper = api.data.oper,
 	rowData = api.data.rowData || {},
 	callback = api.data.callback;
+
+var upareaCombo = $("#upareaName").combo({
+    text: "Name",
+    value: "id",
+    width: 200,
+    data: basedata_area,
+    defaultSelected: ["id", parseInt(rowData.UpArea_ID)] || void 0,
+
+    ajaxOptions: {
+        formatData: function(e) {
+            e.data.items.unshift({
+                id: "",
+                Name: ""
+            });
+            return e.data.items
+        }
+    }
+
+}).getCombo();
 initPopBtns();
 initField();
 initEvent();

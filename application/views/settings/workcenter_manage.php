@@ -43,6 +43,7 @@ var basedata_contact  = "<?=site_url('basedata/contact')?>";
 var settings_inventory =  "<?=site_url('settings/inventory')?>";          
 var settings_skins =  "<?=site_url('settings/skins')?>";
 var workcenter_save= "<?=site_url('workcenter/save')?>";
+var basedata_admin = "<?=site_url('basedata/admin')?>";
 
 var unit_save = "<?=site_url('unit/save')?>";
 </script>
@@ -57,21 +58,41 @@ body{background: #fff;}
 	<form id="manage-form" action="">
 		<ul class="mod-form-rows">
 			<li class="row-item">
-				<div class="label-wrap"><label for="name">单位名称:</label></div>
+				<div class="label-wrap"><label for="name">中心名称:</label></div>
 				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name"></div>
 			</li>
             <li class="row-item">
                 <div class="label-wrap"><label for="desc">描述:</label></div>
                 <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="desc" id="desc" maxlength="200"></div>
             </li>
-            <li class="row-item">
+<!--            <li class="row-item">
                 <div class="label-wrap"><label for="headName">负责人:</label></div>
                 <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="headName" id="headName" ></div>
+            </li>-->
+
+            <li class="row-item">
+                <div class="label-wrap"> <label  class="tit" for="filter-user">负责人：</label></div>
+                <div class="ctn-wrap"><span class="ui-combo-wrap" id="headName">
+                    <input type="text" name="filter-user" id="filter-user" class="input-txt" autocomplete="off" />
+                    <span class="trigger"></span>
+                    </span></div>
             </li>
+
+
             <li class="row-item">
                 <div class="label-wrap"><label for="IsKey">是否关键:</label></div>
-                <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="IsKey" id="IsKey"></div>
+                <div class="ctn-wrap">
+                    <select name="IsKey" id="IsKey" style="height: 30px">
+                        <option value =0 selected="selected">不关键</option>
+                        <option value =1>关键</option>
+                    </select></div>
             </li>
+
+
+<!--            <li class="row-item">
+                <div class="label-wrap"><label for="IsKey">是否关键:</label></div>
+                <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="IsKey" id="IsKey"></div>
+            </li>-->
 		</ul>
 	</form>
 </div>

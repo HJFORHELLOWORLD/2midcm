@@ -8,6 +8,7 @@ class Area extends CI_Controller
         parent::__construct();
         $this->purview_model->checkpurview(116);
         $this->load->model('data_model');
+        $this->uid   = $this->session->userdata('uid');
     }
 
     public function index(){

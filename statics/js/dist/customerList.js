@@ -116,7 +116,7 @@ function initEvent() {
 	$_matchCon.placeholder();
 	$("#search").on("click", function(e) {
 		e.preventDefault();
-		var t = "输入客户编号/ 名称/ 联系人/ 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
+		var t = "输入单位编号/ 名称 / 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
 		$("#grid").jqGrid("setGridParam", {
 			page: 1,
 			postData: {
@@ -147,7 +147,7 @@ function initEvent() {
 	});
 	$("#btn-export").on("click", function() {
 		if (Business.verifyRight("BU_EXPORT")) {
-			var e = "输入客户编号/ 名称 / 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
+			var e = "输入单位编号/ 名称 / 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
 			 
 			//$(this).attr("href", "/basedata/customer.do?action=exporter&isDelete=2&skey=" + e)
 			$(this).attr("href", customer_export+"?skey=" + e)

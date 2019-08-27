@@ -45,9 +45,9 @@ function postData() {
 	if ($("#manage-form").validate().form()) {
 		var t = $.trim($("#name").val()),
             d = $.trim($("#desc").val()),
-			h = $.trim($("#headName").val()),	//后期改为head_id
+			h = userCombo.getValue(),
             k = $.trim($("#Status").val()),
-			n = $.trim($("#headName").val())
+			n = userCombo.getText();
 			e = {
 				id: rowData.id,
 				name: t,
@@ -81,6 +81,25 @@ var api = frameElement.api,
 	oper = api.data.oper,
 	rowData = api.data.rowData || {},
 	callback = api.data.callback;
+var userCombo = $("#headName").combo({
+    text: "name",
+    value: "userid",
+    width: 200,
+    data: basedata_admin,
+    defaultSelected: ["userid", parseInt(rowData.Head_ID)] || void 0,
+
+    ajaxOptions: {
+        formatData: function(e) {
+            e.data.items.unshift({
+                userid: "",
+                name: ""
+            });
+            return e.data.items
+        }
+    }
+
+}).getCombo();
+
 initPopBtns();
 initField();
 initEvent();

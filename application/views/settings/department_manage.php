@@ -43,6 +43,7 @@ var basedata_contact  = "<?=site_url('basedata/contact')?>";
 var settings_inventory =  "<?=site_url('settings/inventory')?>";          
 var settings_skins =  "<?=site_url('settings/skins')?>";
 var department_save= "<?=site_url('department/save')?>";
+var basedata_admin = "<?=site_url('basedata/admin')?>";
 
 var unit_save = "<?=site_url('unit/save')?>";
 </script>
@@ -65,12 +66,23 @@ body{background: #fff;}
                 <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="desc" id="desc" maxlength="200"></div>
             </li>
             <li class="row-item">
-                <div class="label-wrap"><label for="headName">负责人:</label></div>
-                <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="headName" id="headName" ></div>
+                <div class="label-wrap"> <label  class="tit" for="filter-user">负责人：</label></div>
+                <div class="ctn-wrap"><span class="ui-combo-wrap" id="headName">
+                    <input type="text" name="filter-user" id="filter-user" class="input-txt" autocomplete="off" />
+                    <span class="trigger"></span>
+                    </span></div>
             </li>
-            <li class="row-item">
+<!--            <li class="row-item">
                 <div class="label-wrap"><label for="Status">状态:</label></div>
                 <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Status" id="Status"></div>
+            </li>-->
+            <li class="row-item">
+                <div class="label-wrap"><label for="Status">状态：</label></div>
+                <div class="ctn-wrap">
+                    <select name="IsKey" id="Status" style="height: 30px">
+                        <option value =0>不正常</option>
+                        <option value =1 selected="selected">正常</option>
+                    </select></div>
             </li>
 		</ul>
 	</form>

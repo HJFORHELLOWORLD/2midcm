@@ -43,14 +43,15 @@ class Department extends CI_Controller {
         $id   = intval($this->input->post('id',TRUE));
         $data['Name'] = str_enhtml($this->input->post('name',TRUE));
         $data['Desc'] = str_enhtml($this->input->post('desc',TRUE));
-        $data['Head_ID'] = str_enhtml($this->input->post('head_id',TRUE));
-        $data['Status'] = str_enhtml($this->input->post('status',TRUE));
+        $data['Head_ID'] = intval(str_enhtml($this->input->post('head_id',TRUE)));
+        $data['Status'] = intval(str_enhtml($this->input->post('status',TRUE)));
         if ($act=='add') {
             $this->purview_model->checkpurview(121);
             strlen($data['Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
             $this->mysql_model->db_count(DEPARTMENT,'(Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该部门"}');
             $data['id'] = $this->mysql_model->db_inst(DEPARTMENT,$data);
             $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
+            $data['StatusName'] = $data['Status'] == 0 ? '不正常' : '正常';
             if ($data['id']) {
                 $this->data_model->logs('新增部门:'.$data['Name']);
                 $this->cache_model->delsome(DEPARTMENT);
@@ -67,6 +68,7 @@ class Department extends CI_Controller {
             $sql = $this->mysql_model->db_upd(DEPARTMENT,$data,'(PK_Dept_ID='.$id.')');
             if ($sql) {
                 $data['id'] = $id;
+                $data['StatusName'] = $data['Status'] == 0 ? '不正常' : '正常';
                 $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
                 $this->data_model->logs('修改工作中心:'.$data['Name']);
                 $this->cache_model->delsome(DEPARTMENT);
@@ -101,7 +103,8 @@ class Department extends CI_Controller {
             $v[$arr]['Desc']       = $row['Desc'];
             $v[$arr]['headName']       = $row['headName'];
             $v[$arr]['Head_ID']       = $row['Head_ID'];
-            $v[$arr]['Status']       = $row['Status'] == 0 ? '不正常' : '正常';
+            $v[$arr]['StatusName']       = $row['Status'] == 0 ? '不正常' : '正常';
+            $v[$arr]['Status']       = $row['Status'];
         }
         $data['data']['items']   = is_array($v) ? $v : '';
         $data['data']['totalsize']  = count($list);//$this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');

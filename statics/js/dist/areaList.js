@@ -111,7 +111,7 @@ var handle = {
             content: "url:"+settings_area_manage,
             data: a,
             width: 400,
-            height: 100,
+            height: 250,
             max: !1,
             min: !1,
             cache: !1,

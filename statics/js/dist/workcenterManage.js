@@ -1,7 +1,9 @@
 function initField() {
 	rowData.id && $("#name").val(rowData.WC_Name) && $("#desc").val(rowData.Desc)
-	&& $("#headName").val(rowData.headName) && $("#IsKey").val(rowData.IsKey)
+	&& $("#IsKey").val(rowData.IsKey)
+
 }
+
 function initEvent() {
 	var t = $("#name");
 	$("#manage-form").submit(function(t) {
@@ -9,7 +11,7 @@ function initEvent() {
 		postData()
 	});
 	t.focus().select();
-	initValidator()
+	initValidator();
 }
 function initPopBtns() {
 	var t = "add" == oper ? ["保存", "关闭"] : ["确定", "取消"];
@@ -45,9 +47,9 @@ function postData() {
 	if ($("#manage-form").validate().form()) {
 		var t = $.trim($("#name").val()),
             d = $.trim($("#desc").val()),
-			h = $.trim($("#headName").val()),	//后期改为head_id
-            k = $.trim($("#IsKey").val()),
-			n = $.trim($("#headName").val())
+			h = userCombo.getValue();//$.trim($("#headName").val()),	//后期改为head_id
+            k = $("#IsKey").val();
+			n = userCombo.getText();//$.trim($("#headName").val()),
 			e = {
 				id: rowData.id,
 				name: t,
@@ -81,6 +83,25 @@ var api = frameElement.api,
 	oper = api.data.oper,
 	rowData = api.data.rowData || {},
 	callback = api.data.callback;
+
+var userCombo = $("#headName").combo({
+    text: "name",
+    value: "userid",
+    width: 200,
+    data: basedata_admin,
+    defaultSelected: ["userid", parseInt(rowData.Head_ID)] || void 0,
+
+    ajaxOptions: {
+        formatData: function(e) {
+            e.data.items.unshift({
+                userid: "",
+                name: ""
+            });
+            return e.data.items
+        }
+    }
+
+}).getCombo();
 initPopBtns();
 initField();
 initEvent();

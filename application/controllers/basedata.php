@@ -309,7 +309,7 @@ class Basedata extends CI_Controller {
 		$rows = max(intval($this->input->get_post('rows',TRUE)),100);
 		$where  = '';
 		if ($skey) {
-			$where .= ' and (Linkmans like "%'.$skey.'%"' . ' or Name like "%'.$skey.'%"' . ')';
+			$where .= ' and (Linkmans like "%'.$skey.'%"' . ' or Name like "%'.$skey.'%"' . ' or PK_BU_ID like "%'.$skey.'%"' . ')';
 		}
 		if ($type) {
 			$where .= ' and BU_Cat IN ('.$type.',4)';

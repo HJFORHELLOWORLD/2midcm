@@ -43,6 +43,7 @@ var basedata_contact  = "<?=site_url('basedata/contact')?>";
 var settings_inventory =  "<?=site_url('settings/inventory')?>";          
 var settings_skins =  "<?=site_url('settings/skins')?>";
 var area_save= "<?=site_url('area/save')?>";
+var basedata_area = "<?=site_url('basedata/area')?>";
 </script>
 <style>
 body{background: #fff;}
@@ -58,9 +59,16 @@ body{background: #fff;}
 				<div class="label-wrap"><label for="name">地区名称:</label></div>
 				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name"></div>
 			</li>
-            <li class="row-item">
+<!--            <li class="row-item">
                 <div class="label-wrap"><label for="upareaName">上级区域:</label></div>
                 <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="upareaName" id="upareaName" ></div>
+            </li>-->
+            <li class="row-item">
+                <div class="label-wrap"> <label  class="tit" for="filter-uparea">上级区域:</label></div>
+                <div class="ctn-wrap"><span class="ui-combo-wrap" id="upareaName">
+                    <input type="text" name="filter-uparea" id="filter-uparea" class="input-txt" autocomplete="off" />
+                    <span class="trigger"></span>
+                    </span></div>
             </li>
 		</ul>
 	</form>

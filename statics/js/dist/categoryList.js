@@ -22,7 +22,7 @@ function initEvent() {
     })
 }
 function initGrid() {
-    var t = ["操作","行业编号", "单位名称","描述"],
+    var t = ["操作","行业编号", "行业名称","描述"],
         e = [{
             name: "operate",
             width: 60,

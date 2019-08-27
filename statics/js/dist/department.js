@@ -46,8 +46,8 @@ function initGrid() {
             index: "headName",
             width: 100
         },{
-            name: "Status",
-            index: "Status",
+            name: "StatusName",
+            index: "StatusName",
             width: 50
         }];
     $("#grid").jqGrid({

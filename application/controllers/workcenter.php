@@ -43,14 +43,15 @@ class Workcenter extends CI_Controller {
         $id   = intval($this->input->post('id',TRUE));
         $data['WC_Name'] = str_enhtml($this->input->post('name',TRUE));
         $data['Desc'] = str_enhtml($this->input->post('desc',TRUE));
-        $data['Head_ID'] = str_enhtml($this->input->post('head_id',TRUE));
-        $data['IsKey'] = str_enhtml($this->input->post('IsKey',TRUE));
+        $data['Head_ID'] = intval(str_enhtml($this->input->post('head_id',TRUE)));
+        $data['IsKey'] = intval(str_enhtml($this->input->post('IsKey',TRUE)));
         if ($act=='add') {
             $this->purview_model->checkpurview(113);
             strlen($data['WC_Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
             $this->mysql_model->db_count(WORK_CERTER,'(WC_Name="'.$data['WC_Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该工作中心"}');
             $data['id'] = $this->mysql_model->db_inst(WORK_CERTER,$data);
             $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
+            $data['IsKeyName'] =  $data['IsKey'] == 0 ? '不关键' : '关键';
             if ($data['id']) {
                 $this->data_model->logs('新增工作中心:'.$data['WC_Name']);
                 $this->cache_model->delsome(WORK_CERTER);
@@ -101,7 +102,8 @@ class Workcenter extends CI_Controller {
             $v[$arr]['Desc']       = $row['Desc'];
             $v[$arr]['headName']       = $row['headName'];
             $v[$arr]['Head_ID']       = $row['Head_ID'];
-            $v[$arr]['IsKey']       = $row['IsKey'] == 0 ? '不关键' : '关键';
+            $v[$arr]['IsKeyName']       = $row['IsKey'] == 0 ? '不关键' : '关键';
+            $v[$arr]['IsKey']       = $row['IsKey'] ;
         }
         $data['data']['items']   = is_array($v) ? $v : '';
         $data['data']['totalsize']  = count($list);//$this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');
