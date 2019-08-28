@@ -28,7 +28,7 @@ var icon_url = "<?=skin_url()?>/css/base/dialog/icons/";
 var settings_customer_manage = "<?=site_url('settings/customer_manage')?>";   
 var settings_vendor_manage = "<?=site_url('settings/vendor_manage')?>";       
 var settings_vendor_batch = "<?=site_url('settings/vendor_batch')?>";         
-var settings_customer_batch = "<?=site_url('settings/customer_batch')?>";   
+var settings_customer_batch = "<?=site_url('settings/customer_batch')?>";
 var basedata_settlement = "<?=site_url('basedata/settlement')?>";            
 var settings_settlement_manage = "<?=site_url('settings/settlement_manage')?>";       
 var basedata_category = "<?=site_url('basedata/category')?>";                     

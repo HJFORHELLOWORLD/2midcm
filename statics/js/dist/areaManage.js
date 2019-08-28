@@ -43,8 +43,8 @@ function initValidator() {
 function postData() {
 	if ($("#manage-form").validate().form()) {
 		var t = $.trim($("#name").val()),
-			h = upareaCombo.getValue();//$.trim($("#upareaName").val()),	//后期改为upareaId
-			n = upareaCombo.getText();
+			h = upareaCombo.getValue(),//$.trim($("#upareaName").val()),	//后期改为upareaId
+			n = upareaCombo.getText(),
 			e = {
 				id: rowData.id,
 				name: t,

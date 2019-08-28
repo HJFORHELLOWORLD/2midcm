@@ -50,67 +50,87 @@ var basedata_contact_getnextno = "<?=site_url('basedata/contact_getnextno')?>";
 var basedata_contact_checkname = "<?=site_url('basedata/contact_checkname')?>";
 var betweenUnit_modify  = "<?=site_url('betweenUnit/modify')?>";
 var settings_customer_cate_manage = "<?=site_url('settings/customer_cate_manage')?>";
+var basedata_area = "<?=site_url('basedata/area')?>";
+var category_lists = "<?=site_url('category/lists')?>";
 
 </script>
-<link rel="stylesheet" href="<?=skin_url()?>/js/common/plugins/validator/jquery.validator.css">
-<script type="text/javascript" src="<?=skin_url()?>/js/common/plugins/validator/jquery.validator.js"></script>
-<script type="text/javascript" src="<?=skin_url()?>/js/common/plugins/validator/local/zh_CN.js"></script>
+
 <style>
 body{background: #fff;}
-.mod-form-rows .label-wrap{font-size:12px;}
-.mod-form-rows .row-item {padding-bottom: 15px;margin-bottom: 0;}/*兼容IE7 ，重写common的演示*/
-.manage-wrapper{margin:20px auto 10px;width:600px;}
+/*.mod-form-rows .label-wrap{font-size:12px;}
+.mod-form-rows .row-item {padding-bottom: 15px;margin-bottom: 0;}!*兼容IE7 ，重写common的演示*!
 .manage-wrap .ui-input{width: 198px;}
-.base-form{*zoom: 1;}
-.base-form:after{content: '.';display: block;clear: both;height: 0;overflow: hidden;}
 .base-form li{float: left;width: 290px;}
 .base-form li.odd{padding-right:20px;}
 .manage-wrap textarea.ui-input{width: 588px;height: 60px;overflow:hidden;}
-#receiveFunds,#periodReceiveFunds{text-align: right;}
-
-.contacters{margin-bottom: 10px;}
 .contacters h3{margin-bottom: 10px;font-weight: normal;}
 .mod-form-rows .pb0{padding-bottom:0;}
-.mod-form-rows .ctn-wrap{overflow: visible;;}
+.mod-form-rows .ctn-wrap{overflow: visible;;}*/
+.manage-wrap{margin: 20px auto 10px;width: 300px;}
+.manage-wrap .ui-input{width: 200px;font-size:14px;}
 </style>
 </head>
 <body>
-<div class="manage-wrapper">
     <div id="manage-wrap" class="manage-wrap">
     	<form id="manage-form" action="">
-    		<ul class="mod-form-rows base-form" id="base-form">
+    		<ul class="mod-form-rows">
 <!--    			<li class="row-item odd">
     				<div class="label-wrap"><label for="number">客户编号</label></div>
     				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="number" id="number"></div>
     			</li>-->
-                <li class="row-item odd">
+                <li class="row-item">
                     <div class="label-wrap"><label for="name">单位名称</label></div>
                     <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name"></div>
                 </li>
-                <li class="row-item odd">
+                <li class="row-item">
                     <div class="label-wrap"><label for="remark">描述</label></div>
                     <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="remark" id="remark"></div>
                 </li>
-                <li class="row-item odd">
-                    <div class="label-wrap"><label for="Area_ID">地区</label></div>
-                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Area_ID" id="Area_ID"></div>
+                <li class="row-item">
+<!--                    <div class="label-wrap"><label for="Area_ID">地区</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Area_ID" id="Area_ID"></div>-->
+                    <div class="label-wrap"> <label  class="tit" for="filter-area">地区：</label></div>
+                    <div class="ctn-wrap"><span class="ui-combo-wrap" id="Area_ID">
+                    <input type="text" name="filter-area" id="filter-area" class="input-txt" autocomplete="off" />
+                    <span class="trigger"></span>
+                    </span></div>
                 </li>
-                <li class="row-item odd">
-                    <div class="label-wrap"><label for="BU_Cat">类别</label></div>
-                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="BU_Cat" id="BU_Cat"></div>
+                <li class="row-item">
+<!--                    <div class="label-wrap"><label for="BU_Cat">类别</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="BU_Cat" id="BU_Cat"></div>-->
+                    <div class="label-wrap"><label for="BU_Cat">类别:</label></div>
+                    <div class="ctn-wrap">
+                        <select name="BU_Cat" id="BU_Cat" style="height: 30px">
+                            <option value =1>客户</option>
+                            <option value =2>厂家</option>
+                            <option value =4>第三方</option>
+                        </select></div>
                 </li>
-                <li class="row-item odd">
-                    <div class="label-wrap"><label for="Industry_ID">所属行业</label></div>
-                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Industry_ID" id="Industry_ID"></div>
+                <li class="row-item">
+<!--                    <div class="label-wrap"><label for="Industry_ID">所属行业</label></div>
+                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Industry_ID" id="Industry_ID"></div>-->
+                    <div class="label-wrap"> <label  class="tit" for="filter-industry">所属行业:</label></div>
+                    <div class="ctn-wrap"><span class="ui-combo-wrap" id="Industry_ID">
+                    <input type="text" name="filter-industry" id="filter-industry" class="input-txt" autocomplete="off" />
+                    <span class="trigger"></span>
+                    </span></div>
                 </li>
-    			<li class="row-item odd">
+    			<li class="row-item">
     				<div class="label-wrap"><label for="Taxrate">税率</label></div>
     				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Taxrate" id="Taxrate"></div>
     			</li>
-    			<li class="row-item odd">
+    			<li class="row-item">
     				<div class="label-wrap"><label for="phone">联系方式</label></div>
     				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="phone" id="phone"></div>
     			</li>
+                <li class="row-item">
+                    <div class="label-wrap"><label for="Status">状态:</label></div>
+                    <div class="ctn-wrap">
+                        <select name="Status" id="Status" style="height: 30px">
+                            <option value =0>不正常</option>
+                            <option value =1>正常</option>
+                        </select></div>
+                </li>
     		</ul>
 <!--    		<div class="contacters">
     			<h3 class="dn">联系方式</h3>
@@ -129,7 +149,6 @@ body{background: #fff;}
     	</form>
 
     </div>
-</div>
 
 <script src="<?=skin_url()?>/js/dist/customerManage.js?a"></script>
 </body>

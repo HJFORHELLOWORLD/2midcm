@@ -25,20 +25,20 @@ function initGrid() {
 			width: 220,
 			classes: "ui-ellipsis"
 		}, {
-			name: "Area_ID",
-			index: "Area_ID",
+			name: "Area",
+			index: "Area",
 			width: 80,
 			align: "right",
 			fixed: !0
 		}, {
-			name: "BU_Cat",
-			index: "BU_Cat",
+			name: "BU_Cat_Name",
+			index: "BU_Cat_Name",
 			width: 100,
 			align: "center",
 			title: !1
 		}, {
-			name: "Industry_ID",
-			index: "Industry_ID",
+			name: "Industry",
+			index: "Industry",
 			width: 100,
 			title: !1
 		}, {
@@ -54,8 +54,8 @@ function initGrid() {
 			title: !1,
 			hidden: i
 		},{
-            name: "Status",
-            index: "Status",
+            name: "StatusName",
+            index: "StatusName",
             width: 80,
             title: !1
         }];
@@ -192,7 +192,7 @@ var searchFlag = !1,
 			else var i = "修改往来单位",
 				a = {
 					oper: e,
-					rowId: t,
+                    rowData: $("#grid").data("gridData")[t],
 					callback: this.callback
 				};
 			$.dialog({

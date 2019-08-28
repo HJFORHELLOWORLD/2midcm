@@ -47,8 +47,8 @@ function postData() {
 	if ($("#manage-form").validate().form()) {
 		var t = $.trim($("#name").val()),
             d = $.trim($("#desc").val()),
-			h = userCombo.getValue();//$.trim($("#headName").val()),	//后期改为head_id
-            k = $("#IsKey").val();
+			h = userCombo.getValue(),//$.trim($("#headName").val()),	//后期改为head_id
+            k = $("#IsKey").val(),
 			n = userCombo.getText();//$.trim($("#headName").val()),
 			e = {
 				id: rowData.id,

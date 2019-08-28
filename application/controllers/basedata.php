@@ -329,10 +329,14 @@ class Basedata extends CI_Controller {
 			$v[$arr]['links'] = '';
 
 			$v[$arr]['Taxrate'] = $row['Taxrate'];
-            $v[$arr]['Industry_ID'] = $row['industry'];
-			$v[$arr]['Area_ID'] = $row['area'];
-			$v[$arr]['BU_Cat'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : '第三方');
-			$v[$arr]['Status'] = $row['Status'] == 0 ? '不正常' : '正常';
+            $v[$arr]['Industry'] = $row['industry'];
+			$v[$arr]['Area'] = $row['area'];
+            $v[$arr]['Industry_ID'] = $row['Industry_ID'];
+            $v[$arr]['Area_ID'] = $row['Area_ID'];
+			$v[$arr]['BU_Cat_Name'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : '第三方');
+            $v[$arr]['BU_Cat'] = $row['BU_Cat'];
+			$v[$arr]['StatusName'] = $row['Status'] == 0 ? '不正常' : '正常';
+            $v[$arr]['Status'] = $row['Status'];
 
 			if (strlen($row['Linkmans'])>0) {                             //获取首个联系人
                 $list = (array)json_decode($row['Linkmans']);
@@ -344,9 +348,9 @@ class Basedata extends CI_Controller {
                             $v[$arr]['telephone'] = $row1->linkPhone;
                            // $v[$arr]['linkIm'] = $row1->linkIm;
                           //  $v[$arr]['firstLink']['first'] = $row1->linkFirst;
-                            if ($type == 1) {//客户
+/*                            if ($type == 1) {//客户
                                 $v[$arr]['deliveryAddress'] = isset($row1->linkAddress) ? $row1->linkAddress : '';
-                            }
+                            }*/
                      //   }
                     }
             }
