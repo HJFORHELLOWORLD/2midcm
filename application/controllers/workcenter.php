@@ -106,7 +106,7 @@ class Workcenter extends CI_Controller {
             $v[$arr]['IsKey']       = $row['IsKey'] ;
         }
         $data['data']['items']   = is_array($v) ? $v : '';
-        $data['data']['totalsize']  = count($list);//$this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');
+        $data['data']['totalsize']  = $this->cache_model->load_total(WORK_CERTER,'(1=1) '.$where.' order by PK_WC_ID desc');
         die(json_encode($data));
     }
 

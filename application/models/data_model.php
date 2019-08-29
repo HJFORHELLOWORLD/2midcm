@@ -608,5 +608,19 @@ class Data_model extends CI_Model{
         return $this->cache_model->load_sql(BETWEENUNIT,$sql,2);
     }
 
+    //仓库列表
+    public function stockList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Username as headName  FROM 
+            t_'.STOCK.' as a 
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Head_ID=b.PK_User_ID
+            '.$where.'
+            '.$order.'
+            ';
+        return $this->cache_model->load_sql(STOCK,$sql,2);
+    }
+
 }
 ?>

@@ -211,6 +211,11 @@ class Settings extends CI_Controller {
         $this->load->view('settings/department_manage');
     }
 
+    //仓库
+    public function stock_manage() {
+        $this->load->view('settings/stock_manage');
+    }
+
 }
 
 /* End of file welcome.php */
