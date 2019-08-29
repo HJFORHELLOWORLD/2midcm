@@ -30,7 +30,7 @@ class Design extends CI_Controller {
 
         $offset = $rows * ($page-1);
         $data['data']['page']      = $page;
-        $list = $this->data_model->designList($where,' order by id desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->designList($where,' order by PK_BOM_Desi_ID desc limit '.$offset.','.$rows.'');
         foreach ($list as $arr=>$row) {
             $v[$arr]['pk_bom_desi_id']   = intval($row['pk_bom_desi_id']);
             $v[$arr]['name']    = $row['name'];

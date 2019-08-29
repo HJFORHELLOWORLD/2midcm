@@ -566,6 +566,12 @@ class Basedata extends CI_Controller {
 		die('{"status":502,"msg":"用户名不存在"}');
 	}
 
+	//查询用户接口
+    public function  SelectSinper(){
+      $user=$this->cache_model->load_data(USER);
+      die(json_encode($user));
+    }
+
 }
 
 /* End of file welcome.php */

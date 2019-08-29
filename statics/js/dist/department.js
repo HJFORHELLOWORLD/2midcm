@@ -50,43 +50,43 @@ var queryConditions = {
                     formatter: t,
                     align: "center"
                 },{
-                    name: "pk_dept_id",
-                    index: "pk_dept_id",
+                    name: "PK_Dept_ID",
+                    index: "PK_Dept_ID",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "name",
-                    index: "name",
+                    name: "Name",
+                    index: "Name",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "desc",
-                    index: "desc",
+                    name: "Desc",
+                    index: "Desc",
                     width: 500,
                     align: "center"
                 },{
-                    name: "head_id",
-                    index: "head_id",
+                    name: "Header",
+                    index: "Header",
                     width: 60,
                     align: "center"
                 },{
-                    name: "status",
-                    index: "status",
+                    name: "Status",
+                    index: "Status",
                     width: 60,
                     align: "center"
                 },{
-                    name: "creator_id",
-                    index: "creator_id",
+                    name: "Creator_ID",
+                    index: "Creator_ID",
                     width: 60,
                     align: "center"
                 },{
-                    name: "create_date",
-                    index: "create_date",
+                    name: "Create_Date",
+                    index: "Create_Date",
                     width: 180,
                     align: "center"
                 }, {
-                    name: "modify_id",
-                    index: "modify_id",
+                    name: "Modify_ID",
+                    index: "Modify_ID",
                     width: 60,
                     align: "center",
                     formatter: "number",
@@ -94,8 +94,8 @@ var queryConditions = {
                         decimalPlaces: qtyPlaces
                     }
                 },{
-                    name: "modify_date",
-                    index: "modify_date",
+                    name: "Modify_Date",
+                    index: "Modify_Date",
                     width: 180,
                     align: "center"
                 }],

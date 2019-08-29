@@ -43,12 +43,15 @@
         var settings_inventory =  "<?=site_url('settings/inventory')?>";
         var settings_skins =  "<?=site_url('settings/skins')?>";
         var settings_select_vendor =  "<?=site_url('settings/select_vendor')?>";
-
+        var settings_betweenUnit =  "<?=site_url('settings/betweenUnit')?>";
         var logistics_lists = "<?=site_url('logistics/lists')?>";
         var logistics_add   = "<?=site_url('logistics/add')?>";
         var logistics_edit   = "<?=site_url('logistics/edit')?>";
         var logistics_info   = "<?=site_url('logistics/info')?>";
         var logistics_del   = "<?=site_url('logistics/del')?>";
+
+        var logistics_company   = "<?=site_url('logistics/company')?>";
+        var database_SelectSinper   = "<?=site_url('database/SelectSinper')?>";
         var api_logistics_print = "<?=site_url('api/invpu_print')?>";
         var plug_down = "<?=base_url()?>/install_lodop32.rar";
     </script>
@@ -92,7 +95,7 @@
     </div>
 
 </div>
-<script src="<?=skin_url()?>/js/dist/logistics.js?996"></script>
+<script src="<?=skin_url()?>/js/dist/logistics.js?0222567000"></script>
 </body>
 </html>
 

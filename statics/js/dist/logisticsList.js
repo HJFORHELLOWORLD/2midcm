@@ -114,6 +114,133 @@ var queryConditions = {
                     width: 100,
                     align: "center"
                 }],
+            // $("#grid").jqGrid({
+            //     data: e.entries,
+            //     datatype: "clientSide",
+            //     width: 1e3,
+            //     height: "100%",
+            //     rownumbers: !0,
+            //     gridview: !0,
+            //     onselectrow: !1,
+            //     colModel: [{
+            //         name: "operating",
+            //         label: "操作",
+            //         width: 40,
+            //         fixed: !0,
+            //         formatter: Public.billsOper,
+            //         align: "center"
+            //     }, {
+            //         name: "company",
+            //         label: "物流公司",
+            //         width: 320,
+            //         title: !0,
+            //         classes: "ui-ellipsis",
+            //         formatter: t,
+            //         editable: !0,
+            //         edittype: "custom",
+            //         editoptions: {
+            //             custom_element: i,
+            //             custom_value: a,
+            //             handle: r,
+            //             trigger: "ui-icon-ellipsis"
+            //         }
+            //     }, {
+            //         name: "name",
+            //         label: "订单名称",
+            //         width: 320,
+            //         title: !0,
+            //         classes: "ui-ellipsis",
+            //         formatter: t,
+            //         editable: !0,
+            //         edittype: "custom",
+            //         editoptions: {
+            //             custom_element: i,
+            //             custom_value: a,
+            //             handle: r,
+            //             trigger: "ui-icon-ellipsis"
+            //         }
+            //     }, {
+            //         name: "Desc",
+            //         label: "数量",
+            //         width: 80,
+            //         align: "right",
+            //         formatter: "number",
+            //         formatoptions: {
+            //             decimalPlaces: qtyPlaces
+            //         },
+            //         editable: !0
+            //     }, {
+            //         name: "SingPer_ID",
+            //         label: "签约人",
+            //         width: 100,
+            //         fixed: !0,
+            //         align: "right",
+            //         formatter: "currency",
+            //         formatoptions: {
+            //             showZero: !0,
+            //             decimalPlaces: pricePlaces
+            //         },
+            //         editable: !0
+            //     }, {
+            //         name: "Sign_Date",
+            //         label: "签约时间",
+            //         hidden: hiddenAmount,
+            //         width: 100,
+            //         fixed: !0,
+            //         align: "right",
+            //         formatter: "currency",
+            //         formatoptions: {
+            //             showZero: !0,
+            //             decimalPlaces: amountPlaces
+            //         },
+            //         editable: !0
+            //     },{
+            //         name: "Status",
+            //         label: "备注",
+            //         width: 150,
+            //         title: !0,
+            //         editable: !0
+            //     },{
+            //         name: "review_id",
+            //         label: "审核人",
+            //         width: 320,
+            //         title: !0,
+            //         classes: "ui-ellipsis",
+            //         formatter: t,
+            //         editable: !0,
+            //         edittype: "custom",
+            //         editoptions: {
+            //             custom_element: i,
+            //             custom_value: a,
+            //             handle: r,
+            //             trigger: "ui-icon-ellipsis"
+            //         }
+            //     },{
+            //         name: "PurOrder_Amount",
+            //         label: "订单金额",
+            //         width: 150,
+            //         title: !0,
+            //         editable: !0
+            //     },{
+            //         name: "PurOrder_Payment",
+            //         label: "付款条件",
+            //         width: 150,
+            //         title: !0,
+            //         editable: !0
+            //     },{
+            //         name: "Creator_ID",
+            //         label: "创建人",
+            //         width: 150,
+            //         title: !0,
+            //         editable: !0
+            //         },{
+            //           name: "Create_Date",
+            //           label: "创建时间",
+            //           width: 150,
+            //           title: !0,
+            //           editable: !0
+            // //         }
+            // ],
                 cmTemplate: {
                     sortable: !1,
                     title: !1

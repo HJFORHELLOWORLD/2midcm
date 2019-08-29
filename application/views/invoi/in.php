@@ -117,7 +117,7 @@
     <div id="storageBox" class="shadow target_box dn">
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/otherWarehouse.js?222"></script>
+<script src="<?=skin_url()?>/js/dist/otherWarehouse.js?992"></script>
 </body>
 </html>
 

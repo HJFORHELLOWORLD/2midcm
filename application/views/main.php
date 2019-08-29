@@ -35,6 +35,10 @@ var basedata_category = "<?=site_url('basedata/category')?>";                   
 var basedata_category_type= "<?=site_url('basedata/category_type')?>";            //分类分类
 var settings_goods_manage = "<?=site_url('settings/goods_manage')?>";       //新增修改商品
 var settings_goods_batch  = "<?=site_url('settings/goods_batch')?>";        //批量选择商品
+var settings_betweenUnit_batch  = "<?=site_url('settings/betweenUnit_batch')?>"; //批量选择往来单位
+var settings_order_batch  = "<?=site_url('settings/order_batch')?>";        //批量选择订单
+//var settings_goods_batch  = "<?//=site_url('settings/goods_batch')?>//";        //批量选择商品
+//var settings_goods_batch  = "<?//=site_url('settings/goods_batch')?>//";        //批量选择商品
 var basedata_goods = "<?=site_url('basedata/goods')?>";                     //商品
 var basedata_unit  = "<?=site_url('basedata/unit')?>";                      //单位
 var settings_unit_manage = "<?=site_url('settings/unit_manage')?>";       //单位增修改 

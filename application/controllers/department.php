@@ -1,6 +1,6 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-class Department extends CI_Controller {
+class department extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
@@ -26,7 +26,7 @@ class Department extends CI_Controller {
      * @description 用户注册的接口
      * @method get
      * @url https://www.2midcm.com/workcenter/add
-     * @param pk_wc_id 必选 string 工作中心编号
+     * @param pk_dept_id 必选 string 部门编号
      * @param wc_name 必选 string 工作中心名称
      * @param desc 可选 string 描述
      * @param  head_id 必选 string 负责人
@@ -59,8 +59,6 @@ class Department extends CI_Controller {
 
             }
 
-
-
         }
     }
 
@@ -79,26 +77,46 @@ class Department extends CI_Controller {
      * @remark 这里是备注信息
      * @number 1
      */
+    //部门列表
     public function lists() {
-        $v = array();
+        $v = '';
         $data['status'] = 200;
         $data['msg']    = 'success';
-        $list = $this->data_model->departmentList(DEPARTMENT,'(1=1) order by roleid');
-        foreach ($list as $arr=>$row) {
-            $v[$arr]['pk_dept_id']       = $row['pk_dept_id'] ;
-            $v[$arr]['name']      = intval($row['nameD']);
-            $v[$arr]['desc']       = intval($row['desc']);
-            $v[$arr]['head_id']        = intval($row['head_id']);
-            $v[$arr]['status']    = $row['status'];
-            $v[$arr]['creator_id']    = $row['creator_id'];
-            $v[$arr]['create_date']    = $row['create_date'];
-            $v[$arr]['modify_id']    = $row['modify_id'];
-            $v[$arr]['modify_date']    = $row['modify_date'];
+        $page = max(intval($this->input->get_post('page',TRUE)),1);
+        $rows = max(intval($this->input->get_post('rows',TRUE)),100);
+        $key  = str_enhtml($this->input->get_post('matchCon',TRUE));
+        $stt  = str_enhtml($this->input->get_post('beginDate',TRUE));
+        $ett  = str_enhtml($this->input->get_post('endDate',TRUE));
+        $where = '';
+        if (strlen($key)>0) {
+            $where .= ' and (a.PK_Dept_ID like "%'.$key.'%" or a.Head_ID like "%' . $key .'%" )';
         }
-        $data['data']['items']      = $v;
-        $data['data']['shareTotal'] = $this->cache_model->load_total(DEPARTMENT);
-        $data['data']['totalsize']  = 3;
-        $data['data']['corpID']     = 0;
+        if (strlen($stt)>0) {
+            $where .= ' and Create_Date>="'.$stt.'"';
+        }
+        if (strlen($ett)>0) {
+            $where .= ' and Create_Date<="'.$ett.' 23:59:59"';
+        }
+
+        $offset = $rows * ($page-1);
+        $data['data']['page']= $page;
+        //$list = $this->cache_model->load_data(LOGISTICS_INFO,'(1=1) '.$where.' order by id desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->departmentList($where,' order by PK_Dept_ID desc limit '.$offset.','.$rows.'');
+        var_dump($list);
+        foreach ($list as $arr=>$row) {
+                    $v[$arr]['PK_Dept_ID'] = $row['PK_Dept_ID'];
+                    $v[$arr]['Name'] = $row['Name'];
+                    $v[$arr]['Desc'] = $row['Desc'];
+                    $v[$arr]['Header'] = $row['Header'];
+                    $v[$arr]['Status'] = $row['Status'];
+                    $v[$arr]['Creator_ID'] = $row['Creator_ID'];
+                    $v[$arr]['Create_Date'] = $row['Create_Date'];
+//            $v[$arr]['modify_id'] =  $row['modify_id'];
+//            $v[$arr]['modify_date'] = date('Y-m-d H:i:s', time());
+        }
+        $data['data']['records']   = count($list);   //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数
+        $data['data']['rows']      = is_array($v) ? $v : '';
         die(json_encode($data));
     }
 

@@ -51,7 +51,6 @@ class BetweenUnit extends CI_Controller {
             $data = (array)json_decode($data);
             if (is_array($data['entries'])) {
                 foreach ($data['entries'] as $arr => $row) {
-<<<<<<< HEAD
                     $v[$arr]['PK_BU_ID'] = $row->PK_BU_ID;
                     $v[$arr]['Name'] = $row->Name;
                     $v[$arr]['desc'] = $row->desc;
@@ -65,7 +64,7 @@ class BetweenUnit extends CI_Controller {
                     $v[$arr]['Create_Date'] = date('Y-m-d H:i:s', time());
                     $v[$arr]['Modify_id'] = $row->modify_id;
                     $v[$arr]['Modify_Date'] = date('Y-m-d H:i:s', time());
-=======
+
                     $v[$arr]['name'] = $row->name;
                     $v[$arr]['desc'] = $row->desc;
                     $v[$arr]['area_id'] = $row->area_id;
@@ -78,7 +77,7 @@ class BetweenUnit extends CI_Controller {
                     $v[$arr]['linkMans'] = json_encode($links);
                     $v[$arr]['status'] = 1; //正常
                     $v[$arr]['creator_id'] = $this->uid;
->>>>>>> cf9cdda5184e19d1894f75e5422b3df45511de2a
+
                 }
                 $name= $v[$arr]['Name'];
                 $this->mysql_model->db_inst(BETWEENUNIT, $v);

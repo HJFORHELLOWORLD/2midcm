@@ -143,7 +143,7 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 					align: "center"
 				}, {
 					name: "goods",
-					label: "",
+					label: "物料名称",
 					width: 320,
 					title: !0,
 					classes: "ui-ellipsis",

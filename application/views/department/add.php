@@ -47,6 +47,7 @@
         var basedata_admin_checkname = "<?=site_url('basedata/admin_checkname')?>";
         var department_add = "<?=site_url('department/add')?>";
         var department_save = "<?=site_url('department/save')?>";
+        var department_lists = "<?=site_url('department/lists')?>";
     </script>
     <link href="<?=skin_url()?>/css/authority.css" rel="stylesheet" type="text/css">
 </head>
@@ -120,8 +121,8 @@
                 </form>
             </div>
             <div>
-            </div>
+           </div>
         </div>
-        <script src="<?=skin_url()?>/js/dist/departmentadd.js?90009"></script>
+        <script src="<?=skin_url()?>/js/dist/departmentadd.js?909"></script>
 </body>
 </html>

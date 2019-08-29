@@ -118,6 +118,6 @@ var plug_down = "<?=base_url()?>/install_lodop32.rar";
   <div id="storageBox" class="shadow target_box dn">
   </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/otherOutbound.js?2222"></script>
+<script src="<?=skin_url()?>/js/dist/otherOutbound.js?22"></script>
 </body>
 </html>

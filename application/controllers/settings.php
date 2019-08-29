@@ -48,6 +48,16 @@ class Settings extends CI_Controller {
 	public function vendor_batch() {
 		$this->load->view('settings/vendor_batch');	
 	}
+
+	//批量选择往来单位
+    public function betweenUnit(){
+        $this->load->view('settings/betweenUnit_batch');
+    }
+
+    //批量选择订单
+    public function order(){
+        $this->load->view('settings/order_batch');
+    }
 	
 	//批量选择客户
 	public function customer_batch() {

@@ -66,9 +66,9 @@ class Invoi extends CI_Controller {
             $info['uid']         = $this->uid;
             $info['username']    = $this->name;
             $info['billtype']    = 1;
-
             $this->db->trans_begin();
             $invoiid = $this->mysql_model->db_inst(INVOI,$info);
+//            var_dump($invoiid);
             $v = array();
             if (is_array($data['entries'])) {
                 $values = array();
@@ -108,8 +108,10 @@ class Invoi extends CI_Controller {
                     }
                 }else{           //不处于盘点状态
                     $bomStr = implode(',',$bomArr);
-                    $sql = 'select bom_id, num from '.BOM_STOCK .' where bom_id in (' . $bomStr .')';
+                    $sql = 'select bom_id, Account from '.BOM_STOCK .' where bom_id = (' . $bomStr .')';
+//                    var_dump($sql);
                     $list = $this->mysql_model->db_sql($sql,2);
+                    var_dump($list);
                     $updateArr = array();
                     foreach ($list as $val){
                         if(isset($values[$val['bom_id']])) {

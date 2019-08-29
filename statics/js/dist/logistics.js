@@ -1,7 +1,7 @@
 /**
- * Created by Administrator on 2019/5/21.
+ * Created by Administrator on 2019/8/21.
  */
-var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
+var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinper,
     billRequiredCheck = system.billRequiredCheck,
     requiredMoney = system.requiredMoney,
     taxRequiredCheck = system.taxRequiredCheck,
@@ -167,6 +167,79 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             function n() {
                 $("#initCombo").append($(".goodsAuto").val("").unbind("focus.once"))
             }
+         //批量添加物流公司
+            $('.grid-wrap').on('focus','.company',function(){
+                var a = $("#grid").jqGrid('getGridParam','colModel');
+                // var name=a[$(this).closest('id').index()]['name'];
+                $.dialog({
+                    width:775,
+                    height:510,
+                    title:'选择物流公司',
+                    content:'url:'+settings_betweenUnit,
+                    data:{
+                        // skey:_self.skey,
+                        name:name,
+                        callback:function(newId,curID,curRow){
+                            if(curID === ''){
+                                $("#grid").jqGrid('addRowData',newId, {}, 'last');
+                                _self.newId = newId +1;
+                            };
+                            setTimeout( function(){
+                                $("#grid").jqGrid("editCell",curRow,2,true)},10);
+                            _self.calTotal();
+                        }
+                    }
+                })
+            });
+            //批量添加订单
+            $('.grid-wrap').on('focus','.order',function(){
+                var a = $("#grid").jqGrid('getGridParam','colModel');
+                // var name=a[$(this).closest('id').index()]['name'];
+                $.dialog({
+                    width:775,
+                    height:510,
+                    title:'选择订单',
+                    content:'url:'+settings_order_batch,
+                    data:{
+                        // skey:_self.skey,
+                        name:name,
+                        callback:function(newId,curID,curRow){
+                            if(curID === ''){
+                                $("#grid").jqGrid('addRowData',newId, {}, 'last');
+                                _self.newId = newId +1;
+                            };
+                            setTimeout( function(){
+                                $("#grid").jqGrid("editCell",curRow,2,true)},10);
+                            _self.calTotal();
+                        }
+                    }
+                })
+            });
+
+            //批量添加人员
+            $('.grid-wrap').on('focus','.company',function(){
+                var a = $("#grid").jqGrid('getGridParam','colModel');
+                // var name=a[$(this).closest('id').index()]['name'];
+                $.dialog({
+                    width:775,
+                    height:510,
+                    title:'选择人员',
+                    content:'url:'+settings_betweenUnit,
+                    data:{
+                        // skey:_self.skey,
+                        name:name,
+                        callback:function(newId,curID,curRow){
+                            if(curID === ''){
+                                $("#grid").jqGrid('addRowData',newId, {}, 'last');
+                                _self.newId = newId +1;
+                            };
+                            setTimeout( function(){
+                                $("#grid").jqGrid("editCell",curRow,2,true)},10);
+                            _self.calTotal();
+                        }
+                    }
+                })
+            });
             function o() {
                 var t = $(".storageAuto")[0];
                 return t
@@ -192,143 +265,127 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             var p = !1;
             1 === SYSTEM.siType && (p = !0);
             var h = 1190,
-                f = [{
-                    name: "operating",
-                    label: "操作 ",
-                    width: 60,
-                    fixed: !0,
-                    formatter: Public.billsOper,
-                    align: "center"
-                }, {
-                    name: "pk_bom_log_id",
-                    label: "物流单编号",
-                    width: 120,
-                    classes: "ui-ellipsis",
-                    editable: !0,
-                    edittype: "custom",
-                    editoptions: {
-                        custom_element: a,
-                        custom_value: r,
-                        handle: n,
-                        trigger: "ui-icon-edit"
-                    }
-                }, {
-                    name: "fk_supplier_id",
-                    label: "物流公司编号",
-                    width: 120,
-                    title: !1,
-                    editable : !0,
-                }, {
-                    name: "name",
-                    label: "订单名称",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "desc",
-                    label: "物流要求描述",
-                    width: 120,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "signPer_id",
-                    label: "签约人",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "sign_date",
-                    label: "签约时间",
-                    width: 100,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "status",
-                    label: "审核状态",
-                    width: 100,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "review_id",
-                    label: "审核人",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "purOrder_amount",
-                    label: "订单金额",
-                    width: 100,
-                    align: "right",
-                    formatter: "number",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "purOrder_payment",
-                    label: "付款条件",
-                    width: 100,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "creator_id",
-                    label: "创建人",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "create_date",
-                    label: "创建时间",
-                    width: 100,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "modify_id",
-                    label: "变更人",
-                    width: 80,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },{
-                    name: "modify_date",
-                    label: "变更时间",
-                    width: 100,
-                    align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
-                },
-     ];
+                f = [
+                    {       name: "operating",
+                            label: "操作",
+                            width: 40,
+                            fixed: !0,
+                            formatter: Public.billsOper,
+                            align: "center"
+                        }, {
+                            name: "FK_Supplier_ID",
+                            label: "物流公司",
+                            width: 220,
+                            title: !0,
+                            classes: "company",
+                            formatter: t,
+                            editable: true,
+                            editrules: true,
+                            // edittype: "select",
+                            editoptions:{}
+                                // value:
+                       } , {
+                            name: "Name",
+                            label: "订单名称",
+                            width: 220,
+                            title: !0,
+                            classes: "order",
+                            formatter: t,
+                            editable: true,
+                            editrules: true,
+                            editoptions: {
+                                // value:getOrderName('')
+                            }
+                        }, {
+                            name: "Desc",
+                            label: "描述",
+                            width: 180,
+                            align: "right",
+                            formatter: "number",
+                            formatoptions: {
+                                decimalPlaces: qtyPlaces
+                            },
+                            editable: !0
+                        }, {
+                        name: "SignPer_ID",
+                        label: "签约人",
+                        width: 220,
+                        title: !0,
+                        classes: "company",
+                        formatter: t,
+                        editable: true,
+                        editrules: true,
+                        // edittype: "select",
+                        editoptions:{}
+
+                        }, {
+                            name: "Sign_Date",
+                            label: "签约时间",
+                            width: 100,
+                            fixed: !0,
+                            align: "right",
+                            formatter: "currency",
+                            formatoptions: {
+                                showZero: !0,
+                                decimalPlaces: amountPlaces
+                            },
+                            editable: !0
+                        },{
+                            name: "Status",
+                            label: "审核状态",
+                            width: 220,
+                            title: !0,
+                            editable: true,
+                            edittype:'select',
+                            hidden:false,
+                            editrules:{
+                                required:true
+                            },
+                           editoptions: {value:"0:提交计划;1:询价增补提交审核;5:签订;9:执行完毕"}
+                       },{
+                            name: "Creator",
+                            label: "创建人",
+                            width: 200,
+                            title: !0,
+                            classes: "user",
+                            formatter: t,
+                            editable: true,
+                            editrules:true,
+                            editoptions: {
+
+                            }
+                        },{
+                            name: "PurOrder_Amount",
+                            label: "订单金额",
+                            width: 150,
+                            title: !0,
+                            editable: !0
+                        },{
+                            name: "PurOrder_Payment",
+                            label: "付款条件",
+                            width: 150,
+                            title: !0,
+                            editable: !0
+                        },{
+                            name: "Review_ID",
+                            label: "审核人",
+                            width: 320,
+                            title: !0,
+                            classes: "user",
+                            formatter: t,
+                            editable: true,
+                            editrules: true,
+                            editoptions: {
+
+                        }
+                       },{
+                              name: "Create_Date",
+                              label: "创建时间",
+                              width: 150,
+                              title: !0,
+                              editable: !0,
+                           }
+                    ];
 
             f.push(
                 ////   {
@@ -815,6 +872,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     url: invpu_add
                 })
             });
+
             $(".wrapper").on("click", "#print", function(t) {
                 t.preventDefault();
                 var id = this.getAttribute('rel');
@@ -938,21 +996,21 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     var s = $("#" + n).data("goodsInfo"),
                         l = $("#" + n).data("storageInfo");
                     r = {
-                        pk_bom_log_id: o.pk_bom_log_id,
-                        fk_supplier_id: o.fk_supplier_id,
-                        name: o.name,
-                        desc: o.desc,
-                        signPer_id:o.signPer_id,
-                        sign_date:o.sign_date,
-                        status:o.status,
-                        review_id:o.review_id,
-                        purOrder_amount:o.purOrder_amount,
-                        purOrder_payment:o.purOrder_payment,
-                        creator_id:o.creator_id,
-                        create_date:o.create_date,
-                        modify_id:o.modify_id,
-                        modify_date:o.modify_date,
-                        description:o.description,
+                        PK_BOM_Log_ID: o.PK_BOM_Log_ID,
+                        FK_Supplier_ID: o.FK_Supplier_ID,
+                        Name: o.Name,
+                        Desc: o.Desc,
+                        SignPer_ID:o.SignPer_ID,
+                        Sign_Date:o.Sign_Date,
+                        Status:o.Status,
+                        Review_ID:o.Review_ID,
+                        PurOrder_Amount:o.PurOrder_Amount,
+                        PurOrder_Payment:o.PurOrder_Payment,
+                        Creator_ID:o.Creator_ID,
+                        Create_Date:o.Create_Date,
+                        Modify_ID:o.Modify_ID,
+                        Modify_Date:o.Modify_Date,
+                        Description:o.Description,
                     };
                     t.push(r)
                 }
@@ -978,6 +1036,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             $("#grid").jqGrid("editCell", 1, 2, !0);
             return !1
         }
+
     },
     hasLoaded = !1,
     originalData;

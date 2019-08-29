@@ -42,7 +42,6 @@
         var basedata_contact  = "<?=site_url('basedata/contact')?>";
         var settings_inventory =  "<?=site_url('settings/inventory')?>";
         var settings_skins =  "<?=site_url('settings/skins')?>";
-
         var invpu_lists = "<?=site_url('invpu/lists')?>";
         var invpu_add   = "<?=site_url('invpu/add')?>";
         var invpu_edit   = "<?=site_url('invpu/edit')?>";
@@ -50,6 +49,8 @@
         var logistics_del    = "<?=site_url('logistics/del')?>";
         var logistics_lists  = "<?=site_url('logistics/lists')?>";
         var logistics_add    = "<?=site_url('logistics/add')?>";
+        var logistics_company   = "<?=site_url('logistics/company')?>";
+        var database_SelectSinper   = "<?=site_url('database/SelectSinper')?>";
     </script>
     <style>
         #matchCon { width: 280px; }
@@ -80,16 +81,13 @@
             <!--<a class="ui-btn" id="print" target="_blank" href="javascript:void(0);">打印</a>-->
             <!--<a class="ui-btn" id="export" target="_blank" href="javascript:void(0);">导出</a>--><a class="ui-btn dn" id="audit">审核</a><a class="ui-btn" id="reAudit">反审核</a></div>
     </div>
-    <!--  <div class="mod-toolbar-top cf">
-        <div class="fl"><strong class="tit">仓库</strong></div>
-        <div class="fr"><a class="ui-btn ui-btn-sp mrb" id="search">新增</a><a class="ui-btn" id="export">导出</a></div>
-      </div>-->
+
     <div class="grid-wrap">
         <table id="grid">
         </table>
         <div id="page"></div>
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/logisticsList.js?636"></script>
+<script src="<?=skin_url()?>/js/dist/logisticsList.js?999"></script>
 </body>
 </html>

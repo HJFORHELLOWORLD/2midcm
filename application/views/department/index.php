@@ -89,6 +89,6 @@
         <div id="page"></div>
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/department.js?9999"></script>
+<script src="<?=skin_url()?>/js/dist/department.js?999"></script>
 </body>
 </html>
