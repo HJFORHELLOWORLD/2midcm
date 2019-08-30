@@ -410,16 +410,18 @@ class Data_model extends CI_Model{
     //bom设计列表
     public function designList($where='',$order=''){
         $where = $where ? 'where (1=1) '.$where : '';
-        $sql = 'SELECT a.PK_BOM_Desi_ID AS PK_BOM_Desi_ID, a.Name AS Name, a.desc AS desc, a.WC_ID AS WC_ID,a.UpBOM_ID AS UpBOM_ID , b.DownBOM_ID AS DownBOM_ID,
-                a.DownBom_Amount AS DownBom_Amount, c.BOMName AS BOMName, a.DownBOM_Amount AS DownBOM_Amount
+        $sql = 'SELECT a.*, b.BOMName AS UpBOM_Name , c.BOMName AS DownBOM_Name, d.`WC_Name` AS WC_Name
                 FROM 
-               t_ '.BOM_DESIGN.' as a 
+               t_'.BOM_DESIGN.' as a 
                 LEFT JOIN 
                 t_'.BOM_BASE.' as b
                 ON a.UpBOM_ID=b.PK_BOM_ID
                 LEFT JOIN 
-               t_ '.BOM_BASE.' as c
+               t_'.BOM_BASE.' as c
                 ON a.DownBom_ID = c.PK_BOM_ID
+                LEFT JOIN 
+               t_'.WORK_CERTER.' as d
+                ON a.WC_ID = d.PK_WC_ID
                 '.$where.'
                 '.$order.'
                 ';

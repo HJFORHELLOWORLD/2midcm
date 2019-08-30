@@ -50,6 +50,7 @@
         var design_lists  = "<?=site_url('design/lists')?>";
         var design_add    = "<?=site_url('design/add')?>";
         var design_edit    = "<?=site_url('design/edit')?>";
+        var basedata_getGroupContractNum  = "<?=site_url('basedata/getGroupContractNum')?>";
     </script>
     <style>
         #matchCon { width: 280px; }

@@ -564,6 +564,13 @@ class Basedata extends CI_Controller {
                     $data[] = array('key' => intval($row['PK_Industry_ID']), 'name' => $row['Name']);
                 }
                 break;
+
+            case 'workcenter' :
+                $list = $this->cache_model->load_data(WORK_CERTER,'(1=1) order by PK_WC_ID desc');
+                foreach ($list as $arr=>$row) {
+                    $data[] = array('key' => intval($row['PK_WC_ID']), 'name' => $row['WC_Name']);
+                }
+                break;
         }
 
         die(json_encode($data));
