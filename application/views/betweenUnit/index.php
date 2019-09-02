@@ -28,7 +28,7 @@ var icon_url = "<?=skin_url()?>/css/base/dialog/icons/";
 var settings_customer_manage = "<?=site_url('settings/customer_manage')?>";   
 var settings_vendor_manage = "<?=site_url('settings/vendor_manage')?>";       
 var settings_vendor_batch = "<?=site_url('settings/vendor_batch')?>";         
-var settings_customer_batch = "<?=site_url('settings/customer_batch')?>";   
+var settings_customer_batch = "<?=site_url('settings/customer_batch')?>";
 var basedata_settlement = "<?=site_url('basedata/settlement')?>";            
 var settings_settlement_manage = "<?=site_url('settings/settlement_manage')?>";       
 var basedata_category = "<?=site_url('basedata/category')?>";                     
@@ -63,7 +63,7 @@ var betweenUnit_save    = "<?=site_url('betweenUnit/save')?>";
 	    </div>
 	    <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a><!--<a href="#" class="ui-btn mrb" id="btn-print">打印</a>-->
 		<!--<a href="#" class="ui-btn mrb" id="btn-import">导入</a>-->
-		<a href="#" class="ui-btn mrb" id="btn-export">导出</a>
+<!--		<a href="#" class="ui-btn mrb" id="btn-export">导出</a>-->
 		<a href="#" class="ui-btn" id="btn-batchDel">删除</a></div>
 	  </div>
     <div class="grid-wrap">

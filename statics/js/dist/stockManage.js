@@ -1,6 +1,5 @@
 function initField() {
-	rowData.id && $("#name").val(rowData.WC_Name) && $("#desc").val(rowData.Desc)
-	&& $("#IsKey").val(rowData.IsKey)
+	rowData.id && $("#name").val(rowData.Stock_Name) && $("#desc").val(rowData.Desc)
 
 }
 
@@ -48,18 +47,16 @@ function postData() {
 		var t = $.trim($("#name").val()),
             d = $.trim($("#desc").val()),
 			h = userCombo.getValue(),//$.trim($("#headName").val()),	//后期改为head_id
-            k = $("#IsKey").val(),
 			n = userCombo.getText();//$.trim($("#headName").val()),
 			e = {
 				id: rowData.id,
 				name: t,
 				desc : d,
 				head_id : h,
-                IsKey : k,
 				head_name : n
 			},
-			i = "add" == oper ? "新增往来单位类别" : "修改往来单位类别";
-		Public.ajaxPost(workcenter_save+"?act=" + ("add" == oper ? "add" : "update"), e, function(t) {
+			i = "add" == oper ? "新增仓库" : "修改仓库";
+		Public.ajaxPost(stock_save+"?act=" + ("add" == oper ? "add" : "update"), e, function(t) {
 			if (200 == t.status) {
 				parent.parent.Public.tips({
 					content: i + "成功！"
@@ -77,7 +74,6 @@ function resetForm() {
 	$("#name").val("").focus().select();
     $("#desc").val("");
     $("#headName").val("");
-    $("#IsKey").val("");
 }
 var api = frameElement.api,
 	oper = api.data.oper,

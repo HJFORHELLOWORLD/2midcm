@@ -406,13 +406,27 @@ class Data_model extends CI_Model{
     //bom设计列表
     public function designList($where='',$order=''){
         $where = $where ? 'where (1=1) '.$where : '';
+<<<<<<< HEAD
         $sql = 'SELECT a.PK_BOM_Desi_ID AS PK_BOM_Desi_ID, a.Name AS Name, a.Desc AS Des, a.WC_ID AS WC_ID,a.UpBOM_ID AS UpBOM_ID,b.DownBOM_ID AS DownBOM_ID,
                 a.DownBom_Amount AS DownBom_Amount, c.BOMName AS BOMName, a.DownBOM_Amount AS DownBOM_Amount
+=======
+        $sql = 'SELECT a.*, b.BOMName AS UpBOM_Name , c.BOMName AS DownBOM_Name, d.`WC_Name` AS WC_Name
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
                 FROM 
                t_'.BOM_DESIGN.' as a 
                 LEFT JOIN 
                 t_'.BOM_BASE.' as b
+<<<<<<< HEAD
                 ON a.UpBOM_ID=b.PK_BOM_ID             
+=======
+                ON a.UpBOM_ID=b.PK_BOM_ID
+                LEFT JOIN 
+               t_'.BOM_BASE.' as c
+                ON a.DownBom_ID = c.PK_BOM_ID
+                LEFT JOIN 
+               t_'.WORK_CERTER.' as d
+                ON a.WC_ID = d.PK_WC_ID
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
                 '.$where.'
                 '.$order.'
                 ';
@@ -591,10 +605,27 @@ class Data_model extends CI_Model{
         return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
     }
 
+<<<<<<< HEAD
+=======
+    //地区分类列表
+    public function areaList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Name as upareaName  FROM 
+            t_'.AREA.' as a 
+            LEFT JOIN t_'
+            .AREA.' as b
+            ON a.UpArea_ID=b.PK_Area_ID
+            '.$where.'
+            '.$order.'
+            ';
+        return $this->cache_model->load_sql(AREA,$sql,2);
+    }
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
 
     //部门列表
     public function departmentList($where='',$order='') {
         $where = $where ? 'where (1=1) '.$where : '';
+<<<<<<< HEAD
         $sql = 'select a.*,b.Username as Header
 		        FROM 
 		        t_'.DEPARTMENT.'as a 
@@ -610,6 +641,50 @@ class Data_model extends CI_Model{
 
     }
 
+=======
+        $sql = 'SELECT a.*, b.Username as headName  FROM 
+            t_'.DEPARTMENT.' as a 
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Head_ID=b.PK_User_ID
+            '.$where.'
+            '.$order.'
+            ';
+        return $this->cache_model->load_sql(DEPARTMENT,$sql,2);
+    }
+
+    //往来单位列表
+    public function betweenunitList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*,if(a.Industry_ID =0,"其他", c.Name) AS industry, b.name AS area
+                FROM 
+                t_'.BETWEENUNIT.' as a 
+                LEFT JOIN t_'
+            .AREA.' as b
+                ON a.Area_ID=b.PK_Area_ID
+                LEFT JOIN t_'
+            .INDUSTRY.' as c
+                ON a.Industry_ID=c.PK_Industry_ID
+                '.$where.'
+                '.$order.'
+                ';
+        return $this->cache_model->load_sql(BETWEENUNIT,$sql,2);
+    }
+
+    //仓库列表
+    public function stockList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Username as headName  FROM 
+            t_'.STOCK.' as a 
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Head_ID=b.PK_User_ID
+            '.$where.'
+            '.$order.'
+            ';
+        return $this->cache_model->load_sql(STOCK,$sql,2);
+    }
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
 
 }
 ?>

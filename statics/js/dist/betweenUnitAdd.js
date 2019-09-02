@@ -188,6 +188,28 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                 var c = 8 - t.entries.length;
                 if (c > 0) for (var u = 0; c > u; u++) t.entries.push({})
             }
+
+            function getGroupContractNum(type) {
+                var GroupContractNum = "";
+                var i;
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: basedata_getGroupContractNum + "?type=" + type,
+                    success: function (result) {
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i < result.length; i++) {
+                            if (i != result.length - 1) {
+                                GroupContractNum += result[i].key + ":" + result[i].name + ";";
+                            } else {
+                                GroupContractNum += result[i].key + ":" + result[i].name;
+                            }
+                        }
+                    }
+                });
+                return GroupContractNum;		//必须有此返回值
+            }
+
             d.newId = 9;
             var p = !1;
             1 === SYSTEM.siType && (p = !0);
@@ -223,37 +245,45 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     label: "描述",
                     width: 80,
                     align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
                     editable: !0
                 },{
                     name: "area_id",
                     label: "地区编号",
                     width: 120,
                     align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
+                    editable: !0,
+                    edittype:'select',
+                    formatter:'select',
+                    editoptions:{
+                        value:getGroupContractNum('area')
+                    }
                 },{
                     name: "bu_cat",
                     label: "类别",
                     width: 80,
                     align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
+                    editable: !0,
+                    edittype:'select',
+                    formatter:'select',
+                    editoptions:{
+                        value:{
+                            1 : '客户',
+                            2 : '厂家',
+                            3 : '第三方'
+                        }
+                    }
                 },{
                     name: "industry_id",
                     label: "所属行业",
                     width: 100,
                     align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
-                    editable: !0
+                    editable: !0,
+                    edittype:'select',
+                    formatter:'select',
+                    editoptions:{
+                        value:getGroupContractNum('industry')
+                    }
+
                 },{
                     name: "taxRate",
                     label: "税率",
@@ -268,9 +298,6 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     label: "联系方式",
                     width: 120,
                     align: "right",
-                    formatoptions: {
-                        decimalPlaces: qtyPlaces
-                    },
                     editable: !0
                 }
      ];

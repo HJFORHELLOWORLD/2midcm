@@ -43,16 +43,17 @@ class Workcenter extends CI_Controller {
         $id   = intval($this->input->post('id',TRUE));
         $data['WC_Name'] = str_enhtml($this->input->post('name',TRUE));
         $data['Desc'] = str_enhtml($this->input->post('desc',TRUE));
-        $data['Head_ID'] = str_enhtml($this->input->post('head_id',TRUE));
-        $data['IsKey'] = str_enhtml($this->input->post('IsKey',TRUE));
+        $data['Head_ID'] = intval(str_enhtml($this->input->post('head_id',TRUE)));
+        $data['IsKey'] = intval(str_enhtml($this->input->post('IsKey',TRUE)));
         if ($act=='add') {
             $this->purview_model->checkpurview(113);
             strlen($data['WC_Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
             $this->mysql_model->db_count(WORK_CERTER,'(WC_Name="'.$data['WC_Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该工作中心"}');
             $data['id'] = $this->mysql_model->db_inst(WORK_CERTER,$data);
             $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
+            $data['IsKeyName'] =  $data['IsKey'] == 0 ? '不关键' : '关键';
             if ($data['id']) {
-                $this->data_model->logs('新增往来单位类别:'.$data['WC_Name']);
+                $this->data_model->logs('新增工作中心:'.$data['WC_Name']);
                 $this->cache_model->delsome(WORK_CERTER);
                 die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
             } else {
@@ -90,6 +91,7 @@ class Workcenter extends CI_Controller {
                     $where .= ' and (PK_WC_ID like "%'.$skey.'%"' . ' or WC_Name like "%'.$skey.'%"' . ')';
                 }*/
 
+<<<<<<< HEAD
         $offset = $rows * ($page - 1);
         $data['data']['page'] = $page;                                                      //当前页
         $data['data']['records'] = $this->cache_model->load_total(WORK_CERTER, '(1=1) ' . $where . '');     //总条数
@@ -119,6 +121,26 @@ class Workcenter extends CI_Controller {
             $data['data']['totalsize'] = count($list);//$this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');
             die(json_encode($data));
         }
+=======
+        $offset = $rows * ($page-1);
+        $data['data']['page']      = $page;                                                      //当前页
+        $data['data']['records']   = $this->cache_model->load_total(WORK_CERTER,'(1=1) '.$where.'');     //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
+        $list = $this->data_model->workcenterList($where, ' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
+       // $list = $this->cache_model->load_data(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['id']           = intval($row['PK_WC_ID']);
+            $v[$arr]['WC_Name']         = $row['WC_Name'];
+            $v[$arr]['Desc']       = $row['Desc'];
+            $v[$arr]['headName']       = $row['headName'];
+            $v[$arr]['Head_ID']       = $row['Head_ID'];
+            $v[$arr]['IsKeyName']       = $row['IsKey'] == 0 ? '不关键' : '关键';
+            $v[$arr]['IsKey']       = $row['IsKey'] ;
+        }
+        $data['data']['items']   = is_array($v) ? $v : '';
+        $data['data']['totalsize']  = $this->cache_model->load_total(WORK_CERTER,'(1=1) '.$where.' order by PK_WC_ID desc');
+        die(json_encode($data));
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
     }
 
 

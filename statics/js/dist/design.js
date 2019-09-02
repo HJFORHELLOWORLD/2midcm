@@ -226,6 +226,28 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             function l() {
                 $("#initCombo").append($(".storageAuto").val(""))
             }
+
+            function getGroupContractNum(type) {
+                var GroupContractNum = "";
+                var i;
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: basedata_getGroupContractNum + "?type=" + type,
+                    success: function (result) {
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i < result.length; i++) {
+                            if (i != result.length - 1) {
+                                GroupContractNum += result[i].key + ":" + result[i].name + ";";
+                            } else {
+                                GroupContractNum += result[i].key + ":" + result[i].name;
+                            }
+                        }
+                    }
+                });
+                return GroupContractNum;		//必须有此返回值
+            }
+
             var d = this;
             if (t.id) {
                 var c = 8 - t.entries.length;
@@ -243,94 +265,81 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     formatter: Public.billsOper,
                     align: "center"
                 },{
-                    name: "pk_bom_desi_id",
-                    label: "编号",
-                    width: 150,
-                    title: !0,
-                    editable: !0
-                },{
                     name: "name",
                     label: "bom设计",
                     width: 150,
                     title: !0,
                     editable: !0
                 },{
-                    name: "desc",
-                    label: "描述",
-                    width: 150,
+                    name: "up_bom_id",
+                    label: "上位物料id",
+                    width: 10,
                     hidden:true,
                     title: !0,
                     editable: !1
+                }, {
+                    name: "up_bom_name",
+                    label: "上位物料",
+                    width: 300,
+                    classes: "ui-ellipsis",
+                    formatter: i,
+                    editable: !0,
+                    edittype: "custom",
+                    editoptions: {
+                        custom_element: a,
+                        custom_value: r,
+                        handle: n,
+                        trigger: "ui-icon-ellipsis"
+                    }
+                },{
+                    name: "down_bom_id",
+                    label: "下位物料id",
+                    width: 10,
+                    hidden:true,
+                    title: !0,
+                    editable: !1
+                }, {
+                    name: "down_bom_name",
+                    label: "下位物料",
+                    width: 300,
+                    classes: "ui-ellipsis",
+                    formatter: i,
+                    editable: !0,
+                    edittype: "custom",
+                    editoptions: {
+                        custom_element: a,
+                        custom_value: r,
+                        handle: n,
+                        trigger: "ui-icon-ellipsis"
+                    }
+                }, {
+                    name: "down_bom_number",
+                    label: "下位物料数量",
+                    width: 100,
+                    align: "right",
+                    formatter: "number",
+                    formatoptions: {
+                        decimalPlaces: qtyPlaces
+                    },
+                    editable: !0
                 },{
                     name: "wc_id",
-                    label: "工作中心编号",
+                    label: "工作中心",
                     width: 120,
-                    title: !0,
-                    editable: !0
-                }, {
-                    name: "upBom_id",
-                    label: "上位物料id",
-                    width: 120,
-                    classes: "ui-ellipsis",
-                    editable: !0
+                    align: "right",
+                    editable: !0,
+                    edittype:'select',
+                    formatter:'select',
+                    editoptions:{
+                        value:getGroupContractNum('workcenter')
+                    }
                 },{
-                    name: "downBom_id",
-                    label: "下位物料id",
-                    width: 120,
-                    classes: "ui-ellipsis",
-                    editable: !0
-                },
-                 {
-                    name: "downBom_amount",
-                    label: "下位物料数量",
-                    width: 120,
-                    classes: "ui-ellipsis",
-                    editable: !0
-                },
-                //     {
-                //     name: "method",
-                //     label: "计算方法",
-                //     width: 100,
-                //     title: !0,
-                //     editable: !0
-                // },{
-                //     name: "formula",
-                //     label: "计算公式",
-                //     width: 100,
-                //     title: !0,
-                //     editable: !0
-                // },{
-                //     name: "des_coef",
-                //     label: "管理系数",
-                //     width: 80,
-                //     title: !0,
-                //     editable: !0
-                // },
-                    {
-                    name: "creator_id",
-                    label: "创建人",
-                    width: 80,
+                    name: "desc",
+                    label: "描述",
+                    width: 150,
                     title: !0,
                     editable: !0
-                },{
-                    name: "create_date",
-                    label: "创建时间",
-                    width: 100,
-                    title: !0,
-                    editable: !0
-                },{
-                    name: "modify_id",
-                    label: "变更人",
-                    width: 80,
-                    title: !0,
-                    editable: !0
-                },{
-                    name: "modify_date",
-                    label: "变更时间",
-                    width: 100,
-                    title: !0,
-                    editable: !0
-                },];
+                }];
             f.push(
                 ////   {
 //				name: "locationName",
@@ -345,14 +354,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 //					trigger: "ui-icon-triangle-1-s"e
 //				}
 //			},
-                {
-                    name: "desc",
-                    label: "备注",
-                    width: 120,
-                    classes: "ui-ellipsis",
-                    title: !0,
-                    editable: !0
-                }, {
+                 {
                     name: "srcOrderEntryId",
                     label: "源单分录ID",
                     width: 0,
@@ -414,21 +416,13 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                                 n = e[a];
                             if ($.isEmptyObject(e[a])) break;
                             $("#" + r).data("goodsInfo", {
-                                pk_bom_desi_id:o.pk_bom_stock_id,
-                                name:o.name,
-                                desc:o.desc,
-                                wc_id:o.wc_id,
-                                upBom_id:o.upBom_id,
-                                downBom_id:o.downBom_id,
-                                downBom_amount:o.downBom_amount,
-                                method:o.method,
-                                formula:o.formula,
-                                des_coef:o.des_coef,
-                                creator_id:o.creator_id,
-                                create_date:o.create_date,
-                                modify_id:o.modify_id,
-                                modify_date:o.modify_date
-
+                                name: n.name,
+                                up_bom_id: n.up_bom_id,
+                                up_bom_name: n.up_bom_name,
+                                down_bom_id: n.down_bom_id,
+                                down_bom_name: n.down_bom_name,
+                                down_bom_number: n.down_bom_number,
+                                desc: n.desc
                             }).data("storageInfo", {
                                 id: n.locationId,
                                 name: n.locationName
@@ -907,8 +901,6 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                 e.preventDefault();
                 var i = THISPAGE.getPostData();
                 //i && Public.ajaxPost("/scm/invPu.do?action=addNew", {
-                console.log(i);
-                console.log(JSON.stringify(i));
                 i && Public.ajaxPost(design_add+"?act=addnew", {
                     postData: JSON.stringify(i)
                 }, function(e) {
@@ -1003,26 +995,21 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             for (var t = [], e = $("#grid").jqGrid("getDataIDs"), i = 0, a = e.length; a > i; i++) {
                 var r, n = e[i],
                     o = $("#grid").jqGrid("getRowData", n);
-                if ("" !== o.up_bom_name) {
+                if ("" !== o.up_bom_name && "" !== o.down_bom_name) {
                     var s = $("#" + n).data("goodsInfo"),
                         l = $("#" + n).data("storageInfo");
                     r = {
-                        pk_bom_desi_id:o.pk_bom_stock_id,
-                        name:o.name,
-                        desc:o.desc,
+                        name: o.name,
+                        up_bom_id: o.up_bom_id,
+                        up_bom_name: o.up_bom_name,
+                        down_bom_id: o.down_bom_id,
+                        down_bom_name: o.down_bom_name,
+                        down_bom_number: o.down_bom_number,
                         wc_id:o.wc_id,
-                        upBom_id:o.upBom_id,
-                        downBom_id:o.downBom_id,
-                        downBom_amount:o.downBom_amount,
-                        method:o.method,
-                        formula:o.formula,
-                        des_coef:o.des_coef,
-                        creator_id:o.creator_id,
-                        create_date:o.create_date,
-                        modify_id:o.modify_id,
-                        modify_date:o.modify_date
+                        desc: o.desc
                     };
-                    if(r.down_bom_number <= 0 || "" === r.down_bom_name || "" === r.name){
+                    if(parseFloat(r.down_bom_number) <= 0 || r.up_bom_id === r.down_bom_id
+                        || "" === r.up_bom_name || "" === r.down_bom_name){
                         return false;
                     }
 
@@ -1042,14 +1029,14 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 
             var r = this._getEntriesData();
 
-            // if(r === false){
-            //     parent.Public.tips({
-            //         type: 2,
-            //         content: "请检查上位物料、下位物料、下位物料数量数值是否为空！"
-            //     });
-            //     $("#grid").jqGrid("editCell", 1, 2, !0);
-            //     return !1
-            // }
+            if(r === false){
+                parent.Public.tips({
+                    type: 2,
+                    content: "请检查上位物料、下位物料、下位物料数量数值是否为空或上下位物料是否为同一种物料！"
+                });
+                $("#grid").jqGrid("editCell", 1, 2, !0);
+                return !1
+            }
 
             if (r.length > 0) {
                 var n = {

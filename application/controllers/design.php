@@ -25,27 +25,26 @@ class Design extends CI_Controller {
         $key  = str_enhtml($this->input->get_post('matchCon',TRUE));
         $where = '';
         if (strlen($key)>0) {
-            $where .= ' and (a.name like "%'.$key.'%" or b.name like "%' . $key .'%" or c.name like "%'.$key.'%" )';
+            $where .= ' and (a.Name like "%'.$key.'%" or b.BOMName like "%' . $key .'%" or c.BOMName like "%'.$key.'%" )';
         }
 
         $offset = $rows * ($page-1);
         $data['data']['page']      = $page;
         $list = $this->data_model->designList($where,' order by PK_BOM_Desi_ID desc limit '.$offset.','.$rows.'');
         foreach ($list as $arr=>$row) {
-            $v[$arr]['pk_bom_desi_id']   = intval($row['pk_bom_desi_id']);
-            $v[$arr]['name']    = $row['name'];
-            $v[$arr]['desc']  = $row['desc'];
-            $v[$arr]['wc_id']  = $row['wc_id'];
-            $v[$arr]['upBom_id']  = intval($row['upBom_id']);
-            $v[$arr]['downBom_id']       = $row['downBom_id'];
-            $v[$arr]['downBom_amount']   = $row['downBom_amount'];
-            $v[$arr]['method']   = $row['method'];
-            $v[$arr]['formula']  = $row['formula'];
-            $v[$arr]['des_coef']  = $row['des_coef'];
-            $v[$arr]['creator_id']   = $row['creator_id'];
-            $v[$arr]['create_date']   = $row['create_date'];
-            $v[$arr]['modify_id']   = $row['modify_id'];
-            $v[$arr]['modify_date']   = $row['modify_date'];
+            $v[$arr]['id']   = intval($row['PK_BOM_Desi_ID']);
+            $v[$arr]['Name']    = $row['Name'];
+            $v[$arr]['WC_ID']  = $row['WC_ID'];
+            $v[$arr]['WC_Name']  = $row['WC_Name'];
+            $v[$arr]['UpBOM_ID']  = intval($row['UpBOM_ID']);
+            $v[$arr]['DownBOM_ID']       = $row['DownBOM_ID'];
+            $v[$arr]['UpBOM_Name']  = $row['UpBOM_Name'];
+            $v[$arr]['DownBOM_Name']       = $row['DownBOM_Name'];
+            $v[$arr]['DownBOM_Amount']   = $row['DownBOM_Amount'];
+            $v[$arr]['Desc']   = $row['Desc'];
+            $v[$arr]['Method']   = $row['Method'];
+            $v[$arr]['Formula']  = $row['Formula'];
+            $v[$arr]['Des_Coef']  = $row['Des_Coef'];
         }
         $data['data']['records']   = count($list);   //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数
@@ -62,20 +61,16 @@ class Design extends CI_Controller {
             $data = (array)json_decode($data);
             if (is_array($data['entries'])) {
                 foreach ($data['entries'] as $arr => $row) {
-                    $v[$arr]['pk_bom_desi_id']= intval($row->pk_bom_desi_id);
-                    $v[$arr]['name'] = $row->name;
-                    $v[$arr]['desc'] = $row->desc;
-                    $v[$arr]['wcId'] = $row->wcId;
-                    $v[$arr]['up_bom_id'] = intval($row->up_bom_id);
-                    $v[$arr]['down_bom_id'] = intval($row->down_bom_id);
-                    $v[$arr]['down_bom_amount'] = (float)$row->down_bom_amount;
-                    $v[$arr]['method'] = $row->method;
-                    $v[$arr]['formula'] = $row->formula;
-                    $v[$arr]['des_Coef'] = $row->des_Coef;
-                    $v[$arr]['creator_id']   = $row->creator_id;
-                    $v[$arr]['creator_date']   = $row->creator_date;
-                    $v[$arr]['modify_id']   = $row->modify_id;
-                    $v[$arr]['modify_date']   = $row->modify_date;
+                    $v[$arr]['Name'] = $row->name;
+                    $v[$arr]['Desc'] = $row->desc;
+                    $v[$arr]['WC_ID'] = intval($row->wc_id);
+                    $v[$arr]['UpBOM_ID'] = intval($row->up_bom_id);
+                    $v[$arr]['DownBOM_ID'] = intval($row->down_bom_id);
+                    $v[$arr]['DownBOM_Amount'] = (float)$row->down_bom_number;
+                   //$v[$arr]['method'] = $row->method;
+                   // $v[$arr]['formula'] = $row->formula;
+                    //$v[$arr]['des_Coef'] = $row->des_Coef;
+                    $v[$arr]['creator_id']   = $this->uid;
                 }
                 $designId = $this->mysql_model->db_inst(BOM_DESIGN, $v);
 
@@ -97,12 +92,12 @@ class Design extends CI_Controller {
     //修改BOM设计
     public function edit(){
         $this->purview_model->checkpurview(104);
-        $id   = intval($this->input->get('PK_BOM_Desi_ID',TRUE));
+        $id   = intval($this->input->get('id',TRUE));
         $data = $this->input->post('postData',TRUE);
         if (strlen($data)>0) {
             $data = (array)json_decode($data);
-            !isset($data['PK_BOM_Desi_ID']) && die('{"status":-1,"msg":"参数错误"}');
-            $bomData = $this->mysql_model->db_select(BOM_DESIGN,'(id='.$data['PK_BOM_Desi_ID'].')');
+            !isset($data['id']) && die('{"status":-1,"msg":"参数错误"}');
+            $bomData = $this->mysql_model->db_select(BOM_DESIGN,'(PK_BOM_Desi_ID='.$data['id'].')');
 
             if(count($bomData) < 1) die('{"status":-1,"msg":"不存在该BOM设计"}');
 
@@ -111,20 +106,18 @@ class Design extends CI_Controller {
 
             if (is_array($data['entries'])) {
                 foreach ($data['entries'] as $arr=>$row) {
-                    $v[$arr]['PK_BOM_Desi_ID']= intval($row->PK_BOM_Desi_ID);
-                    $v[$arr]['Name'] = $row->Name;
-                    $v[$arr]['Desc'] = $row->Desc;
-                    $v[$arr]['wcId'] = $row->wcId;
-                    $v[$arr]['up_bom_id'] = intval($row->up_bom_id);
-                    $v[$arr]['down_bom_id'] = intval($row->down_bom_id);
-                    $v[$arr]['down_bom_amount'] = (float)$row->down_bom_amount;
-                    $v[$arr]['Method'] = $row->Method;
-                    $v[$arr]['Formula'] = $row->Formula;
-                    $v[$arr]['Des_Coef'] = $row->Des_Coef;
-                    $v[$arr]['Creator_ID']   = $row->Creator_ID;
-                    $v[$arr]['Creator_Date']   = $row->Creator_Date;
-                    $v[$arr]['Modify_ID']   = $row->Modify_ID;
-                    $v[$arr]['Modify_Date']   = $row->Modify_Date;
+                    $v[$arr]['PK_BOM_Desi_ID']= intval($data['id']);
+                    $v[$arr]['Name'] = $row->name;
+                    $v[$arr]['Desc'] = $row->desc;
+                    $v[$arr]['WC_ID'] = $row->wc_id;
+                    $v[$arr]['UpBOM_ID'] = intval($row->up_bom_id);
+                    $v[$arr]['DownBOM_ID'] = intval($row->down_bom_id);
+                    $v[$arr]['DownBOM_Amount'] = (float)$row->down_bom_number;
+                    //$v[$arr]['Method'] = $row->Method;
+                    //$v[$arr]['Formula'] = $row->Formula;
+                    //$v[$arr]['Des_Coef'] = $row->Des_Coef;
+                    $data['Modify_ID'] = $this->uid;
+                    $data['Modify_Date'] = date('Y-m-d H:i:s',time());
                 }
             }
             $this->mysql_model->db_upd(BOM_DESIGN, $v, 'PK_BOM_Desi_ID');
@@ -134,11 +127,11 @@ class Design extends CI_Controller {
             } else {
                 $this->db->trans_commit();
                 $this->cache_model->delsome(BOM_DESIGN);
-                $this->data_model->logs('修改了BOM设计：'.$id);
-                die('{"status":200,"msg":"success","data":{"id":'.$id.'}}');
+                $this->data_model->logs('修改了BOM设计：'.$data['id']);
+                die('{"status":200,"msg":"success","data":{"id":'.$data['id'].'}}');
             }
         } else {
-            $data = $this->mysql_model->db_one(BOM_DESIGN,'(id='.$id.')');
+            $data = $this->mysql_model->db_one(BOM_DESIGN,'(PK_BOM_Desi_ID='.$id.')');
             if (count($data)>0) {
                 $this->load->view('design/edit',$data);
             }
@@ -148,18 +141,30 @@ class Design extends CI_Controller {
     //BOM设计信息
     public function info(){
         $id   = intval($this->input->get_post('id',TRUE));
-        $where = " and a.id = $id";
+        $where = " and a.PK_BOM_Desi_ID = $id";
         $data = $this->data_model->designList($where);
+        $v = array();
         if (count($data)>0) {
-            foreach ($data as $k=>$val){
-                $data[$k]['name'] = $val['_name'];
-                $data[$k]['desc']= $val['description'];
+            foreach ($data as $arr=>$row){
+                $v[$arr]['id']   = intval($row['PK_BOM_Desi_ID']);
+                $v[$arr]['name']    = $row['Name'];
+                $v[$arr]['WC_ID']  = $row['WC_ID'];
+                $v[$arr]['WC_Name']  = $row['WC_Name'];
+                $v[$arr]['up_bom_id']  = intval($row['UpBOM_ID']);
+                $v[$arr]['down_bom_id']       = $row['DownBOM_ID'];
+                $v[$arr]['up_bom_name']  = $row['UpBOM_Name'];
+                $v[$arr]['down_bom_name']       = $row['DownBOM_Name'];
+                $v[$arr]['downbom_Amount']   = $row['DownBOM_Amount'];
+                $v[$arr]['desc']   = $row['Desc'];
+                $v[$arr]['Method']   = $row['Method'];
+                $v[$arr]['Formula']  = $row['Formula'];
+                $v[$arr]['Des_Coef']  = $row['Des_Coef'];
             }
             $info['status'] = 200;
             $info['msg']    = 'success';
-            $info['data']['rows']  = $data;
-            $info['data']['entries']     = $data;
-            $info['data']['id'] = $data[0]['id'];
+            $info['data']['rows']  = $v;
+            $info['data']['entries']     = $v;
+            $info['data']['id'] = $v[0]['id'];
             die(json_encode($info));
         } else {
             alert('参数错误');
@@ -170,10 +175,10 @@ class Design extends CI_Controller {
     public function del() {
         /*$this->purview_model->checkpurview(105);*/
         $id   = intval($this->input->get('id',TRUE));
-        $data = $this->mysql_model->db_one(BOM_DESIGN,'(id='.$id.')');
+        $data = $this->mysql_model->db_one(BOM_DESIGN,'(PK_BOM_Desi_ID='.$id.')');
         if (count($data)>0) {
             $this->db->trans_begin();
-            $this->mysql_model->db_del(BOM_DESIGN,'(id='.$id.')');
+            $this->mysql_model->db_del(BOM_DESIGN,'(PK_BOM_Desi_ID='.$id.')');
             if ($this->db->trans_status() === FALSE) {
                 $this->db->trans_rollback();
                 die('{"status":-1,"msg":"删除失败"}');

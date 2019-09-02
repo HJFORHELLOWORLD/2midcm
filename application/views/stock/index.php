@@ -38,19 +38,12 @@
         var settings_goods_batch  = "<?=site_url('settings/goods_batch')?>";
         var basedata_goods = "<?=site_url('basedata/goods')?>";
         var basedata_unit  = "<?=site_url('basedata/unit')?>";
-        var settings_unit_manage = "<?=site_url('settings/unit_manage')?>";
+        var settings_stock_manage = "<?=site_url('settings/stock_manage')?>";
         var basedata_contact  = "<?=site_url('basedata/contact')?>";
         var settings_inventory =  "<?=site_url('settings/inventory')?>";
         var settings_skins =  "<?=site_url('settings/skins')?>";
 
-        var invpu_lists = "<?=site_url('invpu/lists')?>";
-        var invpu_add   = "<?=site_url('invpu/add')?>";
-        var logistics_export    = "<?=site_url('logistics/export')?>";
-        var design_del    = "<?=site_url('design/del')?>";
-        var design_lists  = "<?=site_url('design/lists')?>";
-        var design_add    = "<?=site_url('design/add')?>";
-        var design_edit    = "<?=site_url('design/edit')?>";
-        var workcenter_add = "<?=site_url('workcenter/add')?>";
+        var stock_del = "<?=site_url('stock/del')?>";
         var stock_add = "<?=site_url('stock/add')?>";
         var stock_lists = "<?=site_url('stock/lists')?>";
         var stock_index = "<?=site_url('stock/index')?>";
@@ -77,9 +70,7 @@
 <!--                <li><a class="ui-btn" id="search">查询</a><!--<a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a>-->
 <!--            </ul>-->
         </div>
-        <div class="fr"><a class="ui-btn ui-btn-sp" id="add">新增</a>
-            <!--<a class="ui-btn" id="print" target="_blank" href="javascript:void(0);">打印</a>-->
-            <!--<a class="ui-btn" id="export" target="_blank" href="javascript:void(0);">导出</a>--><a class="ui-btn dn" id="audit">审核</a><a class="ui-btn" id="reAudit">反审核</a></div>
+        <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a><a class="ui-btn" id="btn-refresh">刷新</a></div>
     </div>
     <!--  <div class="mod-toolbar-top cf">
         <div class="fl"><strong class="tit">仓库</strong></div>

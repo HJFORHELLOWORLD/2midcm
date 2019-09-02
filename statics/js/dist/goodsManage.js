@@ -469,7 +469,6 @@ function initGrid(e) {
 			title: !1,
 			editable: !0,
 			edittype: "custom",
-			edittype: "custom",
 			editoptions: {
 				custom_element: t,
 				custom_value: i,

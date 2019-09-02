@@ -139,16 +139,16 @@ function callback(e) {
 						if(colName === 'up_bom_name'){
                             var h={
                                 id:p,
-                                up_bom_id : c.id,
-                                up_bom_name:c.name
+                                up_bom_id : c.PK_BOM_ID,
+                                up_bom_name:c.BOMName
                             };
 						}
 
                         if(colName === 'down_bom_name'){
                             var h={
                                 id:p,
-                                down_bom_id : c.id,
-                                down_bom_name:c.name
+                                down_bom_id : c.PK_BOM_ID,
+                                down_bom_name:c.BOMName
                             };
                         }
 						break;
@@ -181,9 +181,10 @@ function callback(e) {
 				});
 				l++;
 				var y = parent.$("#" + a).next();
+
 				a = y.length > 0 ? parent.$("#" + a).next().attr("id") : ""
 			}
-			n(r, a, l);
+			"bomDesign" !== e && n(r, a, l);
 			$("#grid").jqGrid("resetSelection");
 			addList = {}
 		}

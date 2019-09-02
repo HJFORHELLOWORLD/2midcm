@@ -23,7 +23,7 @@ var queryConditions = {
         loadGrid: function() {
             function t(t, e, i) {
                 //<a class="ui-icon ui-icon-pencil" title="修改"></a>
-                var a = '<div class="operating" data-id="' + i.id + '"><a class="ui-icon ui-icon-trash" title="删除"></a><a class="ui-icon ui-icon-pencil" title="修改"></a></div>';
+                var a = '<div class="operating" data-id="' + i.id + '"><a class="ui-icon ui-icon-pencil" title="修改"></a><a class="ui-icon ui-icon-trash" title="删除"></a></div>';
                 return a
             }
             var i = Public.setGrid(),
@@ -41,7 +41,7 @@ var queryConditions = {
                 altRows: !0,
                 gridview: !0,
                 multiselect: !0,
-                colNames: ["操作", "编号","bom设计","描述","工作中心", "上位物料", "下位物料",'下位物料数量', "创建人","创建时间","变更人","变更时间"],
+                colNames: ["操作", "编号","bom设计","描述","工作中心", "上位物料", "下位物料",'下位物料数量'],
                 colModel: [{
                     name: "operating",
                     width: 60,
@@ -49,64 +49,44 @@ var queryConditions = {
                     formatter: t,
                     align: "center"
                 }, {
-                    name: "pk_bom_desi_id",
-                    index: "pk_bom_desi_id",
+                    name: "id",
+                    index: "id",
                     width: 100,
                     align: "center"
                 },{
-                    name: "name",
-                    index: "name",
+                    name: "Name",
+                    index: "Name",
                     width: 100,
                     align: "center"
                 },{
-                    name: "desc",
-                    index: "desc",
+                    name: "Desc",
+                    index: "Desc",
                     width: 200,
                     align: "center"
                 },{
-                    name: "wc_id",
-                    index: "wc_id",
+                    name: "WC_Name",
+                    index: "WC_Name",
                     width: 100,
                     align: "center"
                 },{
-                    name: "upBom_id",
-                    index: "upBom_id",
+                    name: "UpBOM_Name",
+                    index: "UpBOM_Name",
                     width: 100,
                     align: "center"
                 },{
-                    name: "downBom_id",
-                    index: "downBom_id",
+                    name: "DownBOM_Name",
+                    index: "DownBOM_Name",
                     width: 80,
                     align: "center"
                 }, {
-                    name: "downBom_amount",
-                    index: "downBom_amount",
+                    name: "DownBOM_Amount",
+                    index: "DownBOM_Amount",
                     width: 100,
                     align: "center",
                     formatter: "number",
                     formatoptions: {
                         decimalPlaces: qtyPlaces
                     }
-                }, {
-                    name: "creator_id",
-                    index: "creator_id",
-                    width: 80,
-                    align: "center"
-                },{
-                    name: "create_date",
-                    index: "create_date",
-                    width: 100,
-                    align: "center"
-                },{
-                    name: "modify_id",
-                    index: "modify_id",
-                    width: 80,
-                    align: "center"
-                },{
-                    name: "modify_date",
-                    index: "modify_date",
-                    width: 100,
-                    align: "center"
                 }],
                 cmTemplate: {
                     sortable: !1,
@@ -156,7 +136,7 @@ var queryConditions = {
                     a = 1 == i.disEditable ? "&disEditable=true" : "";
                 parent.tab.addTabItem({
                     tabid: "settings-settings",
-                    text: "BOM设计",
+                    text: "编辑BOM设计",
                     url: design_edit+"?id=" + e + "&flag=list"
                     //url: "/purchase/purchase.jsp?id=" + e + "&flag=list" + a
                 });
@@ -186,14 +166,14 @@ var queryConditions = {
             });
 
             $("#search").click(function() {
-                queryConditions.matchCon = "请输入上位物料或下位物料或name" === t.$_matchCon.val() ? "" : t.$_matchCon.val();
+                queryConditions.matchCon = "请输入上位物料或下位物料或设计名称" === t.$_matchCon.val() ? "" : t.$_matchCon.val();
                 THISPAGE.reloadData(queryConditions)
             });
             $("#add").click(function(t) {
                 t.preventDefault();
                 parent.tab.addTabItem({
                     tabid: "storage",
-                    text: "BOM设计",
+                    text: "新增BOM设计",
                     //url: "/scm/invPu.do?action=initPur"
                     url: design_add
                 })

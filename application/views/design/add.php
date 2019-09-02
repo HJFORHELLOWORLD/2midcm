@@ -51,6 +51,7 @@
         var api_logistics_print = "<?=site_url('api/invpu_print')?>";
         var plug_down = "<?=base_url()?>/install_lodop32.rar";
         var settings_goods_batch  = "<?=site_url('settings/goods_batch')?>";
+        var basedata_getGroupContractNum  = "<?=site_url('basedata/getGroupContractNum')?>";
     </script>
     <script language="javascript" src="<?=skin_url()?>/js/common/plugins/print/LodopFuncs.js?2"></script>
     <link href="<?=skin_url()?>/css/<?=skin()?>/bills.css" rel="stylesheet" type="text/css">

@@ -46,9 +46,9 @@ function initGrid() {
             index: "headName",
             width: 100
         },{
-            name: "IsKey",
-            index: "IsKey",
-            width: 50
+            name: "IsKeyName",
+            index: "IsKeyName",
+            width: 70
         }];
     $("#grid").jqGrid({
         //url: "../basedata/unit.do?action=list&isDelete=2",

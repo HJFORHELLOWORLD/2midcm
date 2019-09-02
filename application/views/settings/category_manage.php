@@ -57,7 +57,7 @@ body{background: #fff;}
 	<form id="manage-form" action="">
 		<ul class="mod-form-rows">
 			<li class="row-item">
-				<div class="label-wrap"><label for="name">单位名称:</label></div>
+				<div class="label-wrap"><label for="name">行业名称:</label></div>
 				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name"></div>
 			</li>
             <li class="row-item">

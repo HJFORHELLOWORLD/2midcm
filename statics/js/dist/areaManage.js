@@ -1,9 +1,6 @@
 function initField() {
-	rowData.id && $("#name").val(rowData.WC_Name) && $("#desc").val(rowData.Desc)
-	&& $("#IsKey").val(rowData.IsKey)
-
+	rowData.id && $("#name").val(rowData.Name) && $("#upareaName").val(rowData.upareaName)
 }
-
 function initEvent() {
 	var t = $("#name");
 	$("#manage-form").submit(function(t) {
@@ -11,7 +8,7 @@ function initEvent() {
 		postData()
 	});
 	t.focus().select();
-	initValidator();
+	initValidator()
 }
 function initPopBtns() {
 	var t = "add" == oper ? ["保存", "关闭"] : ["确定", "取消"];
@@ -46,20 +43,16 @@ function initValidator() {
 function postData() {
 	if ($("#manage-form").validate().form()) {
 		var t = $.trim($("#name").val()),
-            d = $.trim($("#desc").val()),
-			h = userCombo.getValue(),//$.trim($("#headName").val()),	//后期改为head_id
-            k = $("#IsKey").val(),
-			n = userCombo.getText();//$.trim($("#headName").val()),
+			h = upareaCombo.getValue(),//$.trim($("#upareaName").val()),	//后期改为upareaId
+			n = upareaCombo.getText(),
 			e = {
 				id: rowData.id,
 				name: t,
-				desc : d,
-				head_id : h,
-                IsKey : k,
-				head_name : n
+				uparea_id : h,
+                uparea_name : n
 			},
-			i = "add" == oper ? "新增往来单位类别" : "修改往来单位类别";
-		Public.ajaxPost(workcenter_save+"?act=" + ("add" == oper ? "add" : "update"), e, function(t) {
+			i = "add" == oper ? "新增地区分类" : "修改地区分类";
+		Public.ajaxPost(area_save+"?act=" + ("add" == oper ? "add" : "update"), e, function(t) {
 			if (200 == t.status) {
 				parent.parent.Public.tips({
 					content: i + "成功！"
@@ -75,27 +68,25 @@ function postData() {
 function resetForm() {
 	$("#manage-form").validate().resetForm();
 	$("#name").val("").focus().select();
-    $("#desc").val("");
-    $("#headName").val("");
-    $("#IsKey").val("");
+    $("#upareaName").val("");
 }
 var api = frameElement.api,
 	oper = api.data.oper,
 	rowData = api.data.rowData || {},
 	callback = api.data.callback;
 
-var userCombo = $("#headName").combo({
-    text: "name",
-    value: "userid",
+var upareaCombo = $("#upareaName").combo({
+    text: "Name",
+    value: "id",
     width: 200,
-    data: basedata_admin,
-    defaultSelected: ["userid", parseInt(rowData.Head_ID)] || void 0,
+    data: basedata_area,
+    defaultSelected: ["id", parseInt(rowData.UpArea_ID)] || void 0,
 
     ajaxOptions: {
         formatData: function(e) {
             e.data.items.unshift({
-                userid: "",
-                name: ""
+                id: "",
+                Name: ""
             });
             return e.data.items
         }

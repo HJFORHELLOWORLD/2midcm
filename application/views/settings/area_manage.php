@@ -8,8 +8,8 @@
 <title>在线进销存</title>
 <link href="<?=skin_url()?>/css/common.css?ver=20140815" rel="stylesheet" type="text/css">
 <link href="<?=skin_url()?>/css/<?=skin()?>/ui.min.css?ver=20140815" rel="stylesheet">
-<script src="<?=skin_url()?>/js/common/libs/jquery/jquery-1.10.2.min.js?ver=20140815"></script>
-<script src="<?=skin_url()?>/js/common/libs/json2.js?ver=20140815"></script>
+<script src="<?=skin_url()?>/js/common/libs/jquery/jquery-1.10.2.min.js"></script>
+<script src="<?=skin_url()?>/js/common/libs/json2.js"></script>
 <script src="<?=skin_url()?>/js/common/common.js?ver=20140815"></script>
 <script src="<?=skin_url()?>/js/common/grid.js?ver=20140815"></script>
 <script src="<?=skin_url()?>/js/common/plugins.js?ver=20140815"></script>
@@ -21,6 +21,7 @@ try{
 	//console.log(e);
 }
 </script>
+
 <script type="text/javascript">
 var WDURL = "";
 var SCHEME= "<?=skin()?>";
@@ -40,42 +41,38 @@ var basedata_unit  = "<?=site_url('basedata/unit')?>";
 var settings_unit_manage = "<?=site_url('settings/unit_manage')?>";    
 var basedata_contact  = "<?=site_url('basedata/contact')?>";             
 var settings_inventory =  "<?=site_url('settings/inventory')?>";          
-var settings_skins =  "<?=site_url('settings/skins')?>"; 
-
-
-var customer_export  = "<?=site_url('customer/export')?>";
-var customer_del    = "<?=site_url('customer/del')?>";
+var settings_skins =  "<?=site_url('settings/skins')?>";
+var area_save= "<?=site_url('area/save')?>";
+var basedata_area = "<?=site_url('basedata/area')?>";
 </script>
 <style>
-.matchCon{width:280px;}
+body{background: #fff;}
+.manage-wrap{margin: 20px auto 10px;width: 300px;}
+.manage-wrap .ui-input{width: 200px;font-size:14px;}
 </style>
 </head>
 <body>
-<div class="wrapper">
-	<div class="mod-search cf">
-	    <div class="fl">
-	      <ul class="ul-inline">
-	        <li>
-	          <input type="text" id="matchCon" class="ui-input ui-input-ph matchCon" value="输入编号 / 名称 / 联系方式查询">
-	        </li>
-	        <li><a class="ui-btn mrb" id="search">查询</a></li>
-	      </ul>
-	    </div>
-	    <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a><!--<a href="#" class="ui-btn mrb" id="btn-print">打印</a>-->
-		<!--<a href="#" class="ui-btn mrb" id="btn-import">导入</a>-->
-		<a href="#" class="ui-btn mrb" id="btn-export">导出</a>
-		<a href="#" class="ui-btn" id="btn-batchDel">删除</a></div>
-	  </div>
-    <div class="grid-wrap">
-	    <table id="grid">
-	    </table>
-	    <div id="page"></div>
-	  </div>
+<div id="manage-wrap" class="manage-wrap">
+	<form id="manage-form" action="">
+		<ul class="mod-form-rows">
+			<li class="row-item">
+				<div class="label-wrap"><label for="name">地区名称:</label></div>
+				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name"></div>
+			</li>
+<!--            <li class="row-item">
+                <div class="label-wrap"><label for="upareaName">上级区域:</label></div>
+                <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="upareaName" id="upareaName" ></div>
+            </li>-->
+            <li class="row-item">
+                <div class="label-wrap"> <label  class="tit" for="filter-uparea">上级区域:</label></div>
+                <div class="ctn-wrap"><span class="ui-combo-wrap" id="upareaName">
+                    <input type="text" name="filter-uparea" id="filter-uparea" class="input-txt" autocomplete="off" />
+                    <span class="trigger"></span>
+                    </span></div>
+            </li>
+		</ul>
+	</form>
 </div>
-<script src="<?=skin_url()?>/js/dist/customerList.js?ver=20190819"></script>
+<script src="<?=skin_url()?>/js/dist/areaManage.js?2"></script>
 </body>
 </html>
-
-
-
-

@@ -66,9 +66,17 @@
                 <h3>新建地区编号</h3>
                 <form action="#" id="registerForm" class="register-form">
                     <ul class="mod-form-rows">
-                        <li class="row-item">
+<!--                        <li class="row-item">
                             <div class="label-wrap">
                                 <label >地区编码</label>
+                            </div>
+                            <div class="ctn-wrap">
+                                <input type="text" class="ui-input" id="number" style="ime-mode:disabled;" onpaste="return false;"/>
+                            </div>
+                        </li>-->
+                        <li class="row-item">
+                            <div class="label-wrap">
+                                <label >地区名称</label>
                             </div>
                             <div class="ctn-wrap">
                                 <input type="text" class="ui-input" id="number" style="ime-mode:disabled;" onpaste="return false;"/>
@@ -78,14 +86,7 @@
                             <div class="label-wrap">
                                 <label >上级区域</label>
                             </div>
-                            <div class="ctn-wrap">
-                                <input type="text" class="ui-input" id="number" style="ime-mode:disabled;" onpaste="return false;"/>
-                            </div>
-                        </li>
-                        <li class="row-item">
-                            <div class="label-wrap">
-                                <label >地区名称</label>
-                            </div>
+<<<<<<< HEAD
                             <div class="ctn-wrap">
                         <li>
                             <select  class="ui-input">
@@ -94,6 +95,10 @@
                                 </div>
                             </select>
                         </li>
+=======
+                            <div>
+                                <input type="text" id="id" class="ui-input" />
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
                             </div>
                         </li>
                         <li class="row-item">

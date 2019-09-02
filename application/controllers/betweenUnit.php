@@ -93,21 +93,22 @@ class BetweenUnit extends CI_Controller {
     public function modify(){
         $this->purview_model->checkpurview(60);
 
-        $id = intval($this->input->post('pk_bu_id',TRUE));
+        $id = intval($this->input->post('id',TRUE));
 
        // $data['linkmans']    = $this->input->post('linkMans',TRUE);
-        $data['name']      = str_enhtml($this->input->post('name',TRUE));
-        strlen($data['name']) < 1 && die('{"status":-1,"msg":"客户名称不能为空"}');
+        $data['Name']      = str_enhtml($this->input->post('name',TRUE));
+        strlen($data['Name']) < 1 && die('{"status":-1,"msg":"客户名称不能为空"}');
 
         $data['BU_Cat']   = str_enhtml($this->input->post('BU_Cat',TRUE));
         $data['Industry_ID']  = intval($this->input->post('Industry_ID',TRUE));
         $data['Area_ID']        = str_enhtml($this->input->post('Area_ID',TRUE));
-        $data['Taxrate']      = str_enhtml($this->input->post('Taxrate',TRUE));
-        $data['Desc']      = str_enhtml($this->input->post('remark',TRUE));
-        $phone = str_enhtml($this->input->post('phone',TRUE));
+        $data['Taxrate']      = (float)str_enhtml($this->input->post('Taxrate',TRUE));
+        $data['Desc']      = str_enhtml($this->input->post('desc',TRUE));
+        $data['Status'] = intval(str_enhtml($this->input->post('status',TRUE)));
         $data['Modify_ID'] = $this->uid;
         $data['Modify_Date'] = date('Y-m-d H:i:s',time());
         $links = array();
+        $phone = str_enhtml($this->input->post('phone',TRUE));
         if (strlen($phone)>0) {
           //  $list = (array)json_decode($data['linkmans']);
            // if (count($list)>0) {
@@ -127,7 +128,15 @@ class BetweenUnit extends CI_Controller {
             $this->cache_model->delsome(BETWEENUNIT);
             $this->cache_model->delsome(SALEORDER);
             $this->data_model->logs('修改了往来单位:'.$id);
-            die('{"status":200,"msg":"success"}');
+            //回传数据
+            $data = array('id' => $id,'name' => $data['Name'],'remark' => $data['Desc'],
+                'BU_Cat_Name' => $data['BU_Cat'] == 1 ? '客户' : ($data['BU_Cat'] == 2 ? '厂家' : '第三方'),
+                'Industry_ID'  => $data['Industry_ID'], 'Area_ID' => $data['Area_ID'],
+                'Industry' => str_enhtml($this->input->post('industryname',TRUE)),'Area' => str_enhtml($this->input->post('areaname',TRUE)),
+                'Taxrate' => $data['Taxrate'],
+                'telephone' => $phone,'StatusName' =>  $data['Status'] == 0 ? '不正常' : '正常',
+                'Status' => $data['Status'],'BU_Cat' => $data['BU_Cat']);
+            die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
         } else {
             die('{"status":-1,"msg":"修改失败"}');
         }

@@ -175,14 +175,14 @@ class Basedata extends CI_Controller {
 	//商品名称重复检验接口
 	public function goods_checkname() {
 	    $name = str_enhtml($this->input->post('bomName',TRUE));
-	    $this->cache_model->load_total(BOM_BASE,'(bomName="'.$name.'")') > 0 && die('{"status":-1,"msg":"商品名称重复"}');
+	    $this->cache_model->load_total(BOM_BASE,'(BOMName="'.$name.'")') > 0 && die('{"status":-1,"msg":"商品名称重复"}');
 	    die('{"status":200,"msg":"success"}');
 	}
 	
 	//商品编号检验接口
 	public function goods_getnextno() {
 	    $skey = str_enhtml($this->input->post('skey',TRUE));
-	    $this->cache_model->load_total(BOM_BASE,'(pk_bom_id="'.$skey.'")') > 0 && die('{"status":-1,"msg":"商品编号重复"}');
+	    $this->cache_model->load_total(BOM_BASE,'(PK_BOM_ID="'.$skey.'")') > 0 && die('{"status":-1,"msg":"商品编号重复"}');
 		die('{"status":200,"msg":"success","data":{"number":""}}');
 	}
 	
@@ -333,16 +333,18 @@ class Basedata extends CI_Controller {
 		$rows = max(intval($this->input->get_post('rows',TRUE)),100);
 		$where  = '';
 		if ($skey) {
-			$where .= ' and (Linkmans like "%'.$skey.'%"' . ' or Name like "%'.$skey.'%"' . ')';
+			$where .= ' and (Linkmans like "%'.$skey.'%"' . ' or a.Name like "%'.$skey.'%"' . ' or PK_BU_ID like "%'.$skey.'%"' . ')';
 		}
 		if ($type) {
-			$where .= ' and BU_Cat IN ('.$type.',4)';
+			$where .= ' and BU_Cat IN ('.$type.',4) and Status = 1';//有type证明是选择供应商/客户，此时不展示不正常数据
 		}
 		$offset = $rows * ($page-1);
 		$data['data']['page']      = $page;                                                      //当前页
-		$data['data']['records']   = $this->cache_model->load_total(BETWEENUNIT,'(1=1) '.$where.'');     //总条数
-		$data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
-		$list = $this->cache_model->load_data(BETWEENUNIT,'(Status=1) '.$where.' order by PK_BU_ID desc limit '.$offset.','.$rows.'');
+
+		//$list = $this->cache_model->load_data(BETWEENUNIT,'(Status=1) '.$where.' order by PK_BU_ID desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->betweenunitList($where, ' order by PK_BU_ID desc limit '.$offset.','.$rows.'');
+        $data['data']['records']   = count($list);//$this->cache_model->load_total(BETWEENUNIT,'(1=1) '.$where.'');     //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
 		foreach ($list as $arr=>$row) {
 		    $v[$arr]['id']           = intval($row['PK_BU_ID']);
 			$v[$arr]['name']         = $row['Name'];
@@ -351,10 +353,14 @@ class Basedata extends CI_Controller {
 			$v[$arr]['links'] = '';
 
 			$v[$arr]['Taxrate'] = $row['Taxrate'];
+            $v[$arr]['Industry'] = $row['industry'];
+			$v[$arr]['Area'] = $row['area'];
             $v[$arr]['Industry_ID'] = $row['Industry_ID'];
-			$v[$arr]['Area_ID'] = $row['Area_ID'];
-			$v[$arr]['BU_Cat'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : '第三方');
-			$v[$arr]['Status'] = $row['Status'] == 0 ? '不正常' : '正常';
+            $v[$arr]['Area_ID'] = $row['Area_ID'];
+			$v[$arr]['BU_Cat_Name'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : '第三方');
+            $v[$arr]['BU_Cat'] = $row['BU_Cat'];
+			$v[$arr]['StatusName'] = $row['Status'] == 0 ? '不正常' : '正常';
+            $v[$arr]['Status'] = $row['Status'];
 
 			if (strlen($row['Linkmans'])>0) {                             //获取首个联系人
                 $list = (array)json_decode($row['Linkmans']);
@@ -366,16 +372,16 @@ class Basedata extends CI_Controller {
                             $v[$arr]['telephone'] = $row1->linkPhone;
                            // $v[$arr]['linkIm'] = $row1->linkIm;
                           //  $v[$arr]['firstLink']['first'] = $row1->linkFirst;
-                            if ($type == 1) {//客户
+/*                            if ($type == 1) {//客户
                                 $v[$arr]['deliveryAddress'] = isset($row1->linkAddress) ? $row1->linkAddress : '';
-                            }
+                            }*/
                      //   }
                     }
             }
 		    }
 		}
 		$data['data']['rows']   = is_array($v) ? $v : '';
-		$data['data']['totalsize']  = $this->cache_model->load_total(BETWEENUNIT,'(Status=1) '.$where.' order by PK_BU_ID desc');
+		//$data['data']['totalsize']  = $this->cache_model->load_total(BETWEENUNIT, $where.' order by PK_BU_ID desc');
 		die(json_encode($data));
 	}
 	
@@ -452,9 +458,9 @@ class Basedata extends CI_Controller {
         $skey   = str_enhtml($this->input->get('skey',TRUE));
         $user   = str_enhtml($this->input->get('user',TRUE));
         $where = '';
-        /*    if ($user) {
-                 $where .= ' and username="'.$user.'"';
-              }*/
+            if ($user) {
+                 $where .= ' and b.Username like "%'.$user.'%"';
+              }
         if ($stt) {
             $where .= ' and Log_Date>="'.$stt.'"';
         }
@@ -463,9 +469,9 @@ class Basedata extends CI_Controller {
         }
         $offset = $rows*($page-1);
         $data['data']['page']      = $page;                                                      //当前页
-        $data['data']['records']   = $this->cache_model->load_total(LOGBOOK,'(1=1) '.$where.'');     //总条数
-        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
         $list = $this->data_model->logList($where, ' order by Log_Date desc limit '.$offset.','.$rows.'');
+        $data['data']['records']   =count($list);// $this->cache_model->load_total(LOGBOOK,'(1=1) '.$where.'');     //总条数
+        $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
         foreach ($list as $arr=>$row) {
             $v[$arr]['id']              = intval($row['PK_Log_ID']);
             $v[$arr]['name']            = $row['username'];
@@ -473,8 +479,8 @@ class Basedata extends CI_Controller {
             //$v[$arr]['operateTypeName'] = $row['name'];
             $v[$arr]['operateType']     = 255;
             $v[$arr]['userId']          = $row['FK_Operator_ID'];
-            $v[$arr]['log']             = $row['Action'];
-            $v[$arr]['modifyTime']      = $row['Log_Date'];
+            $v[$arr]['Action']             = $row['Action'];
+            $v[$arr]['Log_Date']      = $row['Log_Date'];
         }
         $data['data']['rows']   = $v;
         die(json_encode($data));
@@ -521,21 +527,23 @@ class Basedata extends CI_Controller {
 //    }
 
 
+<<<<<<< HEAD
     //地区接口
+=======
+    //地区分类
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
     public function area() {
         $v = '';
         $data['status'] = 200;
         $data['msg']    = 'success';
-        $list = $this->cache_model->load_data(AREA,'(status=1) order by PK_Area_ID desc');
+       // $list = $this->data_model->workcenterList($where, ' order by PK_WC_ID desc limit '.$offset.','.$rows.'');
+        $list = $this->data_model->areaList('', ' order by PK_Area_ID desc');
         foreach ($list as $arr=>$row) {
             $v[$arr]['default'] = false;
-            $v[$arr]['pk_area_id']      = intval($row['pk_area_id']);
-            $v[$arr]['UpArea_id']      = intval($row['UpArea_id']);
-            $v[$arr]['name']    = $row['name'];
-            $v[$arr]['Creator_id']    = $row['Creator_id'];
-            $v[$arr]['create_date']    = $row['create_date'];
-            $v[$arr]['modify_id']    = $row['modify_id'];
-            $v[$arr]['modify_date']    = $row['modify_date'];
+            $v[$arr]['id']      = intval($row['PK_Area_ID']);
+            $v[$arr]['UpArea_ID']      = intval($row['UpArea_ID']);
+            $v[$arr]['Name']    = $row['Name'];
+            $v[$arr]['upareaName']    = $row['upareaName'];
         }
         $data['data']['items']   = is_array($v) ? $v : '';
         $data['data']['totalsize']  = $this->cache_model->load_total(AREA);
@@ -549,13 +557,13 @@ class Basedata extends CI_Controller {
         $v = array();
         $data['status'] = 200;
         $data['msg']    = 'success';
-        $list = $this->cache_model->load_data(ADMIN,'(1=1) order by roleid');
+        $list = $this->cache_model->load_data(USER,'(1=1) order by roleid');
         foreach ($list as $arr=>$row) {
-            $v[$arr]['name']        = $row['username'];
-            $v[$arr]['userid']      = intval($row['uid']);
+            $v[$arr]['name']        = $row['Username'];
+            $v[$arr]['userid']      = intval($row['PK_User_ID']);
         }
         $data['data']['items']      = $v;
-        $data['data']['totalsize']  = $this->cache_model->load_total(ADMIN);
+        $data['data']['totalsize']  = $this->cache_model->load_total(USER);
         die(json_encode($data));
     }
 	
@@ -566,6 +574,7 @@ class Basedata extends CI_Controller {
 		die('{"status":502,"msg":"用户名不存在"}');
 	}
 
+<<<<<<< HEAD
 	//查询用户接口
     public function  getUser(){
       $data[]= array('key'=>'','name'=>'');
@@ -598,6 +607,37 @@ class Basedata extends CI_Controller {
         }
 //      var_dump($data);
         die(json_encode($data));
+=======
+	public function getGroupContractNum(){
+        $type = str_enhtml($this->input->get('type',TRUE));
+        $data[] = array('key' => '', 'name' => '');
+        switch ($type){
+            case 'area' :
+                $list = $this->data_model->areaList('', ' order by PK_Area_ID desc');
+                foreach ($list as $arr=>$row) {
+                    $data[] = array('key' => intval($row['PK_Area_ID']), 'name' => $row['Name']);
+                }
+                break;
+
+            case 'industry' :
+                $list = $this->cache_model->load_data(INDUSTRY,'(1=1) order by PK_Industry_ID desc');
+                $data[] = array('key' => 0, 'name' => '其他');
+                foreach ($list as $arr=>$row) {
+                    $data[] = array('key' => intval($row['PK_Industry_ID']), 'name' => $row['Name']);
+                }
+                break;
+
+            case 'workcenter' :
+                $list = $this->cache_model->load_data(WORK_CERTER,'(1=1) order by PK_WC_ID desc');
+                foreach ($list as $arr=>$row) {
+                    $data[] = array('key' => intval($row['PK_WC_ID']), 'name' => $row['WC_Name']);
+                }
+                break;
+        }
+
+        die(json_encode($data));
+
+>>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
     }
 
 }

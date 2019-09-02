@@ -133,7 +133,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                 n = "",
                 o = "";
 
-            var s = '<a class="ui-btn-prev" id="prev" title="上一张"><b></b></a><a class="ui-btn-next" id="next" title="下一张"><b></b></a>';
+            var s = '';//'<a class="ui-btn-prev" id="prev" title="上一张"><b></b></a><a class="ui-btn-next" id="next" title="下一张"><b></b></a>';
             this.btn_edit = a;
             this.btn_audit = n;
             this.btn_view = r;
@@ -151,6 +151,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                     qty: t.totalQty,
                     amount: t.totalAmount
                 });
+
                 "list" !== urlParam.flag && (s = "");
                 this.$_toolBottom.html("<span id=groupBtn>" + a + n + "</span>" + s);
                 this.idList = parent.cacheList.purchaseId || [];
@@ -219,6 +220,29 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             function l() {
                 $("#initCombo").append($(".storageAuto").val(""))
             }
+            function getGroupContractNum(type) {
+                var GroupContractNum = "";
+                var i;
+                $.ajax({
+                    type: "get",
+                    async: false,
+                    url: basedata_getGroupContractNum + "?type=" + type,
+                    success: function (result) {
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i < result.length; i++) {
+                            if (i != result.length - 1) {
+                                GroupContractNum += result[i].key + ":" + result[i].name + ";";
+                            } else {
+                                GroupContractNum += result[i].key + ":" + result[i].name;
+                            }
+                        }
+                    }
+                });
+
+                 return GroupContractNum;		//必须有此返回值
+            }
+
+
             var d = this;
 /*            if (t.id) {
                 var c = t.entries.length;
@@ -229,7 +253,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             var h = 1190,
                 f = [{
                     name: "name",
-                    label: "name",
+                    label: "bom设计",
                     width: 150,
                     title: !0,
                     editable: !0
@@ -285,9 +309,25 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                         decimalPlaces: qtyPlaces
                     },
                     editable: !0
-                }, {
+                } ,{
+                    name: "WC_ID",
+                    label: "工作中心",
+                    hidden: true,
+                    editable: !1
+                },{
+                    name: "WC_Name",
+                    label: "工作中心",
+                    width: 120,
+                    align: "right",
+                    editable: !0,
+                    /*                     formatter:'select',
+                    unformat: isFirstFormate,
+                    editoptions:{
+                        value:getGroupContractNum('workcenter')
+                    }*/
+                },{
                     name: "desc",
-                    label: "备注",
+                    label: "描述",
                     width: 150,
                     classes: "ui-ellipsis",
                     title: !0,
@@ -345,6 +385,9 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                                 name: n.locationName
                             })
                         }
+
+                        $("#grid").setColProp("WC_Name", {
+                            edittype:"select",formatter:"select", editoptions: { value: getGroupContractNum("workcenter")} });
                     }
                 },
                 gridComplete: function() {},
@@ -401,21 +444,11 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                             e(t);
                             p && THISPAGE.calTotal();
                             break;
-                        case "price":
-                            var a = parseFloat(a),
-                                m = parseFloat($("#grid").jqGrid("getCell", t, n - 1)),
-                                f = parseFloat($("#grid").jqGrid("getCell", t, n + 1));
-                            if ($.isNumeric(m)) if ($.isNumeric(f)) var g = a * m * f / 100,
-                                s = a * m - g,
-                                p = $("#grid").jqGrid("setRowData", t, {
-                                    deduction: g,
-                                    amount: s
-                                });
-                            else var p = $("#grid").jqGrid("setRowData", t, {
-                                    amount: a * m
-                                });
-                            e(t);
-                            p && THISPAGE.calTotal();
+                        case "WC_Name":
+                            var a = parseInt(a);
+                            if ($.isNumeric(a)) $("#grid").jqGrid("setRowData", t, {
+                                WC_ID: a
+                            });
                             break;
                         case "discountRate":
                             var a = parseFloat(a),
@@ -732,7 +765,8 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                             t.$_toolBottom.html(billRequiredCheck ? '<span id="groupBtn">' + t.btn_edit + t.btn_audit + "</span>" : '<span id="groupBtn">' + t.btn_edit + "</span>");
                             parent.Public.tips({
                                 content: "保存成功！"
-                            })
+                            });
+                            window.location.reload(true);
                         } else parent.Public.tips({
                             type: 1,
                             content: e.msg
@@ -902,7 +936,8 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             for (var t = [], e = $("#grid").jqGrid("getDataIDs"), i = 0, a = e.length; a > i; i++) {
                 var r, n = e[i],
                     o = $("#grid").jqGrid("getRowData", n);
-                if ("" !== o.up_bom_name) {
+                if (parseFloat(o.downbom_Amount) > 0 && o.up_bom_id !== o.down_bom_id
+                    && "" !== o.down_bom_name && "" !== o.up_bom_name) {
                     var s = $("#" + n).data("goodsInfo"),
                         l = $("#" + n).data("storageInfo");
                     r = {
@@ -911,14 +946,17 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
                         up_bom_name: o.up_bom_name,
                         down_bom_id: o.down_bom_id,
                         down_bom_name: o.down_bom_name,
-                        down_bom_number: o.down_bom_number,
+                        down_bom_number: o.downbom_Amount,
                         desc: o.desc,
+                        wc_id:o.WC_ID
                     };
-                    if(r.down_bom_number <= 0 || "" === r.down_bom_name || "" === r.name){
+/*                    if(r.down_bom_number <= 0 || "" === r.down_bom_name || "" === r.up_bom_name){
                         return false;
-                    }
+                    }*/
 
                     t.push(r)
+                }else{
+                    return false;
                 }
             }
             return t
@@ -937,7 +975,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
             if(false === r){
                 parent.Public.tips({
                     type: 2,
-                    content: "请检查name、上位物料、下位物料、下位物料数量数值是否为空！"
+                    content: "请检查上位物料、下位物料、下位物料数量数值是否为空或上下位物料是否为同一种物料！"
                 });
                 $("#grid").jqGrid("editCell", 1, 2, !0);
                 return !1
@@ -1037,6 +1075,7 @@ if (urlParam.id) {
         }, function(t) {
             if (200 === t.status) {
                 originalData = t.data;
+                newWc_id = originalData.entries[0].wc_id;
                 THISPAGE.init(t.data);
                 $_bills.show();
                 hasLoaded = !0

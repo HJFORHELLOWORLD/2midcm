@@ -1,6 +1,6 @@
 function initGrid() {
 	var e = Public.setGrid(),
-		t = ["操作","往来单位编号", "单位名称", "描述", "地区编号", "类别", "所属行业", "税率", "客户联系方式", "状态"],
+		t = ["操作","往来单位编号", "单位名称", "描述", "地区", "类别", "所属行业", "税率", "客户联系方式", "状态"],
 		i = !(parent.SYSTEM.isAdmin || parent.SYSTEM.rights.AMOUNT_OUTAMOUNT),
 		a = [{
 			name: "operate",
@@ -25,20 +25,20 @@ function initGrid() {
 			width: 220,
 			classes: "ui-ellipsis"
 		}, {
-			name: "Area_ID",
-			index: "Area_ID",
+			name: "Area",
+			index: "Area",
 			width: 80,
 			align: "right",
 			fixed: !0
 		}, {
-			name: "BU_Cat",
-			index: "BU_Cat",
+			name: "BU_Cat_Name",
+			index: "BU_Cat_Name",
 			width: 100,
 			align: "center",
 			title: !1
 		}, {
-			name: "Industry_ID",
-			index: "Industry_ID",
+			name: "Industry",
+			index: "Industry",
 			width: 100,
 			title: !1
 		}, {
@@ -54,8 +54,8 @@ function initGrid() {
 			title: !1,
 			hidden: i
 		},{
-            name: "Status",
-            index: "Status",
+            name: "StatusName",
+            index: "StatusName",
             width: 80,
             title: !1
         }];
@@ -116,7 +116,7 @@ function initEvent() {
 	$_matchCon.placeholder();
 	$("#search").on("click", function(e) {
 		e.preventDefault();
-		var t = "输入客户编号/ 名称/ 联系人/ 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
+		var t = "输入单位编号/ 名称 / 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
 		$("#grid").jqGrid("setGridParam", {
 			page: 1,
 			postData: {
@@ -147,7 +147,7 @@ function initEvent() {
 	});
 	$("#btn-export").on("click", function() {
 		if (Business.verifyRight("BU_EXPORT")) {
-			var e = "输入客户编号/ 名称 / 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
+			var e = "输入单位编号/ 名称 / 电话查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val());
 			 
 			//$(this).attr("href", "/basedata/customer.do?action=exporter&isDelete=2&skey=" + e)
 			$(this).attr("href", customer_export+"?skey=" + e)
@@ -192,7 +192,7 @@ var searchFlag = !1,
 			else var i = "修改往来单位",
 				a = {
 					oper: e,
-					rowId: t,
+                    rowData: $("#grid").data("gridData")[t],
 					callback: this.callback
 				};
 			$.dialog({

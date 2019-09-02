@@ -4,7 +4,7 @@ class Sheet extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
-		//$this->purview_model->checkpurview(85);
+		$this->purview_model->checkpurview(85);
 		$this->load->model('data_model');
 		$this->uid  = $this->session->userdata('uid');
 		$this->name = $this->session->userdata('name');
@@ -39,7 +39,7 @@ class Sheet extends CI_Controller {
      * @number 2
      */
 	public function add(){
-	    //$this->purview_model->checkpurview(86);
+	    $this->purview_model->checkpurview(86);
 	    $data = $this->input->post('postData',TRUE);
 		if (strlen($data)>0) {
 		     $data = (array)json_decode($data);
@@ -97,7 +97,7 @@ class Sheet extends CI_Controller {
 	
 	//修改
 	public function edit(){
-	    //$this->purview_model->checkpurview(87);
+	    $this->purview_model->checkpurview(87);
 	    $id   = $this->input->get('id',TRUE);
 	    $data = $this->input->post('postData',TRUE);
 		if (strlen($data)>0) {
@@ -316,7 +316,7 @@ class Sheet extends CI_Controller {
 	
 	//导出报价记录
 	public function export() {
-	    //$this->purview_model->checkpurview(107);
+	    $this->purview_model->checkpurview(107);
 	    sys_xls('报价记录.xls');
 		$id  = str_enhtml($this->input->get_post('id',TRUE));
         if (strlen($id)>0) {
@@ -329,7 +329,7 @@ class Sheet extends CI_Controller {
 	
 	//报价单删除
     public function del() {
-	    //$this->purview_model->checkpurview(88);
+	    $this->purview_model->checkpurview(88);
         $id   = $this->input->get('id',TRUE);
         $data = $this->mysql_model->db_one(SALEORDER,'(PK_BOM_Sale_ID= "'.$id.'")');
         if (count($data)>0) {
@@ -352,7 +352,7 @@ class Sheet extends CI_Controller {
 
     //报价单审核首页
     public function reviewIndex(){
-        //$this->purview_model->checkpurview(96);
+        $this->purview_model->checkpurview(96);
         $this->load->view('sheet/reviewList');
     }
 
@@ -418,7 +418,7 @@ class Sheet extends CI_Controller {
 
     //审核报价单
     public function review(){
-        //$this->purview_model->checkpurview(99);
+        $this->purview_model->checkpurview(99);
         $review   = intval($this->input->get_post('r',TRUE));
         $billno   = $this->input->get_post('billno',TRUE);
         if(in_array($review,array(2,3))) {

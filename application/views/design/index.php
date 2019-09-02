@@ -65,7 +65,7 @@
         <div class="fl">
             <ul class="ul-inline">
                 <li>
-                    <input type="text" id="matchCon" class="ui-input ui-input-ph" value="请输入上位物料或下位物料或name">
+                    <input type="text" id="matchCon" class="ui-input ui-input-ph" value="请输入上位物料或下位物料或设计名称">
                 </li>
 
                 <li><a class="ui-btn" id="search">查询</a><!--<a class="ui-btn ui-btn-refresh" id="refresh" title="刷新"><b></b></a>--></li>
