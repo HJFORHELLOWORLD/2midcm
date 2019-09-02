@@ -167,79 +167,169 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
             function n() {
                 $("#initCombo").append($(".goodsAuto").val("").unbind("focus.once"))
             }
-         //批量添加物流公司
-            $('.grid-wrap').on('focus','.company',function(){
-                var a = $("#grid").jqGrid('getGridParam','colModel');
-                // var name=a[$(this).closest('id').index()]['name'];
-                $.dialog({
-                    width:775,
-                    height:510,
-                    title:'选择物流公司',
-                    content:'url:'+settings_betweenUnit,
-                    data:{
-                        // skey:_self.skey,
-                        name:name,
-                        callback:function(newId,curID,curRow){
-                            if(curID === ''){
-                                $("#grid").jqGrid('addRowData',newId, {}, 'last');
-                                _self.newId = newId +1;
-                            };
-                            setTimeout( function(){
-                                $("#grid").jqGrid("editCell",curRow,2,true)},10);
-                            _self.calTotal();
+         // //批量添加物流公司
+         //    $('.grid-wrap').on('focus','.company',function(){
+         //        var a = $("#grid").jqGrid('getGridParam','colModel');
+         //        // var name=a[$(this).closest('id').index()]['name'];
+         //        $.dialog({
+         //            width:775,
+         //            height:510,
+         //            title:'选择物流公司',
+         //            content:'url:'+settings_betweenUnit,
+         //            data:{
+         //                // skey:_self.skey,
+         //                name:name,
+         //                callback:function(newId,curID,curRow){
+         //                    if(curID === ''){
+         //                        $("#grid").jqGrid('addRowData',newId, {}, 'last');
+         //                        _self.newId = newId +1;
+         //                    };
+         //                    setTimeout( function(){
+         //                        $("#grid").jqGrid("editCell",curRow,2,true)},10);
+         //                    _self.calTotal();
+         //                }
+         //            }
+         //        })
+         //    });
+         //    //批量添加订单
+         //    $('.grid-wrap').on('focus','.order',function(){
+         //        var a = $("#grid").jqGrid('getGridParam','colModel');
+         //        // var name=a[$(this).closest('id').index()]['name'];
+         //        $.dialog({
+         //            width:775,
+         //            height:510,
+         //            title:'选择订单',
+         //            content:'url:'+settings_order_batch,
+         //            data:{
+         //                // skey:_self.skey,
+         //                name:name,
+         //                callback:function(newId,curID,curRow){
+         //                    if(curID === ''){
+         //                        $("#grid").jqGrid('addRowData',newId, {}, 'last');
+         //                        _self.newId = newId +1;
+         //                    };
+         //                    setTimeout( function(){
+         //                        $("#grid").jqGrid("editCell",curRow,2,true)},10);
+         //                    _self.calTotal();
+         //                }
+         //            }
+         //        })
+         //    });
+         //
+         //    //批量添加人员
+         //    $('.grid-wrap').on('focus','.company',function(){
+         //        var a = $("#grid").jqGrid('getGridParam','colModel');
+         //        // var name=a[$(this).closest('id').index()]['name'];
+         //        $.dialog({
+         //            width:775,
+         //            height:510,
+         //            title:'选择人员',
+         //            content:'url:'+settings_betweenUnit,
+         //            data:{
+         //                // skey:_self.skey,
+         //                name:name,
+         //                callback:function(newId,curID,curRow){
+         //                    if(curID === ''){
+         //                        $("#grid").jqGrid('addRowData',newId, {}, 'last');
+         //                        _self.newId = newId +1;
+         //                    };
+         //                    setTimeout( function(){
+         //                        $("#grid").jqGrid("editCell",curRow,2,true)},10);
+         //                    _self.calTotal();
+         //                }
+         //            }
+         //        })
+         //    });
+            function getUser(){
+                // debugger;
+                var getUser = "";
+                var i;
+                var list;
+                var contentType;
+                $.ajax({
+                    type:"get",
+                    async:false,
+                    url:basedata_getUser,
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify(list),
+                success:function(result){
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i< result.length;i++ ){
+                            if(i != result.length-1){
+                               getUser += result[i].key + ":" + result[i].name +";";
+                            }else{
+                               getUser += result[i].key + ":" + result[i].name;
+                            }
                         }
-                    }
-                })
-            });
-            //批量添加订单
-            $('.grid-wrap').on('focus','.order',function(){
-                var a = $("#grid").jqGrid('getGridParam','colModel');
-                // var name=a[$(this).closest('id').index()]['name'];
-                $.dialog({
-                    width:775,
-                    height:510,
-                    title:'选择订单',
-                    content:'url:'+settings_order_batch,
-                    data:{
-                        // skey:_self.skey,
-                        name:name,
-                        callback:function(newId,curID,curRow){
-                            if(curID === ''){
-                                $("#grid").jqGrid('addRowData',newId, {}, 'last');
-                                _self.newId = newId +1;
-                            };
-                            setTimeout( function(){
-                                $("#grid").jqGrid("editCell",curRow,2,true)},10);
-                            _self.calTotal();
-                        }
-                    }
-                })
-            });
+                    },
+                 error: function(e){
+                    console.log(e.status);
+                    console.log(e.responseText);
+                 }
+                });
+                return getUser;
+            }
 
-            //批量添加人员
-            $('.grid-wrap').on('focus','.company',function(){
-                var a = $("#grid").jqGrid('getGridParam','colModel');
-                // var name=a[$(this).closest('id').index()]['name'];
-                $.dialog({
-                    width:775,
-                    height:510,
-                    title:'选择人员',
-                    content:'url:'+settings_betweenUnit,
-                    data:{
-                        // skey:_self.skey,
-                        name:name,
-                        callback:function(newId,curID,curRow){
-                            if(curID === ''){
-                                $("#grid").jqGrid('addRowData',newId, {}, 'last');
-                                _self.newId = newId +1;
-                            };
-                            setTimeout( function(){
-                                $("#grid").jqGrid("editCell",curRow,2,true)},10);
-                            _self.calTotal();
+            function getCompany(){
+                // debugger;
+                var getCompany = "";
+                var i;
+                var list;
+                var contentType;
+                $.ajax({
+                    type:"get",
+                    async:false,
+                    url:basedata_getCompany,
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify(list),
+                    success:function(result){
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i< result.length;i++ ){
+                            if(i != result.length-1){
+                                getCompany += result[i].key + ":" + result[i].name +";";
+                            }else{
+                                getCompany += result[i].key + ":" + result[i].name;
+                            }
                         }
+                    },
+                    error: function(e){
+                        console.log(e.status);
+                        console.log(e.responseText);
                     }
-                })
-            });
+                });
+                return getCompany;
+            }
+
+            function getOrder(){
+                // debugger;
+                var getOrder = "";
+                var i;
+                var list;
+                var contentType;
+                $.ajax({
+                    type:"get",
+                    async:false,
+                    url:basedata_getOrder,
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify(list),
+                    success:function(result){
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i< result.length;i++ ){
+                            if(i != result.length-1){
+                                getOrder += result[i].key + ":" + result[i].name +";";
+                            }else{
+                                getOrder += result[i].key + ":" + result[i].name;
+                            }
+                        }
+                    },
+                    error: function(e){
+                        console.log(e.status);
+                        console.log(e.responseText);
+                    }
+                });
+                return getOrder;
+            }
+
             function o() {
                 var t = $(".storageAuto")[0];
                 return t
@@ -277,58 +367,50 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
                             label: "物流公司",
                             width: 220,
                             title: !0,
-                            classes: "company",
-                            formatter: t,
-                            editable: true,
-                            editrules: true,
-                            // edittype: "select",
-                            editoptions:{}
-                                // value:
+                            align:"right",
+                            editable: !0,
+                            edittype: 'select',
+                            formatter:'select',
+                            editoptions: {
+                                value: getCompany()
+                            }
                        } , {
                             name: "Name",
                             label: "订单名称",
                             width: 220,
                             title: !0,
-                            classes: "order",
-                            formatter: t,
-                            editable: true,
-                            editrules: true,
+                            align:"right",
+                            edittable: !0,
+                            formatter: 'select',
+                            edittype: 'select',
                             editoptions: {
-                                // value:getOrderName('')
+                                 value:getOrder()
                             }
                         }, {
                             name: "Desc",
                             label: "描述",
                             width: 180,
                             align: "right",
-                            formatter: "number",
-                            formatoptions: {
-                                decimalPlaces: qtyPlaces
-                            },
                             editable: !0
                         }, {
                         name: "SignPer_ID",
                         label: "签约人",
-                        width: 220,
+                        width: 200,
                         title: !0,
-                        classes: "company",
-                        formatter: t,
-                        editable: true,
-                        editrules: true,
-                        // edittype: "select",
-                        editoptions:{}
-
+                        align: "right",
+                        editable: !0,
+                        edittype: 'select',
+                        formatter: 'select',
+                        editoptions:{
+                            value:getUser()
+                        }
                         }, {
                             name: "Sign_Date",
                             label: "签约时间",
                             width: 100,
                             fixed: !0,
                             align: "right",
-                            formatter: "currency",
-                            formatoptions: {
-                                showZero: !0,
-                                decimalPlaces: amountPlaces
-                            },
+
                             editable: !0
                         },{
                             name: "Status",
@@ -343,16 +425,16 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
                             },
                            editoptions: {value:"0:提交计划;1:询价增补提交审核;5:签订;9:执行完毕"}
                        },{
-                            name: "Creator",
+                            name: "Creator_ID",
                             label: "创建人",
                             width: 200,
                             title: !0,
-                            classes: "user",
-                            formatter: t,
-                            editable: true,
-                            editrules:true,
+                            align:"right",
+                            editable: !0,
+                            edittype:'select',
+                            formatter:'select',
                             editoptions: {
-
+                                 value:getUser()
                             }
                         },{
                             name: "PurOrder_Amount",
@@ -363,20 +445,21 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
                         },{
                             name: "PurOrder_Payment",
                             label: "付款条件",
-                            width: 150,
+                            width: 280,
                             title: !0,
                             editable: !0
                         },{
                             name: "Review_ID",
                             label: "审核人",
-                            width: 320,
+                            width: 200,
                             title: !0,
-                            classes: "user",
-                            formatter: t,
-                            editable: true,
+                            align:"right",
+                            editable: !0,
+                            formatter: 'select',
+                            edittype: 'select',
                             editrules: true,
                             editoptions: {
-
+                                 value: getUser()
                         }
                        },{
                               name: "Create_Date",
@@ -401,14 +484,16 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
 //					trigger: "ui-icon-triangle-1-s"e
 //				}
 //			},
+//                 {
+//                     name: "description",
+//                     label: "备注",
+//                     width: 150,
+//                     classes: "ui-ellipsis",
+//                     title: !0,
+//                     editable: !0
+//                 }
+//                 ,
                 {
-                    name: "description",
-                    label: "备注",
-                    width: 150,
-                    classes: "ui-ellipsis",
-                    title: !0,
-                    editable: !0
-                }, {
                     name: "srcOrderEntryId",
                     label: "源单分录ID",
                     width: 0,

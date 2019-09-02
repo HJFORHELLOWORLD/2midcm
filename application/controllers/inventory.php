@@ -225,7 +225,7 @@ class Inventory extends CI_Controller {
 				die('{"status":400,"msg":"盘点失败！"}');
 			 } else {
 				$this->db->trans_commit();
-				$this->cache_model->delsome(GOODS);
+				$this->cache_model->delsome(BOM_BASE);
 				$this->cache_model->delsome(INVOI);
 				$this->cache_model->delsome(INVOI_INFO); 
 				if ($i>0) {

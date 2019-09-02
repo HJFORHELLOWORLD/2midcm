@@ -132,6 +132,6 @@ var inventory_generator = "<?=site_url('inventory/generator')?>";
     </div>
   </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/inventory.js?99"></script>
+<script src="<?=skin_url()?>/js/dist/inventory.js?979"></script>
 </body>
 </html>

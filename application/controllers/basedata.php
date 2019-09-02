@@ -567,9 +567,37 @@ class Basedata extends CI_Controller {
 	}
 
 	//查询用户接口
-    public function  SelectSinper(){
-      $user=$this->cache_model->load_data(USER);
-      die(json_encode($user));
+    public function  getUser(){
+      $data[]= array('key'=>'','name'=>'');
+      $list = $this->cache_model->load_data(USER,'(1=1) order by PK_User_ID desc');
+      foreach ($list as $arr => $row ){
+         $data[]= array('key'=>intval($row['PK_User_ID']),'name'=>$row['Username']);
+      }
+//      var_dump($data);
+      die(json_encode($data));
+    }
+
+
+    //查询公司接口
+    public function  getCompany(){
+        $data[]= array('key'=>'','name'=>'');
+        $list = $this->cache_model->load_data(BETWEENUNIT,'(1=1) order by PK_BU_ID desc');
+        foreach ($list as $arr => $row ){
+            $data[]= array('key'=>intval($row['PK_BU_ID']),'name'=>$row['Name']);
+        }
+//      var_dump($data);
+        die(json_encode($data));
+    }
+
+    //查询订单接口
+    public function  getOrder(){
+        $data[]= array('key'=>'','name'=>'');
+        $list = $this->cache_model->load_data(SALEORDER,'(1=1) order by Create_Date desc ');
+        foreach ($list as $arr => $row ){
+            $data[]= array('key'=>$row['PK_BOM_Sale_ID'],'name'=>$row['Name']);
+        }
+//      var_dump($data);
+        die(json_encode($data));
     }
 
 }

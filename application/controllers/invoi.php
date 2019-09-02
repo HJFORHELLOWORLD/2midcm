@@ -179,7 +179,7 @@ class Invoi extends CI_Controller {
             $data = (array)json_decode($data);
             !isset($data['id']) && die('{"status":-1,"msg":"参数错误"}');
             (!isset($data['buId']) && $data['buId']<1) && die('{"status":-1,"msg":"请选择购货单位"}');
-            $contact = $this->mysql_model->db_one(CONTACT,'(id='.intval($data['buId']).')');
+            $contact = $this->mysql_model->db_one(USER,'(id='.intval($data['buId']).')');
             count($contact)<1 && die('{"status":-1,"msg":"请选择购货单位"}');
             $id                  = intval($data['id']);
             $info['billno']      = $data['billNo'];
@@ -222,7 +222,7 @@ class Invoi extends CI_Controller {
                 die();
             } else {
                 $this->db->trans_commit();
-                $this->cache_model->delsome(GOODS);
+                $this->cache_model->delsome(BOM_BASE);
                 $this->cache_model->delsome(BOM_STOCK);
                 $this->cache_model->delsome(INVOI_INFO);
                 $this->data_model->logs('修改其他入库 单据编号：'.$info['billno']);
@@ -283,7 +283,7 @@ class Invoi extends CI_Controller {
             $info['username']    = $this->name;
             $this->db->trans_begin();
             $invoiid = $this->mysql_model->db_inst(INVOI,$info);
-
+//            var_dump($invoiid);
             $v = array();
             if (is_array($data['entries'])) {
                 $values = array();
@@ -487,7 +487,7 @@ class Invoi extends CI_Controller {
             $data = (array)json_decode($data);
             !isset($data['id']) && die('{"status":-1,"msg":"参数错误"}');
             (!isset($data['buId']) && $data['buId']<1) && die('{"status":-1,"msg":"请选择客户"}');
-            $contact = $this->mysql_model->db_one(CONTACT,'(id='.intval($data['buId']).')');
+            $contact = $this->mysql_model->db_one(USER,'(id='.intval($data['buId']).')');
             count($contact)<1 && die('{"status":-1,"msg":"请选择客户"}');
             $info['billtype']    = 2;
             $id                  = intval($data['id']);
@@ -531,7 +531,7 @@ class Invoi extends CI_Controller {
                 die();
             } else {
                 $this->db->trans_commit();
-                $this->cache_model->delsome(GOODS);
+                $this->cache_model->delsome(BOM_BASE);
                 $this->cache_model->delsome(BOM_STOCK);
                 $this->cache_model->delsome(INVOI_INFO);
                 $this->data_model->logs('修改其他出库 单据编号：'.$info['billno']);

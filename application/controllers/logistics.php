@@ -36,22 +36,20 @@ class logistics extends CI_Controller
             $data = (array)json_decode($data);
             if (is_array($data['entries'])) {
                 foreach ($data['entries'] as $arr => $row) {
-                    $v[$arr]['pk_bom_log_id'] = $row->pk_bom_log_id;
-                    $v[$arr]['fk_supplier_id'] = $row->fk_supplier_id;
-                    $v[$arr]['name'] = $row->name;
-                    $v[$arr]['desc'] = $row->desc;
-                    $v[$arr]['signPer_id'] = $row->signPer_id;
-                    $v[$arr]['sign_date'] = $row->sign_date;
-                    $v[$arr]['status'] = $row->status;
-                    $v[$arr]['review_id'] = $row->review_id;
-                    $v[$arr]['purOrder_amount'] = $row->purOrder_amount;
-                    $v[$arr]['purOrder_payment'] = $row->purOrder_payment;
-                    $v[$arr]['creator_id'] = $row->creator_id;
-                    $v[$arr]['create_date'] = date('Y-m-d H:i:s', time());
-                    $v[$arr]['modify_id'] =  $row->modify_id;
-                    $v[$arr]['modify_date'] = date('Y-m-d H:i:s', time());
+//                    $v[$arr]['PK_BOM_Log_ID'] = $row->PK_BOM_Log_ID;
+                    $v[$arr]['FK_Supplier_ID'] = $row->FK_Supplier_ID;
+                    $v[$arr]['Name'] = $row->Name;
+                    $v[$arr]['Desc'] = $row->Desc;
+                    $v[$arr]['SignPer_ID'] = $row->SignPer_ID;
+                    $v[$arr]['Sign_Date'] = $row->Sign_Date;
+                    $v[$arr]['Status'] = $row->Status;
+                    $v[$arr]['Review_ID'] = $row->Review_ID;
+                    $v[$arr]['PurOrder_Amount'] = $row->PurOrder_Amount;
+                    $v[$arr]['PurOrder_Payment'] = $row->PurOrder_Payment;
+                    $v[$arr]['Creator_ID'] = $row->Creator_ID;
+                    $v[$arr]['Create_date'] = date('Y-m-d H:i:s', time());
                 }
-                $name= $v[$arr]['name'];
+                $name= $v[$arr]['Name'];
                 $this->mysql_model->db_inst(BOM_LOGORDER, $v);
                 $this->cache_model->delsome(BOM_LOGORDER) ;
                 $this->data_model->logs('操作人：ID_' . $name .'新增物流信息');

@@ -265,26 +265,26 @@ class Data_model extends CI_Model{
 				';*/
 
 	    $sql = 'SELECT a.*, 
-                IFNULL(a.quantity,0) * a.unitcost + (IF(IFNULL(b.puqty,0)=0,"0",IFNULL(b.amount,0)/IFNULL(b.puqty,0)) * IFNULL(d.oiqty,0) ) AS puamount, 
+                IFNULL(a.Account,0) * a.Cost + (IF(IFNULL(b.puqty,0)=0,"0",IFNULL(b.amount,0)/IFNULL(b.puqty,0)) * IFNULL(d.oiqty,0) ) AS puamount, 
                 IFNULL(d.oiqty,0) AS qty 
                 FROM 
-                '. GOODS .' AS a 
+                '. BOM_BASE .' AS a 
                 LEFT JOIN 
-                (SELECT invpuinfo.goodsid AS goodsid, SUM(invpuinfo.qty) AS puqty , SUM(invpuinfo.amount) AS amount FROM '. INVPU_INFO .' invpuinfo 
-                LEFT JOIN '. INVPU .' invpu ON invpuinfo.invpuid=invpu.id WHERE invpu.review =3 GROUP BY goodsid) AS b 
-                ON a.id=b.goodsid 
+                (SELECT purorder_detail.BOM_ID AS PK_BOM_Stock_ID, SUM(purorder_detail.BOM_Accountt) AS Account , SUM(purorder_detail.BOM_Accountt) AS Account FROM '. PURORDER_DETAIL .' purorder_detail
+                LEFT JOIN '. PURORDER .' purorder ON purorder_detail.Order_ID=purder.PK_BOM_Pur_ID WHERE purder.Status =5 GROUP BY BOM_ID) AS b 
+                ON a.BOM_ID =b.BOM_ID
                 LEFT JOIN 
-                (SELECT invsainfo.goodsid AS goodsid, SUM(invsainfo.qty) AS saqty FROM '. INVSA_INFO .' invsainfo 
-                LEFT JOIN '. INVSA .' invsa ON invsainfo.invsaid=invsa.id GROUP BY goodsid) AS c 
-                ON a.id=c.goodsid 
+                (SELECT saleorder_detail.BOM_ID AS BOM_ID, SUM(saleorder_detail.BOM_Accountt) AS Account FROM '. SALEORDER_DETAIL .' saleorder_detail
+                LEFT JOIN '. SALEORDER .' saleorder ON saleorder_detail.Order_ID=saleorder.PK_BOM_Sale_ID GROUP BY BOM_ID) AS c 
+                ON a.PK_BOM_Stock_ID=c.BOM_ID 
                 LEFT JOIN 
-                (SELECT bom_id, SUM(num) AS oiqty FROM '. BOM_STOCK .' GROUP BY bom_id) AS d 
-                ON a.id=d.bom_id
+                (SELECT BOM_ID, SUM(Account) AS oiqty FROM '. BOM_STOCK .' GROUP BY BOM_ID) AS d 
+                ON a.PK_BOM_ID=d.BOM_ID
                 '.$where.' 
 				'.$order.'
 				';
 
-		return $this->cache_model->load_sql(GOODS,$sql,2);		
+		return $this->cache_model->load_sql(BOM_BASE,$sql,2);
 	}	
 	
 	//商品收发汇总表

@@ -49,6 +49,10 @@
         var logistics_edit   = "<?=site_url('logistics/edit')?>";
         var logistics_info   = "<?=site_url('logistics/info')?>";
         var logistics_del   = "<?=site_url('logistics/del')?>";
+        var basedata_user  = "<?=site_url('basedata/user')?>";
+        var basedata_getUser  = "<?=site_url('basedata/getUser')?>";
+        var basedata_getOrder  = "<?=site_url('basedata/getOrder')?>";
+        var basedata_getCompany  = "<?=site_url('basedata/getCompany')?>";
 
         var logistics_company   = "<?=site_url('logistics/company')?>";
         var database_SelectSinper   = "<?=site_url('database/SelectSinper')?>";
@@ -95,7 +99,7 @@
     </div>
 
 </div>
-<script src="<?=skin_url()?>/js/dist/logistics.js?0222567000"></script>
+<script src="<?=skin_url()?>/js/dist/logistics.js?99966669"></script>
 </body>
 </html>
 
