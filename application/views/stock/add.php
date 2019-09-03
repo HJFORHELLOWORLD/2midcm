@@ -70,7 +70,7 @@
                             <div class="label-wrap">
                                 <label for="number">仓库编号</label>
                             </div>
-                            <div class="ctn-wrap">
+                             <div class="ctn-wrap">
                                 <input type="text" class="ui-input" id="number"  style="ime-mode:disabled;" onpaste="return false;"/>
                             </div>
                         </li>
