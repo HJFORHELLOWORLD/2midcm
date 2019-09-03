@@ -814,7 +814,7 @@ var list = {
 //		target: "setting-base"
 //	},
 	storageList: {
-		name: "BOM",
+		name: "BOM管理",
 		href: "<?=site_url('bom')?>",
 		dataRight: "INVLOCTION_QUERY",
 		target: "setting-base"

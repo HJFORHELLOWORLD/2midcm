@@ -72,7 +72,7 @@ h3{background: #EEEEEE;border: 1px solid #ddd;padding: 5px 10px;}
 	    <div class="fl">
 	      <ul class="ul-inline">
 	        <li>
-	          <input type="text" id="matchCon" class="ui-input ui-input-ph matchCon" value="按物料编号，物料名称，规格型号等查询">
+	          <input type="text" id="matchCon" class="ui-input ui-input-ph matchCon" value="按物料编号，物料名称，属性名等查询">
 	        </li>
 	        <li><a class="ui-btn mrb" id="search">查询</a></li>
 	      </ul>
@@ -80,7 +80,7 @@ h3{background: #EEEEEE;border: 1px solid #ddd;padding: 5px 10px;}
 	    <div class="fr"><a href="#" class="ui-btn ui-btn-sp mrb" id="btn-add">新增</a>
 <!--		<a href="#" class="ui-btn mrb" id="btn-print">打印</a>-->
 <!--		<a href="#" class="ui-btn mrb" id="btn-import">导入</a>-->
-		<a href="#" class="ui-btn mrb" id="btn-export">导出</a>
+<!--		<a href="#" class="ui-btn mrb" id="btn-export">导出</a>-->
 		<a href="#" class="ui-btn" id="btn-batchDel">删除</a></div>
 	  </div>
 	  <div class="cf">
@@ -90,14 +90,14 @@ h3{background: #EEEEEE;border: 1px solid #ddd;padding: 5px 10px;}
 		    </table>
 		    <div id="page"></div>
 		</div>
-<!--		<div class="fl cf" id='tree'>-->
-<!--              <h3>快速查询</h3>-->
-<!--              <div class="quickSearchField dn">-->
-<!--                  <form class="ui-search" id="searchCategory">-->
-<!--                      <input type="text" class="ui-input" /><button type="submit" title="点击搜索" >搜索</button>-->
-<!--                  </form>-->
-<!--              </div>-->
-<!--          </div>-->
+		<div class="fl cf" id='tree'>
+              <h3>快速查询</h3>
+             <div class="quickSearchField dn">
+                 <form class="ui-search" id="searchCategory">
+                      <input type="text" class="ui-input" /><button type="submit" title="点击搜索" >搜索</button>
+                  </form>
+             </div>
+          </div>
 	</div>
 </div>
 <script src="<?=skin_url()?>/js/dist/bomList.js?6666"></script>

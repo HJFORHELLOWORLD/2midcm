@@ -165,9 +165,9 @@ $("#page-tab").ligerTab({
 		case "setting-customerList":
 			getCustomer();
 			break;
-		case "setting-storageList":
+/*		case "setting-storageList":
 			getStorage();
-			break;
+			break;*/
 		case "setting-goodsList":
 			getGoods();
 			break;

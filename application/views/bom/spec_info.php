@@ -54,10 +54,10 @@
 
 <body>
 <div class="container" style="margin:20px 20px 0;">
-    <table border="1" cellspacing="0">
-        <tr><td width="200" align="center">规格</td><td width="350" align="center">数值</td></tr>
+    <table border="1" cellspacing="0" cellpadding="0">
+        <tr><td width="200" align="center">属性</td><td width="350" align="center">属性值</td></tr>
     <?php foreach ($data as $item): ?>
-        <tr><td align="center"><span style="font-size: medium"><?php echo $item['spec'] ?> </span></td><td align="center"> <?php echo $item['val'] ?></span></td></tr>
+        <tr><td align="center"><span style="font-size: medium" ><?php echo $item['attr'] ?> </span></td><td align="center"> <?php echo $item['val'] ?></span></td></tr>
     <?php endforeach ?>
     </table>
 </div>

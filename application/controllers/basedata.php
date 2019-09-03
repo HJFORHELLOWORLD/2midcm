@@ -123,7 +123,7 @@ class Basedata extends CI_Controller {
         $categoryid   = intval($this->input->get('assistId',TRUE));
         $where = '';
         if ($skey) {
-            $where .= ' and ( PK_BOM_ID like "%'.$skey.'%"' . ' or BOMModel like "%'.$skey.'%"' . ' or BOMName like "%'.$skey.'%" )';
+            $where .= ' and ( PK_BOM_ID like "%'.$skey.'%"' . ' or BOMModel like "%'.$skey.'%"' . ' or BOMAttr like "%'.$skey.'%"' . ' or BOMName like "%'.$skey.'%" )';
         }
         if ($categoryid > 0) {
             $table = BOM_CATEGORY2;
@@ -145,28 +145,25 @@ class Basedata extends CI_Controller {
         $data['data']['page']      = $page;                                                      //当前页
         /*		$list = $this->cache_model->load_data(BOM_BASE,$where.' order by PK_BOM_ID desc limit '.$offset.','.$rows.'');*/
         $list = $this->data_model->bomBaseList($where, ' order by PK_BOM_ID desc limit '.$offset.','.$rows.'');
+
+        foreach ($list as $key => &$val){
+            $val['id'] = $val['PK_BOM_ID'];
+            $val['attrStr'] = '';
+            if(strlen($val['BOMAttr']) > 0){
+                $attr = explode('|',$val['BOMAttr']);
+                $attrArr = array();
+                foreach ($attr as $k => $v){
+                    $attrArr[$v] = $val['BOMAttr'.$k];
+                }
+                if(count($attrArr) > 0){
+                    $val['attrStr'] = str_replace('"','_',json_encode($attrArr,JSON_UNESCAPED_UNICODE));//双引号去到前端页面会出错，因此替换成下划线
+                }
+            }
+        }
+
         $data['data']['records']   = count($list);//$this->cache_model->load_total(BOM_BASE,'(1=1)' . $where. '');   //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);                       //总分页数
-        foreach ($list as $arr=>$row) {
-            $v[$arr]['PK_BOM_ID']        = $row['PK_BOM_ID'];
-            $v[$arr]['BOMModel']        = $row['BOMModel'];
-            $v[$arr]['BOMName']        = $row['BOMName'];
-            $v[$arr]['isVirt']       = ($row['isVirt']);
-            $v[$arr]['bomCat_id1']     = $row['bomCat_id1'];
-            $v[$arr]['bomCat_id2']     = $row['bomCat_id2'];
-            $v[$arr]['desc'] = $row['des'];
-            $v[$arr]['fk_unitClass_id'] = $row['fk_unitClass_id'];
-            $v[$arr]['bomAttr'] = $row['bomAttr'];
-            $v[$arr]['bomAttr1'] = $row['bomAttr1'];
-            $v[$arr]['bomAttr2'] = $row['bomAttr2'];
-            $v[$arr]['bomAttr3'] = $row['bomAttr3'];
-            $v[$arr]['bomAttr4'] = $row['bomAttr4'];
-            $v[$arr]['bomAttr5'] = $row['bomAttr5'];
-            $v[$arr]['bomAttr6'] = $row['bomAttr6'];
-            $v[$arr]['bomAttr7'] = $row['bomAttr7'];
-            $v[$arr]['unitName']  = $row['unitName'];
-        }
-        $data['data']['rows']   = $v;
+        $data['data']['rows']   = $list;
         die(json_encode($data));
     }
 	
@@ -222,7 +219,7 @@ class Basedata extends CI_Controller {
 		}
 	}
 	
-	//分类接口
+	//分类接口（提供给采购、报价、销售弹框用）
 	public function category() {
 	    $data['status'] = 200;
 		$data['msg']    = 'success';
@@ -575,6 +572,39 @@ class Basedata extends CI_Controller {
 
         die(json_encode($data));
 
+    }
+
+    public function cat1List(){
+        $categoryid   = intval($this->input->get('cat1',TRUE));
+        $where = '';
+        if(intval($categoryid) > 0){
+            $where .= 'PK_BOMCat_ID1 = '. $categoryid;
+        }
+        $list  = $this->cache_model->load_data(BOM_CATEGORY1,$where);
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['name']        = $row['Name'];
+            $v[$arr]['id']      = intval($row['PK_BOMCat_ID1']);
+        }
+        $data['data']['items']      = $v;
+        $data['data']['totalsize']  = $this->cache_model->load_total(BOM_CATEGORY1);
+        die(json_encode($data));
+    }
+
+    public function cat2List(){
+
+        $categoryid   = intval($this->input->get('cat1',TRUE));
+        $where = '';
+        if(intval($categoryid) > 0){
+            $where .= 'PK_BOMCat_ID1 = '. $categoryid;
+        }
+        $list  = $this->cache_model->load_data(BOM_CATEGORY2,$where);
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['name']        = $row['Name'];
+            $v[$arr]['id']      = intval($row['PK_BOMCat_ID2']);
+        }
+        $data['data']['items']      = $v;
+        $data['data']['totalsize']  = $this->cache_model->load_total(BOM_CATEGORY2);
+        die(json_encode($data));
     }
 
 }
