@@ -391,7 +391,6 @@ class Basedata extends CI_Controller {
 	    $id   = intval($this->input->post('id',TRUE));
 		$type = intval($this->input->get('type',TRUE));
 	    $data = $this->cache_model->load_one(BETWEENUNIT,'(PK_BU_ID='.$id.')');
-		 
 		if (count($data)>0) {
 			$info['id']          = intval($data['PK_BU_ID']);
 			$info['Industry_ID']   = intval($data['Industry_ID']);
@@ -527,11 +526,7 @@ class Basedata extends CI_Controller {
 //    }
 
 
-<<<<<<< HEAD
-    //地区接口
-=======
     //地区分类
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
     public function area() {
         $v = '';
         $data['status'] = 200;
@@ -574,7 +569,7 @@ class Basedata extends CI_Controller {
 		die('{"status":502,"msg":"用户名不存在"}');
 	}
 
-<<<<<<< HEAD
+
 	//查询用户接口
     public function  getUser(){
       $data[]= array('key'=>'','name'=>'');
@@ -598,16 +593,30 @@ class Basedata extends CI_Controller {
         die(json_encode($data));
     }
 
-    //查询订单接口
-    public function  getOrder(){
+
+    //查询单位接口
+    public function  getUnit(){
         $data[]= array('key'=>'','name'=>'');
-        $list = $this->cache_model->load_data(SALEORDER,'(1=1) order by Create_Date desc ');
+        $list = $this->cache_model->load_data(UNIT,'(1=1) order by id desc');
         foreach ($list as $arr => $row ){
-            $data[]= array('key'=>$row['PK_BOM_Sale_ID'],'name'=>$row['Name']);
+            $data[]= array('key'=>intval($row['id']),'name'=>$row['name']);
         }
 //      var_dump($data);
         die(json_encode($data));
-=======
+    }
+
+    //查询订单接口
+    public function  getOrder()
+    {
+        $data[] = array('key' => '', 'name' => '');
+        $list = $this->cache_model->load_data(SALEORDER, '(1=1) order by Create_Date desc ');
+        foreach ($list as $arr => $row) {
+            $data[] = array('key' => $row['PK_BOM_Sale_ID'], 'name' => $row['Name']);
+        }
+//      var_dump($data);
+        die(json_encode($data));
+    }
+
 	public function getGroupContractNum(){
         $type = str_enhtml($this->input->get('type',TRUE));
         $data[] = array('key' => '', 'name' => '');
@@ -637,7 +646,7 @@ class Basedata extends CI_Controller {
 
         die(json_encode($data));
 
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
+
     }
 
 }
