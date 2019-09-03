@@ -58,38 +58,21 @@ class Inventory extends CI_Controller {
 	public function lists() {
 		$page        = max(intval($this->input->get_post('page',TRUE)),1);
 		$rows        = max(intval($this->input->get_post('rows',TRUE)),100);
-//		$categoryid  = intval($this->input->get_post('categoryId',TRUE));
-//		$goods       = str_enhtml($this->input->get_post('goods',TRUE));
-//		$qty         = intval($this->input->get_post('showZero',TRUE));
 	    $v = '';
 		$where = '';
-		$order = 'order by a.id desc';
+		$order = 'order by a.PK_BOM_Stock_ID desc';
 	    $data['status'] = 200;
 		$data['msg']    = 'success';
-//		if ($categoryid > 0) {
-//		    $cid = $this->cache_model->load_data(BOM_CATEGORY1,'(1=1) and find_in_set('.$categoryid.',path)','id');
-//			if (count($cid)>0) {
-//			    $cid = join(',',$cid);
-//			    $where .= ' and a.categoryid in('.$cid.')';
-//			}
-//		}
-//		if ($goods) {
-//		    $where .= ' and a.name like "%'.$goods.'%"';
-//		}
-//		if ($qty>0) {
-//		    $order = ' HAVING (qty<=0)';
-//		}
-
 		$offset = $rows * ($page-1);
 		$data['data']['page']        = $page;
 		$data['data']['records']     = 1000;                                                       //总条数
 		$data['data']['total']       = ceil($data['data']['records']/$rows);                       //总分页数
 		$list = $this->data_model->inventory($where,$order);  
 		foreach ($list as $arr=>$row) {
-			$v[$arr]['qty']          = number_format($row['qty'],2);
-			$v[$arr]['locationName'] = $row['stock_id'];
-			$v[$arr]['invCost']      = (float)($row['cost']);
-			$v[$arr]['invNumber']    = $row['account'];
+			$v[$arr]['Account']    = number_format($row['Account'],2);
+			$v[$arr]['Stock_Name'] = $row['Stock_Name'];
+			$v[$arr]['Cost']      = (float)($row['Cost']);
+			$v[$arr]['BOM_ID']    = $row['BOM_ID'];
 		}
 		$data['data']['rows']        = is_array($v) ? $v : '';
 		die(json_encode($data));
