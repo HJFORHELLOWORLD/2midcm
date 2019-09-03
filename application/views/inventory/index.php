@@ -40,7 +40,8 @@ var basedata_goods = "<?=site_url('basedata/goods')?>";
 var basedata_unit  = "<?=site_url('basedata/unit')?>";                      
 var settings_unit_manage = "<?=site_url('settings/unit_manage')?>";    
 var basedata_contact  = "<?=site_url('basedata/contact')?>";             
-var settings_inventory =  "<?=site_url('settings/inventory')?>";          
+var basedata_getUser  = "<?=site_url('basedata/getUser')?>";
+var settings_inventory =  "<?=site_url('settings/inventory')?>";
 var settings_skins =  "<?=site_url('settings/skins')?>";             
 
 var inventory_lists= "<?=site_url('inventory/lists')?>";
@@ -132,6 +133,6 @@ var inventory_generator = "<?=site_url('inventory/generator')?>";
     </div>
   </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/inventory.js?979"></script>
+<script src="<?=skin_url()?>/js/dist/inventory.js?999922229"></script>
 </body>
 </html>
