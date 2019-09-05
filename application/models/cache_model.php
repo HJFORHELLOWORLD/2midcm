@@ -117,6 +117,9 @@ class Cache_model extends CI_Model{
 	}
 	
 	public function delsome($key) {
+	    if(!is_dir($this->path)) { //当普通用户登录的时候，没有cache文件
+	        return true;
+        }
 	    if (is_dir($this->path.$key)) {
 		    delete_files($this->path.$key);
 		} else {

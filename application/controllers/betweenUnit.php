@@ -45,33 +45,72 @@ class BetweenUnit extends CI_Controller {
      * @number 5
      */
     public function save() {
-        $this->purview_model->checkpurview(59);
-        $data = $this->input->post('postData', TRUE);
-        if (strlen($data) > 0) {
-            $data = (array)json_decode($data);
-            if (is_array($data['entries'])) {
-                foreach ($data['entries'] as $arr => $row) {
-                    $v[$arr]['name'] = $row->name;
-                    $v[$arr]['desc'] = $row->desc;
-                    $v[$arr]['area_id'] = $row->area_id;
-                    $v[$arr]['bu_cat'] = $row->bu_cat;
-                    $v[$arr]['industry_id'] = $row->industry_id;
-                    $v[$arr]['taxRate'] = $row->taxRate;
+        $act  = str_enhtml($this->input->get('act',TRUE));
+        $id = intval($this->input->post('id',TRUE));
 
-                    //后期需要扩充联系方式时可兼容
-                    $links[0]['linkPhone']       = $row->linkMans;
-                    $v[$arr]['linkMans'] = json_encode($links);
-                    $v[$arr]['status'] = 1; //正常
-                    $v[$arr]['creator_id'] = $this->uid;
-                }
-                $name= $v[$arr]['name'];
-                $this->mysql_model->db_inst(BETWEENUNIT, $v);
+        // $data['linkmans']    = $this->input->post('linkMans',TRUE);
+        $data['Name']      = str_enhtml($this->input->post('name',TRUE));
+        strlen($data['Name']) < 1 && die('{"status":-1,"msg":"客户名称不能为空"}');
+        $data['BU_Cat']   = str_enhtml($this->input->post('BU_Cat',TRUE));
+        $data['Industry_ID']  = intval($this->input->post('Industry_ID',TRUE));
+        $data['Area_ID']        = str_enhtml($this->input->post('Area_ID',TRUE));
+        $data['Taxrate']      = (float)str_enhtml($this->input->post('Taxrate',TRUE))/100;
+        $data['Desc']      = str_enhtml($this->input->post('desc',TRUE));
+        $data['Status'] = intval(str_enhtml($this->input->post('status',TRUE)));
+        $data['Modify_ID'] = $this->uid;
+        $data['Modify_Date'] = date('Y-m-d H:i:s',time());
+        $links = array();
+        $phone = str_enhtml($this->input->post('phone',TRUE));
+        if (strlen($phone)>0) {
+            //  $list = (array)json_decode($data['linkmans']);
+            // if (count($list)>0) {
+            // foreach ($list as $arr=>$row) {
+            //if ($row->linkFirst==1) {
+            $links[0]['linkPhone']       = $phone;
+            $data['Linkmans'] = json_encode($links);
+            //}
+            //  }
+            //}
+        }
+        if ($act=='add') {
+            $this->purview_model->checkpurview(59);
+            $this->mysql_model->db_count(BETWEENUNIT,'(Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该往来单位名称"}');
+            $name = $data['Name'];
+            $id = $this->mysql_model->db_inst(BETWEENUNIT, $data);
+            $this->cache_model->delsome(BETWEENUNIT);
+            $this->data_model->logs('操作人：ID_' . $name . '新增往来单位信息');
+            //回传数据
+            $data = array('id' => $id,'name' => $data['Name'],'remark' => $data['Desc'],
+                'BU_Cat_Name' => $data['BU_Cat'] == 1 ? '客户' : ($data['BU_Cat'] == 2 ? '厂家' : ($data['BU_Cat'] == 3 ? '客户兼厂家' : '第三方')),
+                'Industry_ID'  => $data['Industry_ID'], 'Area_ID' => $data['Area_ID'],
+                'Industry' => str_enhtml($this->input->post('industryname',TRUE)),'Area' => str_enhtml($this->input->post('areaname',TRUE)),
+                'Taxrate' => $data['Taxrate'] * 100,
+                'telephone' => $phone,'StatusName' =>  $data['Status'] == 0 ? '不正常' : '正常',
+                'Status' => $data['Status'],'BU_Cat' => $data['BU_Cat']);
+            die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
+        } elseif ($act=='update') {
+            $this->purview_model->checkpurview(60);
+
+            //$name = $this->mysql_model->db_one(BETWEENUNIT,'(PK_BU_ID='.$id.')','name');
+            //$sql = $this->mysql_model->db_upd(BETWEENUNIT,array_filter($data),'(PK_BU_ID='.$id.')');
+            $sql = $this->mysql_model->db_upd(BETWEENUNIT,$data,'(PK_BU_ID='.$id.')');
+            if ($sql) {
+                $this->cache_model->delsome(PURORDER);
                 $this->cache_model->delsome(BETWEENUNIT);
-                $this->data_model->logs('操作人：ID_' . $name.'新增往来单位信息');
-                die('{"status":200,"msg":"success"}');
+                $this->cache_model->delsome(SALEORDER);
+                $this->data_model->logs('修改了往来单位:'.$id);
+                //回传数据
+                $data = array('id' => $id,'name' => $data['Name'],'remark' => $data['Desc'],
+                    'BU_Cat_Name' => $data['BU_Cat'] == 1 ? '客户' : ($data['BU_Cat'] == 2 ? '厂家' : ($data['BU_Cat'] == 3 ? '客户兼厂家' : '第三方')),
+                    'Industry_ID'  => $data['Industry_ID'], 'Area_ID' => $data['Area_ID'],
+                    'Industry' => str_enhtml($this->input->post('industryname',TRUE)),'Area' => str_enhtml($this->input->post('areaname',TRUE)),
+                    'Taxrate' => $data['Taxrate'] * 100,
+                    'telephone' => $phone,'StatusName' =>  $data['Status'] == 0 ? '不正常' : '正常',
+                    'Status' => $data['Status'],'BU_Cat' => $data['BU_Cat']);
+                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
+            } else {
+                die('{"status":-1,"msg":"修改失败"}');
             }
-        } else {
-            $this->load->view('betweenUnit/add', $data);
         }
     }
 
@@ -115,7 +154,7 @@ class BetweenUnit extends CI_Controller {
             $this->data_model->logs('修改了往来单位:'.$id);
             //回传数据
             $data = array('id' => $id,'name' => $data['Name'],'remark' => $data['Desc'],
-                'BU_Cat_Name' => $data['BU_Cat'] == 1 ? '客户' : ($data['BU_Cat'] == 2 ? '厂家' : '第三方'),
+                'BU_Cat_Name' => $data['BU_Cat'] == 1 ? '客户' : ($data['BU_Cat'] == 2 ? '厂家' : ($data['BU_Cat'] == 3 ? '客户兼厂家' : '第三方')),
                 'Industry_ID'  => $data['Industry_ID'], 'Area_ID' => $data['Area_ID'],
                 'Industry' => str_enhtml($this->input->post('industryname',TRUE)),'Area' => str_enhtml($this->input->post('areaname',TRUE)),
                 'Taxrate' => $data['Taxrate'],

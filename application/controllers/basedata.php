@@ -309,7 +309,7 @@ class Basedata extends CI_Controller {
 			$where .= ' and (Linkmans like "%'.$skey.'%"' . ' or a.Name like "%'.$skey.'%"' . ' or PK_BU_ID like "%'.$skey.'%"' . ')';
 		}
 		if ($type) {
-			$where .= ' and BU_Cat IN ('.$type.',4) and Status = 1';//有type证明是选择供应商/客户，此时不展示不正常数据
+			$where .= ' and BU_Cat IN ('.$type.',3,4) and Status = 1';//有type证明是选择供应商/客户，此时不展示不正常数据
 		}
 		$offset = $rows * ($page-1);
 		$data['data']['page']      = $page;                                                      //当前页
@@ -325,12 +325,12 @@ class Basedata extends CI_Controller {
 			$v[$arr]['remark']       = $row['Desc'];
 			$v[$arr]['links'] = '';
 
-			$v[$arr]['Taxrate'] = $row['Taxrate'];
+			$v[$arr]['Taxrate'] = (float)$row['Taxrate'] * 100;//对外展示百分数，因此*100
             $v[$arr]['Industry'] = $row['industry'];
 			$v[$arr]['Area'] = $row['area'];
             $v[$arr]['Industry_ID'] = $row['Industry_ID'];
             $v[$arr]['Area_ID'] = $row['Area_ID'];
-			$v[$arr]['BU_Cat_Name'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : '第三方');
+			$v[$arr]['BU_Cat_Name'] = $row['BU_Cat'] == 1 ? '客户' : ($row['BU_Cat'] == 2 ? '厂家' : ($row['BU_Cat'] == 3 ? '客户兼厂家' : '第三方'));
             $v[$arr]['BU_Cat'] = $row['BU_Cat'];
 			$v[$arr]['StatusName'] = $row['Status'] == 0 ? '不正常' : '正常';
             $v[$arr]['Status'] = $row['Status'];

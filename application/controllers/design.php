@@ -5,7 +5,7 @@ class Design extends CI_Controller {
 
     public function __construct(){
         parent::__construct();
-        //$this->purview_model->checkpurview(102);
+        $this->purview_model->checkpurview(102);
         $this->load->model('data_model');
         $this->uid = $this->session->userdata('uid');
         $this->name = $this->session->userdata('name');
@@ -173,7 +173,7 @@ class Design extends CI_Controller {
 
     //删除BOM设计
     public function del() {
-        /*$this->purview_model->checkpurview(105);*/
+        $this->purview_model->checkpurview(105);
         $id   = intval($this->input->get('id',TRUE));
         $data = $this->mysql_model->db_one(BOM_DESIGN,'(PK_BOM_Desi_ID='.$id.')');
         if (count($data)>0) {

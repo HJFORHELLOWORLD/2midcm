@@ -1,6 +1,6 @@
 function initGrid() {
 	var e = Public.setGrid(),
-		t = ["操作","往来单位编号", "单位名称", "描述", "地区", "类别", "所属行业", "税率", "客户联系方式", "状态"],
+		t = ["操作","往来单位编号", "单位名称", "描述", "地区", "类别", "所属行业","税率（%）", "客户联系方式", "状态"],
 		i = !(parent.SYSTEM.isAdmin || parent.SYSTEM.rights.AMOUNT_OUTAMOUNT),
 		a = [{
 			name: "operate",
@@ -124,14 +124,20 @@ function initEvent() {
 			}
 		}).trigger("reloadGrid")
 	});
-	$("#btn-add").on("click", function(e) {
+/*	$("#btn-add").on("click", function(e) {
 		e.preventDefault();
 		 Business.verifyRight("BU_ADD") && parent.tab.addTabItem({
 		 	 tabid:"betweenUnit",
 			 text:"添加往来单位",
 			 url:betweenUnit_add
 		 })
-	});
+	});*/
+
+    $("#btn-add").click(function(t) {
+        t.preventDefault();
+        handle.operate("add")
+    });
+
 	$("#btn-print").on("click", function(e) {
 		e.preventDefault()
 	});

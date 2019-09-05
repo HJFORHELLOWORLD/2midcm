@@ -5,6 +5,7 @@ class Admin extends CI_Controller {
     public function __construct(){
         parent::__construct();
 		$this->purview_model->checkpurview(82);
+        $this->load->model('data_model');
 		$this->uid   = $this->session->userdata('uid');
     }
 	
@@ -32,7 +33,7 @@ class Admin extends CI_Controller {
 	    $v = array();
 	    $data['status'] = 200;
 		$data['msg']    = 'success'; 
-		$list = $this->cache_model->load_data(USER,'(1=1) order by roleid');
+		$list = $this->data_model->userList('',' order by roleid');
 		foreach ($list as $arr=>$row) {
 		    $v[$arr]['share']       = true;
 			$v[$arr]['admin']       = $row['roleid'] > 0 ? false : true;
@@ -40,6 +41,7 @@ class Admin extends CI_Controller {
 			$v[$arr]['isCom']       = intval($row['Status']);
 			$v[$arr]['role']        = intval($row['roleid']);
 			$v[$arr]['userName']    = $row['Username'];
+            $v[$arr]['deptName']    = $row['deptName'];
 			$v[$arr]['realName']    = $row['Username'];
 			$v[$arr]['shareType']   = 0;
 			//$v[$arr]['mobile']      = $row['mobile'];

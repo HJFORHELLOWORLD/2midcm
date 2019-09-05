@@ -70,7 +70,7 @@ function postData() {
             industryname : iname
         },
             i = "add" == oper ? "新增往来单位类别" : "修改往来单位类别";
-        Public.ajaxPost(betweenUnit_modify+"?act=" + ("add" == oper ? "add" : "update"), e, function(t) {
+        Public.ajaxPost(betweenUnit_save+"?act=" + ("add" == oper ? "add" : "update"), e, function(t) {
             if (200 == t.status) {
                 parent.parent.Public.tips({
                     content: i + "成功！"

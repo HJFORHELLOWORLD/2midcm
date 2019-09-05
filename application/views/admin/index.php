@@ -151,11 +151,11 @@ function validMaxForShare(){
         url: '<?=site_url('admin/lists')?>',
         datatype: 'json',
         height: Public.setGrid().h,
-        colNames:['用户', '真实姓名', '公司','功能授权','数据授权','启用授权'],
+        colNames:['用户', '姓名', '部门','功能授权','数据授权','启用授权'],
         colModel:[
           {name:'userName',index:'userName', width:200},
           {name:'realName', index:'realName', width:200},
-          {name:'isCom', index:'isCom', hidden: true},
+          {name:'deptName', index:'deptName', width:200},
           {name:'setting', index:'setting', width:100, align:"center", title:false, formatter: settingFormatter},
 		  {name:'setting_data', index:'setting_data', width:100, align:"center", title:false, formatter: settingDataFormatter, hidden:(parent.SYSTEM.siType == 1)},
 		  {name:'share', index:'share', width:100, align:"center", title:false, formatter: shareFormatter}

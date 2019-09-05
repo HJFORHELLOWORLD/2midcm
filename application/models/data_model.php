@@ -627,5 +627,19 @@ class Data_model extends CI_Model{
         return $this->cache_model->load_sql(STOCK,$sql,2);
     }
 
+    //用户列表
+    public function userList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Name as deptName FROM 
+            t_'.USER.' as a 
+            LEFT JOIN t_'
+            .DEPARTMENT.' as b
+            ON a.Part_ID=b.PK_Dept_ID
+            '.$where.'
+            '.$order.'
+            ';
+        return $this->cache_model->load_sql(STOCK,$sql,2);
+    }
+
 }
 ?>

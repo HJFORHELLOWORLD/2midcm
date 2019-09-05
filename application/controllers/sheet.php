@@ -59,6 +59,10 @@ class Sheet extends CI_Controller {
 			 $this->mysql_model->db_inst(SALEORDER,$info);
 			 $v = array();
 			 if (is_array($data['entries'])) {
+
+                 $repeat = array();
+                 $tmpArr = array();
+
 			     foreach ($data['entries'] as $arr=>$row) {
                      $v[$arr]['SaleOrder_ID']       = $info['PK_BOM_Sale_ID'];
                      $v[$arr]['SaleOrder_De']     = str_pad($arr+1,5,"0",STR_PAD_LEFT);
@@ -67,7 +71,16 @@ class Sheet extends CI_Controller {
                      $v[$arr]['Sale_SubTotal']        = $row->amount ? (float)$row->amount : 0;
                      $v[$arr]['Sale_Price']         = $row->price? (float)$row->price : 0;
                      $v[$arr]['Creator_ID']  = $this->uid;
-				} 
+                     if(isset($tmpArr[intval($row->invId)])){//检查是否有重复的bom
+                         $repeat[] = $row->invName;
+                     }else{
+                         $tmpArr[intval($row->invId)] = $row->invName;
+                     }
+				}
+                 if (count($repeat) > 0){
+                     $this->db->trans_rollback();//回滚数据
+                     die('{"status":-1,"msg":"物品：'. implode("，",$repeat).' 重复提交，请筛选处理后再提交"}');
+                 }
 			 }
 			 $this->mysql_model->db_inst(SALEORDER_DETAIL,$v);
 
@@ -139,7 +152,25 @@ class Sheet extends CI_Controller {
             $this->mysql_model->db_del(SALEORDER_DETAIL,'(SaleOrder_ID= "'.$info['PK_BOM_Sale_ID'].'")');
             $change = array();
 			 if (is_array($data['entries'])) {
-			     foreach ($data['entries'] as $arr=>$row) {//var_dump($row);exit;
+                 //检查是否有重复的bom，后续操作复杂，先检查
+                 $repeat = array();
+                 $tmpArr = array();
+
+                 foreach ($data['entries'] as $arr=>$row){
+                     if(isset($tmpArr[intval($row->invId)])){
+                         $repeat[] = $row->invName;
+                     }else{
+                         $tmpArr[intval($row->invId)] = $row->invName;
+                     }
+                 }
+
+                 if (count($repeat) > 0){
+                     $this->db->trans_rollback();//回滚数据
+                     die('{"status":-1,"msg":"物品：'. implode("，",$repeat).' 重复提交，请筛选处理后再提交"}');
+                 }
+                 //检查结束
+
+			     foreach ($data['entries'] as $arr=>$row) {
                      $v[$arr]['SaleOrder_ID']        = $info['PK_BOM_Sale_ID'];
                      $v[$arr]['BOM_ID']   = $row->invId;
                      $v[$arr]['BOM_Accountt']          = $row->qty;
@@ -221,7 +252,7 @@ class Sheet extends CI_Controller {
         $list = $this->data_model->saleOrderList('and PK_BOM_Sale_ID = "' . $id . '"');
 		if (count($list)>0) {
 		    $data = $list[0];
-			$v = '';
+			$v = array();
             $info['status'] = 200;
             $info['msg']    = 'success';
             $info['data']['id']                 = $data['PK_BOM_Sale_ID'];
@@ -244,7 +275,8 @@ class Sheet extends CI_Controller {
                     $this->data_model->updateCost($id);
                 }*/
                 $v[$arr]['invSpec']           = $row['BOMModel'];
-                $v[$arr]['goods']             = $row['BOMName'].' '.$row['BOMModel'];
+                $v[$arr]['goods']             = $row['BOMName'];
+                $v[$arr]['bomModel'] = $row['BOMModel'];
                 $v[$arr]['invName']      = $row['BOMName'];
                 $v[$arr]['qty']          = (float)abs($row['BOM_Accountt']);
                 $v[$arr]['price']       = (float)abs($row['Sale_Price']);
@@ -257,7 +289,7 @@ class Sheet extends CI_Controller {
 				$v[$arr]['specialPrice'] = $row['ReferPrice4'];
 
 			}
-			$info['data']['entries']     = is_array($v) ? $v : '';
+			$info['data']['entries']     = $v;
 			$info['data']['accId']       = 0;
 			$info['data']['accounts']    = array();
 			die(json_encode($info));
