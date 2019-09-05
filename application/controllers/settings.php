@@ -62,6 +62,7 @@ class Settings extends CI_Controller {
 	//物料管理
 	public function goods_manage() {
         $data['type'] = $_GET['type'];
+        $data['attrCount'] = 1;
         if($data['type'] == 'edit'){
             $attrStr = $_GET['attr'];
             $v = array();

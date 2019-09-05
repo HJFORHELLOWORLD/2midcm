@@ -1223,7 +1223,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 						srcOrderId: o.srcOrderId,
 						srcOrderNo: o.srcOrderNo
 					};
-                    console.log(r.salePrice > (r.amount/r.qty));
+                    //console.log(r.salePrice > (r.amount/r.qty));
                     if(r.salePrice > (r.amount/r.qty)){
                         return false;
                     }

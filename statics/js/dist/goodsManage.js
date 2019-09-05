@@ -1,4 +1,4 @@
-function initField() {console.log(rowData);
+function initField() {
     rowData.id && $("#BOMName").val(rowData.BOMName) && $("#Desc").val(rowData.Desc)
     && $("#BOMModel").val(rowData.BOMModel)&& $("#IsVirt").val(rowData.IsVirt)
 

@@ -119,20 +119,15 @@
     <script>
         //初始参数个数
         var type ="<?php echo $type;?>";
-
-        var varCount = 1;
-        if(type ==='edit'){
-            var size ="<?php echo $attrCount;?>";
-            varCount = size;
-        }
+        var varCount = <?php echo $attrCount;?>;
 
         $(function () {
             //新增按钮点击
             $('#addVar').on('click', function(){
                 if(varCount<20) {
                     varCount++;
-                    $node = '<li class="row-item"><div><input type="text" value="属性名"  class="attr-input" name="key" id="key">：'
-                        + '<input type="text" value="属性值"  class="attr-input" name="val" id="val">'
+                    $node = '<li class="row-item"><div><input type="text" placeholder="属性名"  class="attr-input" name="key" id="key">：'
+                        + '<input type="text" placeholder="属性值"  class="attr-input" name="val" id="val">'
                         + '<span class="removeVar">删除</span></div></li>';
                     //新表单项添加到“新增”按钮前面
                     $(this).parent().before($node);
@@ -206,8 +201,8 @@
                     <div id="container">
                         <form id="attr" action="" name="attr">
                             <li class="row-item">
-                                <div><input type="text" value="属性名"  class="attr-input" name='key' id='key'>：
-                                    <input type="text" value="属性值"  class="attr-input" name='val' id='val'>
+                                <div><input type="text" placeholder="属性名"  class="attr-input" name='key' id='key'>：
+                                    <input type="text" placeholder="属性值"  class="attr-input" name='val' id='val'>
                                     <span class="removeVar">删除</span></div>
                             </li>
                             <p><span id="addVar">新增一项</span></p>
