@@ -601,7 +601,6 @@ class Basedata extends CI_Controller {
         foreach ($list as $arr => $row ){
             $data[]= array('key'=>intval($row['id']),'name'=>$row['name']);
         }
-//      var_dump($data);
         die(json_encode($data));
     }
 
@@ -611,9 +610,8 @@ class Basedata extends CI_Controller {
         $data[] = array('key' => '', 'name' => '');
         $list = $this->cache_model->load_data(SALEORDER, '(1=1) order by Create_Date desc ');
         foreach ($list as $arr => $row) {
-            $data[] = array('key' => $row['PK_BOM_Sale_ID'], 'name' => $row['Name']);
+            $data[] = array('key' => ($row['PK_BOM_Sale_ID']), 'name' => $row['Name']);
         }
-//      var_dump($data);
         die(json_encode($data));
     }
 
