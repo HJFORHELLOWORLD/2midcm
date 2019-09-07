@@ -56,6 +56,9 @@ class Inventory extends CI_Controller {
      * @number 3
      */
 	public function lists() {
+	    $goods = str_enhtml($this->input->get_post('goods',TRUE));
+
+	    $qty   =intval($this->input->get_post('showZero',TRUE));
 		$page        = max(intval($this->input->get_post('page',TRUE)),1);
 		$rows        = max(intval($this->input->get_post('rows',TRUE)),100);
 	    $v = '';
@@ -63,6 +66,9 @@ class Inventory extends CI_Controller {
 		$order = 'order by a.PK_BOM_Stock_ID desc';
 	    $data['status'] = 200;
 		$data['msg']    = 'success';
+		if($goods){
+		    $where.='and a.BOM_ID like "%'.$goods.'%"';
+        }
 		$offset = $rows * ($page-1);
 		$data['data']['page']        = $page;
 		$data['data']['records']     = 1000;                                                       //总条数
