@@ -67,7 +67,7 @@ class Settings extends CI_Controller {
             $attrStr = $_GET['attr'];
             $v = array();
             if (strlen($attrStr) > 0){
-                $attrArr = json_decode(str_replace('_','"',$attrStr),true);
+                $attrArr = json_decode(str_replace('_','"',$attrStr),true);var_dump($attrStr);
                 foreach ($attrArr as $key => $val){
                     $v[] = array('attr' => $key, 'val' => $val);
                 }

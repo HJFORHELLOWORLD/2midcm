@@ -51,8 +51,10 @@ class Bom extends CI_Controller {
         /*		var_dump($info,$data);*/
 
         $key = array();//新属性
+        $data['BOMAttr'] = '';
+        $attrArr = array();
         if(is_array($attr_key) && is_array($attr_val) && count($attr_key) > 0 && count($attr_val) > 0){
-            $i = 0;//var_dump($attr_key,$attr_val);exit;
+            $i = 0;
             foreach ($attr_key as $k => $v){
                 if ($v == '' || $v == '属性名'){//无效属性名
                     if(isset($attr_val[$k]))  unset($attr_val[$k]); //将属性名不规范的属性值剔除
@@ -61,6 +63,7 @@ class Bom extends CI_Controller {
                         $key[] = $v;
                         $attrname = 'BOMAttr' . $i;
                         $data[$attrname] = $attr_val[$k];
+                        $attrArr[$v] = $attr_val[$k];
                         $i++;
                     }
                 }
@@ -71,9 +74,10 @@ class Bom extends CI_Controller {
             $this->purview_model->checkpurview(69);
             $sql = $this->mysql_model->db_inst(BOM_BASE,$data);
             if ($sql) {
-                $info['pk_bom_id'] = $sql;
+                $info['id'] = $sql;
                 $this->mysql_model->db_inst(BOM_STOCK,array('BOM_ID' => $sql, 'Account' => 0));//初始化仓库
                 $this->cache_model->delsome(BOM_BASE);
+                $this->cache_model->delsome(BOM_STOCK);
                 $this->data_model->logs('新增商品:'.$data['BOMName']);
                 die('{"status":200,"msg":"success","data":'.json_encode($info).'}');
             } else {
@@ -95,6 +99,7 @@ class Bom extends CI_Controller {
             $sql = $this->mysql_model->db_upd(BOM_BASE,$data,'(PK_BOM_ID='.$id.')');
             if ($sql) {
                 $info['id'] = $id;
+                $info['attrStr'] = count($attrArr) > 0 ? str_replace('"','_',json_encode($attrArr,JSON_UNESCAPED_UNICODE)) : '';
                 $this->cache_model->delsome(BOM_BASE);
                 $this->data_model->logs('修改物料:'.$id);
                 die('{"status":200,"msg":"success","data":'.json_encode($info).'}');
@@ -175,13 +180,15 @@ class Bom extends CI_Controller {
 		if (strlen($id) > 0) {
 		    $this->mysql_model->db_count(BOM_DESIGN,'(UpBOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
             $this->mysql_model->db_count(BOM_DESIGN,'(DownBOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
-			$this->mysql_model->db_count(BOM_STOCK,'(BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
+			$this->mysql_model->db_count(BOM_STOCK,'(Account >0 and BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
 			$this->mysql_model->db_count(PURORDER_DETAIL,'(BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
             $this->mysql_model->db_count(SALEORDER_DETAIL,'(BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
             $this->mysql_model->db_count(STOORDER_DETAIL,'(BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
 		    $sql = $this->mysql_model->db_del(BOM_BASE,'(PK_BOM_ID in('.$id.'))');
 		    if ($sql) {
+                $sql = $this->mysql_model->db_del(BOM_STOCK,'(BOM_ID in('.$id.'))');
 			    $this->cache_model->delsome(BOM_BASE);
+                $this->cache_model->delsome(BOM_STOCK);
 				$this->data_model->logs('删除物料:ID='.$id);
 				die('{"status":200,"msg":"success","data":{"msg":"","id":['.$id.']}}');
 			} else {

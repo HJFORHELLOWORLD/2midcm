@@ -216,8 +216,7 @@ function initEvent() {
     $(".grid-wrap").on("click", ".ui-icon-search", function(e) {
         e.preventDefault();
         var name = $(this).parent().data("name");
-        var type = 1;/*$(this).parent().data("type");*/
-        var attrStr = $(this).parent().data("attrstr");
+        var attrStr = $(this).parent().data("attrstr") || '';
         if(name) {
             $.dialog({
                 width: 600,
@@ -308,7 +307,7 @@ var qtyPlaces = Number(parent.SYSTEM.qtyPlaces),
 					oper: e,
                     rowData: $("#grid").data("gridData")[t],
 					type:'edit',
-                    attrStr:$("#grid").data("gridData")[t].attrStr,
+                    attrStr:$("#grid").data("gridData")[t].attrStr || '',
 					callback: this.callback
 				};
 			var r = parent.SYSTEM.enableStorage ? 780 : 640;
