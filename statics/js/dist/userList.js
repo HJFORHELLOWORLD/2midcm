@@ -42,8 +42,8 @@ function initGrid() {
 			index: "Username",
 			width: 200
 		},{
-		  name:"DepartmentName",
-		  index:"DepartmentName",
+		  name:"deptName",
+		  index:"deptName",
 		  width: 200
 		},{
             name: "Status",

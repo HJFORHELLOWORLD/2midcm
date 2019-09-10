@@ -72,7 +72,7 @@ class User extends CI_Controller
     //删除
     public function del(){
         $this->purview_model->checkpurview(80);
-        $PK_User_ID = intval($this->input->post('PK_User_ID',TRUE));
+        $PK_User_ID = intval($this->input->post('id',TRUE));
         $data = $this->mysql_model->db_one(USER,'(PK_User_ID='.$PK_User_ID.')');
         if (count($data) > 0) {
             $this->mysql_model->db_count(BOM_BASE,'(Creator_ID='.$PK_User_ID.')')>0 && die('{"status":-1,"msg":"发生业务不可删除"}');

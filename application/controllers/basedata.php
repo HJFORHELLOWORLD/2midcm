@@ -339,7 +339,7 @@ class Basedata extends CI_Controller {
             $v[$arr]['PK_User_ID']      = intval($row['PK_User_ID']);
             $v[$arr]['Username']    = $row['Username'];
             $v[$arr]['Status']    = $row['Status'];
-            $v[$arr]['DepartmentName']    = $row['DepartmentName'];
+            $v[$arr]['deptName']    = $row['deptName'];
 //            $v[$arr]['User']    = $row['Username'];
             $v[$arr]['rate']    = 0;
             $v[$arr]['isdelete']   = 0;
