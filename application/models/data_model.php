@@ -563,20 +563,6 @@ class Data_model extends CI_Model{
     }
 
 
-    //日志列表
-    public function userList($where='',$order='') {
-        $where = $where ? 'where (1=1) '.$where : '';
-        $sql = 'SELECT a.*, b.Name as DepartmentName  FROM 
-            t_'.USER.' as a 
-            LEFT JOIN t_'
-            .DEPARTMENT.' as b
-            ON a.Part_ID=b.PK_Dept_ID
-            '.$where.'
-            '.$order.'
-            ';
-//        var_dump($sql);
-        return $this->cache_model->load_sql(USER,$sql,2);
-    }
 
 
 
@@ -695,8 +681,8 @@ class Data_model extends CI_Model{
     //用户列表
     public function userList($where='',$order='') {
         $where = $where ? 'where (1=1) '.$where : '';
-        $sql = 'SELECT a.*, b.Name as deptName FROM 
-            t_'.USER.' as a 
+        $sql = 'SELECT a.*, b.Name as deptName FROM
+            t_'.USER.' as a
             LEFT JOIN t_'
             .DEPARTMENT.' as b
             ON a.Part_ID=b.PK_Dept_ID
