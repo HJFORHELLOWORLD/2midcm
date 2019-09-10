@@ -180,6 +180,25 @@ class Invsa extends CI_Controller
 
             $change = array();
             if (is_array($data['entries'])) {
+
+                //检查是否有重复的bom，后续操作复杂，先检查
+                $repeat = array();
+                $tmpArr = array();
+
+                foreach ($data['entries'] as $arr=>$row){
+                    if(isset($tmpArr[intval($row->invId)])){
+                        $repeat[] = $row->invName;
+                    }else{
+                        $tmpArr[intval($row->invId)] = $row->invName;
+                    }
+                }
+
+                if (count($repeat) > 0){
+                    $this->db->trans_rollback();//回滚数据
+                    die('{"status":-1,"msg":"物品：'. implode("，",$repeat).' 重复提交，请筛选处理后再提交"}');
+                }
+                //检查结束
+
                 foreach ($data['entries'] as $arr => $row) {
                     $v[$arr]['SaleOrder_ID'] = $info['PK_BOM_Sale_ID'];
                     $v[$arr]['BOM_ID'] = $row->invId;
@@ -366,8 +385,8 @@ class Invsa extends CI_Controller
             $info['data']['Creator_ID']         = $this->uid;
             $list = $this->data_model->invsa_info(' and (a.SaleOrder_ID="'.$id.'")','order by Order_ID desc');
             foreach ($list as $arr=>$row) {
-                $v[$arr]['invSpec']           = $row['BOMModel'];
-                $v[$arr]['goods']             = $row['BOMName'].' '.$row['BOMModel'];
+                $v[$arr]['bomModel']           = $row['BOMModel'];
+                $v[$arr]['goods']             = $row['BOMName'];
                 $v[$arr]['invName']      = $row['BOMName'];
                 $v[$arr]['qty']          = (float)abs($row['BOM_Accountt']);
                 $v[$arr]['price']       = (float)abs($row['Sale_Price']);

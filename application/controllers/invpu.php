@@ -56,6 +56,10 @@ class Invpu extends CI_Controller {
 			 $this->mysql_model->db_inst(PURORDER,$info);
 			 $v = array();
 			 if (is_array($data['entries'])) {
+
+                 $repeat = array();
+                 $tmpArr = array();
+
 			     foreach ($data['entries'] as $arr=>$row) {
 				     $v[$arr]['PurOrder_ID']       = $info['PK_BOM_Pur_ID'];
                      $v[$arr]['PurOrder_De']     = str_pad($arr+1,5,"0",STR_PAD_LEFT);
@@ -64,7 +68,17 @@ class Invpu extends CI_Controller {
 					 $v[$arr]['Pur_SubTotal']        = (float)$row->amount;
 					 $v[$arr]['Pur_Price']         = (float)$row->price;
 					 $v[$arr]['Creator_ID']  = $this->uid;
-				} 
+
+                     if(isset($tmpArr[intval($row->invId)])){                 //检查是否有重复的bom
+                         $repeat[] = $row->invName;
+                     }else{
+                         $tmpArr[intval($row->invId)] = $row->invName;
+                     }
+				}
+				if (count($repeat) > 0){
+                    $this->db->trans_rollback();//回滚数据
+                    die('{"status":-1,"msg":"物品：'. implode("，",$repeat).' 重复提交，请筛选处理后再提交"}');
+                 }
 			 }
 			 $this->mysql_model->db_inst(PURORDER_DETAIL,$v);
 			 if ($this->db->trans_status() === FALSE) {
@@ -148,6 +162,10 @@ class Invpu extends CI_Controller {
             $this->mysql_model->db_upd(PURORDER,$info,'(PK_BOM_Pur_ID= "'.$info['PK_BOM_Pur_ID'].'")');
             $this->mysql_model->db_del(PURORDER_DETAIL,'(PurOrder_ID= "'.$info['PK_BOM_Pur_ID'].'")');
 			 if (is_array($data['entries'])) {
+
+                 $repeat = array();
+                 $tmpArr = array();
+
 			     foreach ($data['entries'] as $arr=>$row) {
 				     $v[$arr]['PurOrder_ID']        = $info['PK_BOM_Pur_ID'];
                      $v[$arr]['PurOrder_De']     = str_pad($arr+1,5,"0",STR_PAD_LEFT);
@@ -173,7 +191,19 @@ class Invpu extends CI_Controller {
                          $changeStr .= '新增物品' . $row->invId . '数量为'. $row->qty .'；';
                          unset($oldArr[intval($row->invId)]);
                      }
+
+                     if(isset($tmpArr[intval($row->invId)])){                 //检查是否有重复的bom
+                         $repeat[] = $row->invName;
+                     }else{
+                         $tmpArr[intval($row->invId)] = $row->invName;
+                     }
 				}
+
+                 if (count($repeat) > 0){
+                     $this->db->trans_rollback();//回滚数据
+                     die('{"status":-1,"msg":"物品：'. implode("，",$repeat).' 重复提交，请筛选处理后再提交"}');
+                 }
+
 				if (count($oldArr) > 0){
 			         $changeStr .= '删除了：' . json_encode($oldArr);
                 }
@@ -228,8 +258,8 @@ class Invpu extends CI_Controller {
             $info['data']['Creator_ID']         = $this->uid;
 			$list = $this->data_model->invpu_info(' and (a.PurOrder_ID= "'.$id.'")','order by id desc');
 			foreach ($list as $arr=>$row) {
-				$v[$arr]['invSpec']           = $row['BOMModel'];
-				$v[$arr]['goods']             = $row['BOMName'].' '.$row['BOMModel'];
+				$v[$arr]['bomModel']           = $row['BOMModel'];
+				$v[$arr]['goods']             = $row['BOMName'];
 				$v[$arr]['invName']      = $row['BOMName'];
 				$v[$arr]['qty']          = (float)abs($row['BOM_Accountt']);
 				$v[$arr]['price']       = (float)abs($row['Pur_Price']);

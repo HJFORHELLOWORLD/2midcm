@@ -267,6 +267,11 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 						trigger: "ui-icon-ellipsis"
 					}
 				}, {
+                    name: "bomModel",
+                    label: "型号",
+                    width: 100,
+                    title: !1
+                }, {
 					name: "mainUnit",
 					label: "单位",
 					width: 30,
@@ -547,6 +552,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 								l = {
 									mainUnit: o.unitName,
 									qty: 1,
+									name:o.bomName,
 									price: o.purPrice,
 									discountRate: 0,
 									deduction: 0,
@@ -1194,7 +1200,6 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 						invId: s.id,
 						invNumber: s.number,
 						invName: s.name,
-						invSpec: s.spec,
 						unitId: s.unitId,
 						mainUnit: s.unitName,
 						qty: o.qty,

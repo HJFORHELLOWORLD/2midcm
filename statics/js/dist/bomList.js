@@ -12,48 +12,16 @@ function initTree() {
 		}
 	})
 }
-
-function getUnit(){
-    var getUnit = "";
-    var i;
-    var list;
-    var contentType;
-    $.ajax({
-        type:"get",
-        async:false,
-        url:basedata_getUnit,
-        contentType:"application/json;charset=UTF-8",
-        data:JSON.stringify(list),
-        success:function(result){
-            var result = eval('(' + result + ')');
-            for (i = 0; i< result.length;i++ ){
-                if(i != result.length-1){
-                    getUnit += result[i].key + ":" + result[i].name +";";
-                }else{
-                    getUnit += result[i].key + ":" + result[i].name;
-                }
-            }
-        },
-        error: function(e){
-            console.log(e.status);
-            console.log(e.responseText);
-        }
-    });
-    return getUnit;
-}
-
-
-
 function initGrid() {
 	var e = Public.setGrid(ajustH, ajustW),
-		t = ["操作", "bom编号","型号", "名称", "是否虚拟件", "大类", "小类", "描述", "单位类别", "属性描述", "属性1", "属性2", "属性3","属性4","属性5","属性6","属性7"],
+		t = ["操作", "编号","型号", "名称","单位id", "单位", "是否虚拟件", "cat1id","基础类别", "cat2id","自定义类", "属性描述", "描述"],
 		i = parent.SYSTEM.rights,
 		a = !(parent.SYSTEM.isAdmin || i.AMOUNT_COSTAMOUNT),
 		r = !(parent.SYSTEM.isAdmin || i.AMOUNT_INAMOUNT),
 		n = !(parent.SYSTEM.isAdmin || i.AMOUNT_OUTAMOUNT),
 		o = [{
 			name: "operate",
-			width: 40,
+			width: 60,
 			fixed: !0,
 			formatter: function(e, t, i) {
 				var a = '<div class="operating" data-id="' + i.id + '"><span class="ui-icon ui-icon-pencil" title="修改"></span><span class="ui-icon ui-icon-trash" title="删除"></span></div>';
@@ -61,163 +29,90 @@ function initGrid() {
 				return a
 			},
 			title: !1
-		}, {
-            name: "pk_bom_id",
-            index: "pk_bom_id",
-            width: 120,
+		}
+		, {
+            name: "PK_BOM_ID",
+            index: "PK_BOM_ID",
+            width: 80,
             title: !1,
             align:"center"
         }, {
-            name: "bomModel",
-            index: "bomModel",
-            width: 200,
+            name: "BOMModel",
+            index: "BOMModel",
+            width: 120,
             classes: "ui-ellipsis",
             align:"center"
-        }, {
-			name: "bomName",
-			index: "bomName",
-			width: 80,
+        }
+        , {
+			name: "BOMName",
+			index: "BOMName",
+			width: 120,
 			title: !1,
 			align:"center"
-		},{
-			name:"isVirt",
-			// index:"isVirt",
-			label:"是否虚拟件",
-			width:100,
-			title:!0,
-			editable:true,
-			edittype:'select',
-			hidden:false,
-			editrules:{
-				require:true
-			},
-			editoptions:{
-				value:"0:否;1:是"
-			}
-
-		},{
-		    name:"bomCat_id1",
-			index:"bomCat_id1",
-			width:100,
-			align:"center",
-            edittype:'select',
-            editrules:{
-                require:true
-            },
-            editoptions:{
-                value:"0:商品;1:产成品;2:半成品;3:原料;4低值或易耗品"
+		}
+            , {
+                name: "FK_UnitClass_ID",
+                index: "FK_UnitClass_ID",
+                width: 60,
+                align: "center",
+                title: !1,
+				hidden :true
             }
-        },{     name:"bomCat_id2",
-                index:"bomCat_id2",
-                width:100,
-                align:"center"
+		, {
+			name: "unitName",
+            index: "unitName",
+            width: 60,
+            align: "center",
+            title: !1
+            }
+		,{
+			name:"IsVirtVal",
+			index:"IsVirtVal",
+			width:60,
+			align:"center"
+		}
+            , {
+                name: "BOMCat_ID1",
+                index: "BOMCat_ID1",
+                width: 60,
+                align: "center",
+                title: !1,
+                hidden :true
+            }
+		,{
+		    name:"cat1Name",
+			index:"cat1Name",
+			width:120,
+			align:"center"
+        }
+            , {
+                name: "BOMCat_ID2",
+                index: "BOMCat_ID2",
+                width: 60,
+                align: "center",
+                title: !1,
+                hidden :true
+            }
+        ,{ name:"cat2Name",
+            index:"cat2Name",
+            width:120,
+            align:"center"
         },{
-			name: "desc",
+			name: "Attr",
 			width:60,
 			align:"center",
             formatter: function(e, t, i) {
-                var a = '<div class="operating" data-name="' + i.name + '"  data-specStr="' + i.specStr + '" data-type="' + i.type + '"><span class="ui-icon ui-icon-search" title="查看"></span></div>';
+                var a = '<div class="operating" data-name="' + i.BOMName + '"  data-attrStr="' + i.attrStr + '"><span class="ui-icon ui-icon-search" title="查看"></span></div>';
                 //var a = '<div class="operating" data-id="' + i.id + '"><span class="ui-icon ui-icon-pencil" title="修改"></span><span class="ui-icon ui-icon-trash" title="删除"></span><span class="ui-icon ui-icon-pic" title="商品图片"></span></div>';
                 return a
-            },
-		}, {
-			name: "fk_unitClass_id",
-			index: "fk_unitClass_id",
-			width: 80,
-			align: "center",
-			title: !1,
-			align:"right",
-			edittable:!0,
-			edittype:'select',
-			formatter:'select',
-			editoptions:{
-				value:getUnit()
-			}
-		},{
-            name: "bomAttr",
-            index: "bomAttr",
-            width: 80,
+            }
+		}
+		,{
+            name: "Desc",
+            index: "Desc",
+            width: 120,
             align: "center",
             title: !1
-        },  {
-			name: "bomAttr1",
-			index: "bomAttr1",
-			width: 100,
-			align: "right",
-			title: !1,
-			formatter: format.quantity
-		}, {
-			name: "bomAttr2",
-			index: "bomAttr2",
-			width: 100,
-			align: "right",
-			formatter: "currency",
-			formatoptions: {
-				showZero: !0,
-				decimalPlaces: pricePlaces
-			},
-			title: !1,
-			hidden: a
-		}, {
-			name: "bomAttr3",
-			index: "bomAttr3",
-			width: 100,
-			align: "right",
-			formatter: "currency",
-			formatoptions: {
-				showZero: !0,
-				decimalPlaces: amountPlaces
-			},
-			title: !1,
-			hidden: a
-		}, {
-			name: "bomAttr4",
-			index: "bomAttr4",
-			width: 100,
-			align: "right",
-			formatter: "currency",
-			formatoptions: {
-				showZero: !0,
-				decimalPlaces: pricePlaces
-			},
-			title: !1,
-			hidden: r
-		}, {
-			name: "bomAttr5",
-			index: "bomAttr5",
-			width: 100,
-			align: "right",
-			formatter: "currency",
-			formatoptions: {
-				showZero: !0,
-				decimalPlaces: pricePlaces
-			},
-			title: !1,
-			hidden: n
-		},{
-            name: "bomAttr6",
-            index: "bomAttr6",
-            width: 100,
-            align: "right",
-            formatter: "currency",
-            formatoptions: {
-                showZero: !0,
-                decimalPlaces: pricePlaces
-            },
-            title: !1,
-            hidden: r
-        },{
-            name: "bomAttr7",
-            index: "bomAttr7",
-            width: 100,
-            align: "right",
-            formatter: "currency",
-            formatoptions: {
-                showZero: !0,
-                decimalPlaces: pricePlaces
-            },
-            title: !1,
-            hidden: r
         }];
 	$("#grid").jqGrid({
 		//url: "/basedata/inventory.do?action=list&isDelete=2",
@@ -270,7 +165,7 @@ function initEvent() {
 	$_matchCon.placeholder();
 	$("#search").on("click", function(e) {
 		e.preventDefault();
-		var t = "按物料编号，物料名称，规格型号等查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val()),
+		var t = "按物料编号，物料名称，属性名等查询" === $_matchCon.val() ? "" : $.trim($_matchCon.val()),
 			i = $("#currentCategory").data("id");
 		$("#grid").jqGrid("setGridParam", {
 			postData: {
@@ -321,15 +216,14 @@ function initEvent() {
     $(".grid-wrap").on("click", ".ui-icon-search", function(e) {
         e.preventDefault();
         var name = $(this).parent().data("name");
-        var type = 1;/*$(this).parent().data("type");*/
-        var specStr = 'spec1_20,spec2_30,spec3_40,spec5_60';/*$(this).parent().data("specStr");*/
+        var attrStr = $(this).parent().data("attrstr") || '';
         if(name) {
             $.dialog({
                 width: 600,
                 height: 410,
-                title: name + '商品规格信息',
-                content: 'url:'+settings_spec_info+"?type=" + type + "&specStr=" + specStr,
-                data: {spec:specStr, type:type},
+                title: name + '属性信息',
+                content: 'url:'+settings_spec_info+"?attrStr=" + attrStr,
+                data: {attrStr:attrStr},
                 cancel: true,
                 //lock: true,
                 cancelVal: '关闭'
@@ -404,18 +298,22 @@ var qtyPlaces = Number(parent.SYSTEM.qtyPlaces),
 			if ("add" == e) var i = "新增物料",
 				a = {
 					oper: e,
+					type:'add',
+                    attrStr:'',
 					callback: this.callback
 				};
 			else var i = "修改物料",
 				a = {
 					oper: e,
-					rowId: t,
+                    rowData: $("#grid").data("gridData")[t],
+					type:'edit',
+                    attrStr:$("#grid").data("gridData")[t].attrStr || '',
 					callback: this.callback
 				};
 			var r = parent.SYSTEM.enableStorage ? 780 : 640;
 			$.dialog({
 				title: i,
-				content: "url:"+settings_goods_manage,
+				content: "url:"+settings_goods_manage+"?type="+a.type + "&&attr=" + a.attrStr,
 				data: a,
 				width: r,
 				height: 420,
@@ -427,7 +325,7 @@ var qtyPlaces = Number(parent.SYSTEM.qtyPlaces),
 		},
 		del: function(e) {
 			$.dialog.confirm("删除的物料将不能恢复，请确认是否删除？", function() {
-				Public.ajaxPost(goods_del, {
+				Public.ajaxPost(bom_del, {
 					id: e
 				}, function(t) {
 					if (t && 200 == t.status) {
@@ -444,7 +342,7 @@ var qtyPlaces = Number(parent.SYSTEM.qtyPlaces),
 						}
 					} else parent.Public.tips({
 						type: 1,
-						content: "删除商品失败！" + t.msg
+						content: "删除物料失败！" + t.msg
 					})
 				})
 			})

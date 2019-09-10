@@ -13,7 +13,8 @@ function callbackSp() {
 		else var l = s.BOMName + "（" + s.BOMModel + "）";
 		var d = {
 			id: i,
-			goods: l,
+			goods: s.BOMName,
+			bomModel:s.BOMModel,
 			mainUnit: s.unitName,
 			qty: 1,
 			outLocationName: s.localtionName
@@ -22,7 +23,7 @@ function callbackSp() {
 		c && parent.$("#" + i).data("goodsInfo", {
 			id: s.PK_BOM_ID,
 			number: s.number,
-			name: s.name,
+			name: s.bomName,
 			spec: s.spec,
 			unitId: s.unitId,
 			unitName: s.unitName,
@@ -58,8 +59,10 @@ function callback(e) {
 				case "purchase":
 					var h = {
 						id: p,
-						goods: u,
+						goods: c.BOMName,
 						mainUnit: c.unitName,
+						bomName:c.BOMName,
+						bomModel : c.BOMModel,
 						qty: 1,
 						price: c.purPrice,
 						discountRate: 0,
@@ -83,7 +86,9 @@ function callback(e) {
 					var h = {
 						id: p,
 						goods: u,
-						mainUnit: c.unitName,
+						mainUnit: c.BOMName,
+                        bomModel : c.BOMModel,
+                        bomName:c.BOMName,
 						qty: 1,
 						price: c.salePrice,
 						discountRate: 0,
@@ -171,7 +176,7 @@ function callback(e) {
 				b && parent.$("#" + p).data("goodsInfo", {
 					id: c.PK_BOM_ID,
 					number: c.number,
-					name: c.name,
+					name: c.BOMName,
 					spec: c.spec,
 					unitId: c.unitId,
 					unitName: c.unitName
@@ -184,7 +189,7 @@ function callback(e) {
 
 				a = y.length > 0 ? parent.$("#" + a).next().attr("id") : ""
 			}
-			"bomDesign" !== e && n(r, a, l);
+			"bomDesign" !== e && n(r, a, l);//bom设计的时候，不自动选中下一行
 			$("#grid").jqGrid("resetSelection");
 			addList = {}
 		}
@@ -197,9 +202,9 @@ function callback(e) {
 	else var p = a;
 	var h = parent.$("#grid").jqGrid("getRowData", Number(a));
 	h = $.extend({}, h, {
-		goods: u,
+		goods: c.bomName,
 		invNumber: c.number,
-		invName: c.name,
+		bomName: c.bomName,
 		unitName: c.unitName,
 		qty: 1,
 		price: c.salePrice,
@@ -209,7 +214,7 @@ function callback(e) {
 	parent.$("#" + a).data("goodsInfo", {
 		id: c.PK_BOM_ID,
 		invNumber: c.number,
-		invName: c.name,
+		name: c.bomName,
 		unitName: c.unitName,
 		qty: c.quantity,
 		spec: c.spec

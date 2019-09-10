@@ -249,7 +249,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 				}, {
 					name: "goods",
 					label: "物品",
-					width: 300,
+					width: 200,
 					classes: "ui-ellipsis",
 					formatter: i,
 					editable: !0,
@@ -261,6 +261,11 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,
 						trigger: "ui-icon-ellipsis"
 					}
 				}, {
+                    name: "bomModel",
+                    label: "型号",
+                    width: 100,
+                    title: !1
+                }, {
 					name: "mainUnit",
 					label: "单位",
 					width: 60,

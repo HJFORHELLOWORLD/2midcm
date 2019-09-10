@@ -5,6 +5,7 @@ class Admin extends CI_Controller {
     public function __construct(){
         parent::__construct();
 		$this->purview_model->checkpurview(82);
+        $this->load->model('data_model');
 		$this->uid   = $this->session->userdata('uid');
     }
 	
@@ -32,7 +33,7 @@ class Admin extends CI_Controller {
 	    $v = array();
 	    $data['status'] = 200;
 		$data['msg']    = 'success'; 
-		$list = $this->cache_model->load_data(USER,'(1=1) order by roleid');
+		$list = $this->data_model->userList('',' order by roleid');
 		foreach ($list as $arr=>$row) {
 		    $v[$arr]['share']       = true;
 			$v[$arr]['admin']       = $row['roleid'] > 0 ? false : true;
@@ -40,6 +41,7 @@ class Admin extends CI_Controller {
 			$v[$arr]['isCom']       = intval($row['Status']);
 			$v[$arr]['role']        = intval($row['roleid']);
 			$v[$arr]['userName']    = $row['Username'];
+            $v[$arr]['deptName']    = $row['deptName'];
 			$v[$arr]['realName']    = $row['Username'];
 			$v[$arr]['shareType']   = 0;
 			//$v[$arr]['mobile']      = $row['mobile'];
@@ -67,6 +69,8 @@ class Admin extends CI_Controller {
      * @number 1
      */
 	public function add(){
+        $this->purview_model->checkpurview(122);
+
 		$data = str_enhtml($this->input->post(NULL,TRUE));
 		if (is_array($data)&&count($data)>0) {
 			!isset($data['username']) || strlen($data['username'])<1 && die('{"status":-1,"msg":"用户名不能为空"}'); 
@@ -105,6 +109,8 @@ class Admin extends CI_Controller {
      * @number 1
      */
 	public function edit(){
+        $this->purview_model->checkpurview(122);
+
 		$data = str_enhtml($this->input->post(NULL,TRUE));
 		if (is_array($data)&&count($data)>0) {
 			!isset($data['userpwd']) || strlen($data['userpwd'])<1 && die('{"status":-1,"msg":"密码不能为空"}');
@@ -123,6 +129,8 @@ class Admin extends CI_Controller {
 	}
 
 	public function authority(){
+        $this->purview_model->checkpurview(122);
+
 		$username = str_enhtml($this->input->get_post('username',TRUE));
 		$lever    = str_enhtml($this->input->get_post('rightid',TRUE));
 		$act = str_enhtml($this->input->get_post('act',TRUE));
@@ -143,6 +151,8 @@ class Admin extends CI_Controller {
 	
 	//权限树
 	public function tree(){
+        $this->purview_model->checkpurview(122);
+
 		$username = str_enhtml($this->input->get_post('username',TRUE));
 		if (strlen($username)>0) {
 		    $lever = $this->cache_model->load_one(USER,'(Username="'.$username.'")','lever');
@@ -168,9 +178,11 @@ class Admin extends CI_Controller {
 	
 	//启用停用
 	public function doset(){
+        $this->purview_model->checkpurview(122);
+
 	    $act = $this->input->get('act',TRUE);
 	    $username = str_enhtml($this->input->get('username',TRUE));
-		$username == 'admin' && die('{"status":-1,"msg":"管理员不可操作"}');  
+		//$username == 'admin' && die('{"status":-1,"msg":"管理员不可操作"}');
 		switch ($act) { 
 			case 'isstatus': $data['status'] = 1; break;   
 			case 'nostatus': $data['status'] = 0; break; 

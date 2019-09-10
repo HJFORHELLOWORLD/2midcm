@@ -505,21 +505,21 @@ var list = {
          target: "purchase"
         },
 	purchase: {
-		name: "购货单",
+		name: "采购单",
 		href: "<?=site_url('invpu/add')?>",
 		dataRight: "PU_ADD",
 		target: "purchase"
 	},<?php
         if ($this->purview_model->checkpurview(96,true) == true){?>
         purchaseReview: {
-            name: "<span style='color: red'>购货单审核</span>",
+            name: "<span style='color: red'>采购单审核</span>",
             href: "<?=site_url('invpu/reviewIndex')?>",
             dataRight: "PO_ADD",
             target: "purchase"
         },
         <?php }?>
 	purchaseList: {
-		name: "购货记录",
+		name: "采购记录",
 		href: "<?=site_url('invpu')?>",
 		dataRight: "PU_QUERY",
 		target: "purchase"
@@ -545,7 +545,7 @@ var list = {
          target: "sales"
      },
 	salesOrder: {
-		name: "销货订单",
+		name: "销售订单",
 		href: "/scm/invSo.do?action=initSo",
 		dataRight: "SO_ADD",
 		target: "sales"
@@ -815,7 +815,7 @@ var list = {
 //		target: "setting-base"
 //	},
 	storageList: {
-            name: "BOM",
+		name: "BOM管理",
             href: "<?=site_url('bom')?>",
             dataRight: "INVLOCTION_QUERY",
             target: "setting-base"
@@ -883,7 +883,7 @@ var list = {
             target: "setting-auxiliary"
         },
    unitList: {
-       name: "单位",
+       name: "计量单位",
        href: "<?=site_url('unit')?>",
        dataRight: "UNIT_QUERY",
        target: "setting-auxiliary"
@@ -895,7 +895,7 @@ var list = {
 		target: "setting-advancedSetting"
 	},
 	authority: {
-		name: "权限设置",
+		name: "员工权限",
 		href: "<?=site_url('admin')?>",
 		dataRight: "",
 		target: "setting-advancedSetting"

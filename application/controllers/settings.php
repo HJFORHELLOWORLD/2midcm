@@ -69,10 +69,22 @@ class Settings extends CI_Controller {
 		$this->load->view('settings/goods_batch');	
 	}
 	
-	//新增商品
+	//物料管理
 	public function goods_manage() {
-        $data['specArr'] = array('spec1' => '属性1', 'spec2' => '属性2', 'spec3' => '属性3', 'spec4' => '属性4', 'spec5' => '属性5', 'spec6' => '属性6',
-            'spec7' => '属性7');
+        $data['type'] = $_GET['type'];
+        $data['attrCount'] = 1;
+        if($data['type'] == 'edit'){
+            $attrStr = $_GET['attr'];
+            $v = array();
+            if (strlen($attrStr) > 0){
+                $attrArr = json_decode(str_replace('_','"',$attrStr),true);var_dump($attrStr);
+                foreach ($attrArr as $key => $val){
+                    $v[] = array('attr' => $key, 'val' => $val);
+                }
+            }
+            $data['attr'] = $v;
+            $data['attrCount'] = count($v);
+        }
 		$this->load->view('settings/goods_manage',$data);
 	}
 	
@@ -186,24 +198,16 @@ class Settings extends CI_Controller {
 
     //查看商品规格
     public function spec_info(){
-        $specArr = array(
-            1 => array('spec1' => '长', 'spec2' => '宽', 'spec3' =>'深', 'spec4' => 'spec4', 'spec5' => 'spec5', 'spec6' => 'spec6', 'spec7' => 'spec7', 'spec8' => 'spec8', 'spec9' => 'spec9'),
-            2 => array('spec1' => '长', 'spec2' => '宽', 'spec3' =>'高', 'spec4' => 'spec4', 'spec5' => 'spec5', 'spec6' => 'spec6', 'spec7' => 'spec7', 'spec8' => 'spec8', 'spec9' => 'spec9'),
-            3 => array('spec1' => '长', 'spec2' => '宽', 'spec3' =>'深1', 'spec4' => 'spec4', 'spec5' => 'spec5', 'spec6' => 'spec6', 'spec7' => 'spec7', 'spec8' => 'spec8', 'spec9' => 'spec9'),
-            4 => array('spec1' => '长', 'spec2' => '宽', 'spec3' =>'深2', 'spec4' => 'spec4', 'spec5' => 'spec5', 'spec6' => 'spec6', 'spec7' => 'spec7', 'spec8' => 'spec8', 'spec9' => 'spec9'),
-            5 => array('spec1' => '长', 'spec2' => '宽', 'spec3' =>'深3', 'spec4' => 'spec4', 'spec5' => 'spec5', 'spec6' => 'spec6', 'spec7' => 'spec7', 'spec8' => 'spec8', 'spec9' => 'spec9')
-        );
+        $attrStr = $_GET['attrStr'];
         $data = array();
-        $type = $_GET['type'];
-        $specStr = $_GET['specStr'];
-        $a = explode(',', $specStr);
-        $b = $specArr[$type];
-        foreach ($a as $val){
-            $values = explode('_', $val);
-            $data[] = array('spec' => $b[$values[0]], 'val' => $values[1]);
+        if(strlen($attrStr) >0){
+            $attrArr = json_decode(str_replace('_','"',$attrStr),true);
+            foreach ($attrArr as $key => $val){
+                $data[] = array('attr' => $key, 'val' => $val);
+            }
         }
         $result['data'] = $data;
-        $this->load->view('goods/spec_info',$result);
+        $this->load->view('bom/spec_info',$result);
     }
 
     //往来单位类别

@@ -35,62 +35,73 @@ class Bom extends CI_Controller {
     public function save() {
         $id  = intval($this->input->post('id',TRUE));
         $act = str_enhtml($this->input->get('act',TRUE));
-        $info['pk_bom_id'] = $data['pk_bom_id'] = intval($this->input->post('pk_bom_id',TRUE));
-        $info['bomModel']     = $data['bomModel'] = intval($this->input->post('bomModel',TRUE));
-        $info['bomName']       = $data['bomName']   = str_enhtml($this->input->post('bomName',TRUE));
-        $info['isVirt']     = $data['isVirt'] = str_enhtml($this->input->post('isVirt',TRUE));
-        $info['bomCat_id1']   = $data['bomCat_id1'] = (float)$this->input->post('bomCat_id1',TRUE);
-        $info['bomCat_id2']     = $data['bomCat_id2'] = str_enhtml($this->input->post('bomCat_id2',TRUE));
-        $info['desc']  = $data['desc'] = (float)$this->input->post('desc',TRUE);
-        $info['fk_unitClass_id']       = $data['fk_unitClass_id'] = str_enhtml($this->input->post('fk_unitClass_id',TRUE));
-        $info['bomAttr']   = $data['bomAttr'] = (float)$this->input->post('bomAttr',TRUE);
-        $info['bomAttr1']       = $data['bomAttr1']   = str_enhtml($this->input->post('bomAttr1',TRUE));
-        $info['bomAttr2']       = $data['bomAttr2']   = str_enhtml($this->input->post('bomAttr2',TRUE));
-        $info['bomAttr3']       = $data['bomAttr3']   = str_enhtml($this->input->post('bomAttr3',TRUE));
-        $info['bomAttr4']       = $data['bomAttr4']   = str_enhtml($this->input->post('bomAttr4',TRUE));
-        $info['bomAttr5']       = $data['bomAttr5']   = str_enhtml($this->input->post('bomAttr5',TRUE));
-        $info['bomAttr6']       = $data['bomAttr6']   = str_enhtml($this->input->post('bomAttr6',TRUE));
-        $info['bomAttr7']       = $data['bomAttr7']   = str_enhtml($this->input->post('bomAttr7',TRUE));
-
-        /*        $info['spec1']       = $data['spec1']   = str_enhtml($this->input->post('spec1',TRUE));
-                $info['spec2']       = $data['spec2']   = str_enhtml($this->input->post('spec2',TRUE));
-                $info['spec3']       = $data['spec3']   = str_enhtml($this->input->post('spec3',TRUE));
-                $info['spec4']       = $data['spec4']   = str_enhtml($this->input->post('spec4',TRUE));
-                $info['spec5']       = $data['spec5']   = str_enhtml($this->input->post('spec5',TRUE));
-                $info['spec6']       = $data['spec6']   = str_enhtml($this->input->post('spec6',TRUE));
-                $info['spec7']       = $data['spec7']   = str_enhtml($this->input->post('spec7',TRUE));
-                $info['spec8']       = $data['spec8']   = str_enhtml($this->input->post('spec8',TRUE));
-                $info['spec9']       = $data['spec9']   = str_enhtml($this->input->post('spec9',TRUE));
-                $info['spec10']       = $data['spec10']   = str_enhtml($this->input->post('spec10',TRUE));*/
-
-        strlen($data['bomName']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+        $info['BOMModel']     = $data['BOMModel'] = $this->input->post('BOMModel',TRUE);
+        $info['BOMName']       = $data['BOMName']   = str_enhtml($this->input->post('BOMName',TRUE));
+        $info['IsVirt']     = $data['IsVirt'] = intval(str_enhtml($this->input->post('IsVirt',TRUE)));
+        $info['BOMCat_ID1']   = $data['BOMCat_ID1'] = intval($this->input->post('BOMCat_ID1',TRUE));
+        $info['BOMCat_ID2']     = $data['BOMCat_ID2'] = intval(str_enhtml($this->input->post('BOMCat_ID2',TRUE)));
+        $info['Desc']  = $data['desc'] = str_enhtml($this->input->post('Desc',TRUE));
+        $info['FK_UnitClass_ID']       = $data['FK_UnitClass_ID'] = intval(str_enhtml($this->input->post('fk_unitClass_id',TRUE)));
+        $attr_key = str_enhtml($this->input->post('attr_key',TRUE));
+        $attr_val = str_enhtml($this->input->post('attr_val',TRUE));
+        strlen($data['BOMName']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
 //		$info['categoryName']   = $data['categoryname'] = $this->mysql_model->db_one(CATEGORY,'(id='.$data['categoryid'].')','name');
 //		$info['unitName']   = $data['unitname']     = $this->mysql_model->db_one(UNIT,'(id='.$data['unitid'].')','name');
 //		!$data['categoryname'] || !$data['unitname']  && die('{"status":-1,"msg":"参数错误"}');
         /*		var_dump($info,$data);*/
+
+        $key = array();//新属性
+        $data['BOMAttr'] = '';
+        $attrArr = array();
+        if(is_array($attr_key) && is_array($attr_val) && count($attr_key) > 0 && count($attr_val) > 0){
+            $i = 0;
+            foreach ($attr_key as $k => $v){
+                if ($v == '' || $v == '属性名'){//无效属性名
+                    if(isset($attr_val[$k]))  unset($attr_val[$k]); //将属性名不规范的属性值剔除
+                }else{//有效属性值
+                    if($attr_val[$k] !== '' && $attr_val[$k] !== '属性值'){
+                        $key[] = $v;
+                        $attrname = 'BOMAttr' . $i;
+                        $data[$attrname] = $attr_val[$k];
+                        $attrArr[$v] = $attr_val[$k];
+                        $i++;
+                    }
+                }
+            }
+            if (count($key) > 0) $data['BOMAttr'] = implode('|',$key);
+        }
         if ($act=='add') {
             $this->purview_model->checkpurview(69);
-            $this->mysql_model->db_count(BOM_BASE,'(pk_bom_id="'.$data['pk_bom_id'].'")') > 0 && die('{"status":-1,"msg":"物料编号重复"}');
             $sql = $this->mysql_model->db_inst(BOM_BASE,$data);
             if ($sql) {
-                $info['pk_bom_id'] = $sql;
-                $this->mysql_model->db_inst(BOM_BASE,array('pk_bom_id' => $sql, 'num' => 0));
+                $info['id'] = $sql;
+                $this->mysql_model->db_inst(BOM_STOCK,array('BOM_ID' => $sql, 'Account' => 0));//初始化仓库
                 $this->cache_model->delsome(BOM_BASE);
-                $this->data_model->logs('新增商品:'.$data['bomName']);
+                $this->cache_model->delsome(BOM_STOCK);
+                $this->data_model->logs('新增商品:'.$data['BOMName']);
                 die('{"status":200,"msg":"success","data":'.json_encode($info).'}');
             } else {
                 die('{"status":-1,"msg":"添加失败"}');
             }
         } elseif ($act=='update') {
             $this->purview_model->checkpurview(70);
-            $this->mysql_model->db_count(BOM_BASE,'(pk_bom_id<>'.$id.') and (number="'.$data['number'].'")') > 0 && die('{"status":-1,"msg":"商品编号重复"}');
-            $name = $this->mysql_model->db_one(BOM_BASE,'(pk_bom_id='.$id.')','name');
-            $sql = $this->mysql_model->db_upd(BOM_BASE,$data,'(pk_bom_id='.$id.')');
+            $oldData = $this->mysql_model->db_one(BOM_BASE,'(PK_BOM_ID='.$id.')');
+            if(count($oldData) < 1){
+                die('{"status":-1,"msg":"不存在该数据"}');
+            }
+            $oldAttr = explode('|',$oldData['BOMAttr']);
+            if(count($oldAttr) > 0){//若原来存在属性的，则将多余的属性值置为null
+                for($i = count($key) ; $i < count($oldAttr) ; $i++ ){
+                    $data['BOMAttr' . $i ] = NULL;
+                }
+            }
+
+            $sql = $this->mysql_model->db_upd(BOM_BASE,$data,'(PK_BOM_ID='.$id.')');
             if ($sql) {
-                $info['pk_bom_id'] = $id;
-                $info['propertys'] = array();
+                $info['id'] = $id;
+                $info['attrStr'] = count($attrArr) > 0 ? str_replace('"','_',json_encode($attrArr,JSON_UNESCAPED_UNICODE)) : '';
                 $this->cache_model->delsome(BOM_BASE);
-                $this->data_model->logs('修改商品:'.$name.' 修改为 '.$data['name']);
+                $this->data_model->logs('修改物料:'.$id);
                 die('{"status":200,"msg":"success","data":'.json_encode($info).'}');
             } else {
                 die('{"status":-1,"msg":"修改失败"}');
@@ -167,13 +178,18 @@ class Bom extends CI_Controller {
 	    $this->purview_model->checkpurview(71);
 	    $id = str_enhtml($this->input->post('id',TRUE));
 		if (strlen($id) > 0) {
-		    $this->mysql_model->db_count(INVPU_INFO,'(goodsid in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有商品发生业务不可删除"}'); 
-			$this->mysql_model->db_count(INVSA_INFO,'(goodsid in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有商品发生业务不可删除"}'); 
-			$this->mysql_model->db_count(INVOI_INFO,'(goodsid in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有商品发生业务不可删除"}'); 
-		    $sql = $this->mysql_model->db_del(GOODS,'(id in('.$id.'))');   
+		    $this->mysql_model->db_count(BOM_DESIGN,'(UpBOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
+            $this->mysql_model->db_count(BOM_DESIGN,'(DownBOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
+			$this->mysql_model->db_count(BOM_STOCK,'(Account >0 and BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
+			$this->mysql_model->db_count(PURORDER_DETAIL,'(BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
+            $this->mysql_model->db_count(SALEORDER_DETAIL,'(BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
+            $this->mysql_model->db_count(STOORDER_DETAIL,'(BOM_ID in('.$id.'))')>0 && die('{"status":-1,"msg":"其中有物料发生业务不可删除"}');
+		    $sql = $this->mysql_model->db_del(BOM_BASE,'(PK_BOM_ID in('.$id.'))');
 		    if ($sql) {
-			    $this->cache_model->delsome(GOODS);
-				$this->data_model->logs('删除商品:ID='.$id);
+                $sql = $this->mysql_model->db_del(BOM_STOCK,'(BOM_ID in('.$id.'))');
+			    $this->cache_model->delsome(BOM_BASE);
+                $this->cache_model->delsome(BOM_STOCK);
+				$this->data_model->logs('删除物料:ID='.$id);
 				die('{"status":200,"msg":"success","data":{"msg":"","id":['.$id.']}}');
 			} else {
 			    die('{"status":-1,"msg":"删除失败"}');

@@ -48,7 +48,7 @@ var category_save = "<?=site_url('category/save')?>";
 var basedata_contact_query = "<?=site_url('basedata/contact_query')?>";
 var basedata_contact_getnextno = "<?=site_url('basedata/contact_getnextno')?>";
 var basedata_contact_checkname = "<?=site_url('basedata/contact_checkname')?>";
-var betweenUnit_modify  = "<?=site_url('betweenUnit/modify')?>";
+var betweenUnit_save  = "<?=site_url('betweenUnit/save')?>";
 var settings_customer_cate_manage = "<?=site_url('settings/customer_cate_manage')?>";
 var basedata_area = "<?=site_url('basedata/area')?>";
 var category_lists = "<?=site_url('category/lists')?>";
@@ -103,6 +103,7 @@ body{background: #fff;}
                         <select name="BU_Cat" id="BU_Cat" style="height: 30px">
                             <option value =1>客户</option>
                             <option value =2>厂家</option>
+                            <option value =3>客户兼厂家</option>
                             <option value =4>第三方</option>
                         </select></div>
                 </li>
@@ -116,7 +117,7 @@ body{background: #fff;}
                     </span></div>
                 </li>
     			<li class="row-item">
-    				<div class="label-wrap"><label for="Taxrate">税率</label></div>
+    				<div class="label-wrap"><label for="Taxrate">税率（%）</label></div>
     				<div class="ctn-wrap"><input type="text" value="" class="ui-input" name="Taxrate" id="Taxrate"></div>
     			</li>
     			<li class="row-item">
@@ -128,7 +129,7 @@ body{background: #fff;}
                     <div class="ctn-wrap">
                         <select name="Status" id="Status" style="height: 30px">
                             <option value =0>不正常</option>
-                            <option value =1>正常</option>
+                            <option value =1 selected="selected">正常</option>
                         </select></div>
                 </li>
     		</ul>
