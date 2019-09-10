@@ -227,7 +227,6 @@ class Basedata extends CI_Controller {
 	public function category() {
 	    $data['status'] = 200;
 		$data['msg']    = 'success';
-		
 		$where = '';
 		$cat1  = $this->cache_model->load_data(BOM_CATEGORY1,$where);
 		$cat2 = $this->cache_model->load_data(BOM_CATEGORY2,$where);
@@ -261,6 +260,36 @@ class Basedata extends CI_Controller {
 		$data['data']['items']      = is_array($v) ? $v : '';//echo json_encode($data);exit;
 		die(json_encode($data));
 	}
+
+    public function category1() {
+        $data['status'] = 200;
+        $data['msg']    = 'success';
+        $where = '';
+        $v=array();
+        $pid  = $this->cache_model->load_data(BOM_CATEGORY1,'(status=1) '.$where.' order by PK_BOMCat_ID1','pid');
+        $list = $this->cache_model->load_data(BOM_CATEGORY1,'(status=1)'.$where.' order by path');
+        foreach ($list as $arr=>$row) {
+            $v[$arr]['coId']     = 0;
+            $v[$arr]['detail']   = in_array($row['PK_BOMCat_ID1'],$pid) ? false : true;
+            $v[$arr]['id']       = intval($row['PK_BOMCat_ID1']);
+            $v[$arr]['level']    = $row['depth'];
+            $v[$arr]['Name']     = $row['Name'];
+            $v[$arr]['bom_id']     = $row['bom_id'];
+            $v[$arr]['parentId'] = intval($row['pid']);
+            $v[$arr]['remark']   = '';
+            $v[$arr]['sortIndex'] = 0;
+            $v[$arr]['status'] = 0;
+//            $v[$arr]['typeNumber'] = $row['type'];
+            $v[$arr]['uuid'] = '';
+        }
+        $data['data']['items']      = is_array($v) ? $v : '';
+        $data['data']['totalsize']  = $this->cache_model->load_total(BOM_CATEGORY1,'(1=1) '.$where.'');
+        die(json_encode($data));
+    }
+
+
+
+
 	
 	//类别3种接口
 	public function category_type() {
@@ -303,15 +332,17 @@ class Basedata extends CI_Controller {
     //人员接口
     public function user() {
         $v = '';
+        $where='';
         $data['status'] = 200;
         $data['msg']    = 'success';
-        $list = $this->cache_model->load_data(USER,'(status=1) order by PK_User_ID desc');
+        $list = $this->data_model->userList($where,'order by PK_User_ID desc');
         foreach ($list as $arr=>$row) {
             $v[$arr]['default'] = false;
             $v[$arr]['guid']    = false;
             $v[$arr]['PK_User_ID']      = intval($row['PK_User_ID']);
             $v[$arr]['Username']    = $row['Username'];
             $v[$arr]['Status']    = $row['Status'];
+            $v[$arr]['DepartmentName']    = $row['DepartmentName'];
 //            $v[$arr]['User']    = $row['Username'];
             $v[$arr]['rate']    = 0;
             $v[$arr]['isdelete']   = 0;

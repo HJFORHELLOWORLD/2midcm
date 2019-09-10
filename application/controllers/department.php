@@ -1,11 +1,7 @@
 <?php if(!defined('BASEPATH')) exit('No direct script access allowed');
 
-<<<<<<< HEAD
 class department extends CI_Controller {
-=======
-//部门
-class Department extends CI_Controller {
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
+
 
     public function __construct(){
         parent::__construct();
@@ -63,54 +59,41 @@ class Department extends CI_Controller {
             } else {
                 die('{"status":-1,"msg":"添加失败"}');
             }
-<<<<<<< HEAD
+
 
         }
     }
 
 
-    /**
-     * showdoc
-     * @catalog 开发文档/用户
-     * @title 用户部门信息
-     * @description 用户部门信息回显的接口
-     * @method get
-     * @url https://www.2midcm.com/login/index
-     * @param username 必选 string 用户名
-     * @param userpwd 必选 string 密码
-     * @return {"status":200,"msg":"success,"share":"true","userid":1,"name":"小阳","username":"admin"}
-     * @return_param data array 用户回显数据
-     * @remark 这里是备注信息
-     * @number 1
-     */
-    //部门列表
-=======
-        } elseif ($act=='update') {
-            $this->purview_model->checkpurview(122);
-            strlen($data['Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
-            $this->mysql_model->db_count(DEPARTMENT,'(PK_Dept_ID<>'.$id.') and (Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该部门"}');
-            $data['Modify_ID'] = $this->uid;
-            $data['Modify_Date'] = date('Y-m-d H:i:s',time());
-            $sql = $this->mysql_model->db_upd(DEPARTMENT,$data,'(PK_Dept_ID='.$id.')');
-            if ($sql) {
-                $data['id'] = $id;
-                $data['StatusName'] = $data['Status'] == 0 ? '不正常' : '正常';
-                $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
-                $this->data_model->logs('修改工作中心:'.$data['Name']);
-                $this->cache_model->delsome(DEPARTMENT);
-                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
-            } else {
-                die('{"status":-1,"msg":"修改失败"}');
-            }
-        }
-    }
 
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
+//
+//        } elseif ($act=='update') {
+//            $this->purview_model->checkpurview(122);
+//            strlen($data['Name']) < 1 && die('{"status":-1,"msg":"名称不能为空"}');
+//            $this->mysql_model->db_count(DEPARTMENT,'(PK_Dept_ID<>'.$id.') and (Name="'.$data['Name'].'")') > 0 && die('{"status":-1,"msg":"已存在该部门"}');
+//            $data['Modify_ID'] = $this->uid;
+//            $data['Modify_Date'] = date('Y-m-d H:i:s',time());
+//            $sql = $this->mysql_model->db_upd(DEPARTMENT,$data,'(PK_Dept_ID='.$id.')');
+//            if ($sql) {
+//                $data['id'] = $id;
+//                $data['StatusName'] = $data['Status'] == 0 ? '不正常' : '正常';
+//                $data['headName'] = str_enhtml($this->input->post('head_name',TRUE));
+//                $this->data_model->logs('修改工作中心:'.$data['Name']);
+//                $this->cache_model->delsome(DEPARTMENT);
+//                die('{"status":200,"msg":"success","data":'.json_encode($data).'}');
+//            } else {
+//                die('{"status":-1,"msg":"修改失败"}');
+//            }
+//        }
+//    }
+
+
+//部门列表
     public function lists() {
         $v = '';
         $data['status'] = 200;
         $data['msg']    = 'success';
-<<<<<<< HEAD
+
         $page = max(intval($this->input->get_post('page',TRUE)),1);
         $rows = max(intval($this->input->get_post('rows',TRUE)),100);
         $key  = str_enhtml($this->input->get_post('matchCon',TRUE));

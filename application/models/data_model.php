@@ -242,52 +242,69 @@ class Data_model extends CI_Model{
 	
 
 	
-	//盘点库存 
-	public function inventory($where='',$order='') {
-	    $where = $where ? 'where (1=1) '.$where : '';
-/*	    $sql = 'select a.*,
-					
-					ifnull(a.quantity,0) * a.unitcost + (if(ifnull(b.puqty,0)=0,"0",ifnull(b.amount,0)/ifnull(b.puqty,0)) * (ifnull(b.puqty,0) - ifnull(c.saqty,0) + ifnull(d.oiqty,0))) as puamount,
-					
-		            (ifnull(a.quantity,0) + ifnull(b.puqty,0) - ifnull(c.saqty,0) + ifnull(d.oiqty,0)) as qty
-		        from '.GOODS.' as a 
-				left join 
-				(select goodsid, sum(qty) as puqty , sum(amount) as amount from '.INVPU_INFO.' group by goodsid) as b
-				on a.id=b.goodsid
-				left join 
-				(select goodsid, sum(qty) as saqty from '.INVSA_INFO.' group by goodsid) as c 
-				on a.id=c.goodsid
-				left join 
-				(select goodsid, sum(qty) as oiqty from '.INVOI_INFO.' group by goodsid) as d
-				on a.id=d.goodsid
-				'.$where.' 
-				'.$order.'
-				';*/
-
-	    $sql = 'SELECT a.*, 
-                IFNULL(a.Account,0) * a.Cost + (IF(IFNULL(b.puqty,0)=0,"0",IFNULL(b.amount,0)/IFNULL(b.puqty,0)) * IFNULL(d.oiqty,0) ) AS puamount, 
-                IFNULL(d.oiqty,0) AS qty 
+//	//盘点库存
+//	public function inventory($where='',$order='') {
+//	    $where = $where ? 'where (1=1) '.$where : '';
+///*	    $sql = 'select a.*,
+//
+//					ifnull(a.quantity,0) * a.unitcost + (if(ifnull(b.puqty,0)=0,"0",ifnull(b.amount,0)/ifnull(b.puqty,0)) * (ifnull(b.puqty,0) - ifnull(c.saqty,0) + ifnull(d.oiqty,0))) as puamount,
+//
+//		            (ifnull(a.quantity,0) + ifnull(b.puqty,0) - ifnull(c.saqty,0) + ifnull(d.oiqty,0)) as qty
+//		        from '.GOODS.' as a
+//				left join
+//				(select goodsid, sum(qty) as puqty , sum(amount) as amount from '.INVPU_INFO.' group by goodsid) as b
+//				on a.id=b.goodsid
+//				left join
+//				(select goodsid, sum(qty) as saqty from '.INVSA_INFO.' group by goodsid) as c
+//				on a.id=c.goodsid
+//				left join
+//				(select goodsid, sum(qty) as oiqty from '.INVOI_INFO.' group by goodsid) as d
+//				on a.id=d.goodsid
+//				'.$where.'
+//				'.$order.'
+//				';*/
+//
+//	    $sql = 'SELECT a.*,
+//                IFNULL(a.Account,0) * a.Cost + (IF(IFNULL(b.puqty,0)=0,"0",IFNULL(b.amount,0)/IFNULL(b.puqty,0)) * IFNULL(d.oiqty,0) ) AS puamount,
+//                IFNULL(d.oiqty,0) AS qty
+//                FROM
+//                '. BOM_BASE .' AS a
+//                LEFT JOIN
+//                (SELECT purorder_detail.BOM_ID AS PK_BOM_Stock_ID, SUM(purorder_detail.BOM_Accountt) AS Account , SUM(purorder_detail.BOM_Accountt) AS Account FROM '. PURORDER_DETAIL .' purorder_detail
+//                LEFT JOIN '. PURORDER .' purorder ON purorder_detail.Order_ID=purder.PK_BOM_Pur_ID WHERE purder.Status =5 GROUP BY BOM_ID) AS b
+//                ON a.BOM_ID =b.BOM_ID
+//                LEFT JOIN
+//                (SELECT saleorder_detail.BOM_ID AS BOM_ID, SUM(saleorder_detail.BOM_Accountt) AS Account FROM '. SALEORDER_DETAIL .' saleorder_detail
+//                LEFT JOIN '. SALEORDER .' saleorder ON saleorder_detail.Order_ID=saleorder.PK_BOM_Sale_ID GROUP BY BOM_ID) AS c
+//                ON a.PK_BOM_Stock_ID=c.BOM_ID
+//                LEFT JOIN
+//                (SELECT BOM_ID, SUM(Account) AS oiqty FROM '. BOM_STOCK .' GROUP BY BOM_ID) AS d
+//                ON a.PK_BOM_ID=d.BOM_ID
+//                '.$where.'
+//				'.$order.'
+//				';
+//
+//		return $this->cache_model->load_sql(BOM_BASE,$sql,2);
+//	}
+    //盘点库存
+    public function inventory($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.Account,a.Cost,a.BOM_ID,b.Stock_Name                
                 FROM 
-                '. BOM_BASE .' AS a 
+                t_'. BOM_STOCK.' AS a 
                 LEFT JOIN 
-                (SELECT purorder_detail.BOM_ID AS PK_BOM_Stock_ID, SUM(purorder_detail.BOM_Accountt) AS Account , SUM(purorder_detail.BOM_Accountt) AS Account FROM '. PURORDER_DETAIL .' purorder_detail
-                LEFT JOIN '. PURORDER .' purorder ON purorder_detail.Order_ID=purder.PK_BOM_Pur_ID WHERE purder.Status =5 GROUP BY BOM_ID) AS b 
-                ON a.BOM_ID =b.BOM_ID
-                LEFT JOIN 
-                (SELECT saleorder_detail.BOM_ID AS BOM_ID, SUM(saleorder_detail.BOM_Accountt) AS Account FROM '. SALEORDER_DETAIL .' saleorder_detail
-                LEFT JOIN '. SALEORDER .' saleorder ON saleorder_detail.Order_ID=saleorder.PK_BOM_Sale_ID GROUP BY BOM_ID) AS c 
-                ON a.PK_BOM_Stock_ID=c.BOM_ID 
-                LEFT JOIN 
-                (SELECT BOM_ID, SUM(Account) AS oiqty FROM '. BOM_STOCK .' GROUP BY BOM_ID) AS d 
-                ON a.PK_BOM_ID=d.BOM_ID
+                t_'.STOCK.' AS b
+                ON a.Stock_ID=b.PK_Stock_ID                 
                 '.$where.' 
 				'.$order.'
 				';
+//        var_dump($sql);
+        return $this->cache_model->load_sql(BOM_STOCK,$sql,2);
+    }
 
-		return $this->cache_model->load_sql(BOM_BASE,$sql,2);
-	}	
-	
-	//商品收发汇总表
+
+
+    //商品收发汇总表
 	public function goods_summary($where1='',$where2='',$order='') {
 	    $where2 = $where2 ? 'where (1=1) '.$where2 : '';
 	    $sql = 'select a.*,
@@ -406,19 +423,14 @@ class Data_model extends CI_Model{
     //bom设计列表
     public function designList($where='',$order=''){
         $where = $where ? 'where (1=1) '.$where : '';
-<<<<<<< HEAD
-        $sql = 'SELECT a.PK_BOM_Desi_ID AS PK_BOM_Desi_ID, a.Name AS Name, a.Desc AS Des, a.WC_ID AS WC_ID,a.UpBOM_ID AS UpBOM_ID,b.DownBOM_ID AS DownBOM_ID,
-                a.DownBom_Amount AS DownBom_Amount, c.BOMName AS BOMName, a.DownBOM_Amount AS DownBOM_Amount
-=======
+//
+//        $sql = 'SELECT a.PK_BOM_Desi_ID AS PK_BOM_Desi_ID, a.Name AS Name, a.Desc AS Des, a.WC_ID AS WC_ID,a.UpBOM_ID AS UpBOM_ID,b.DownBOM_ID AS DownBOM_ID,
+//                a.DownBom_Amount AS DownBom_Amount, c.BOMName AS BOMName, a.DownBOM_Amount AS DownBOM_Amount
         $sql = 'SELECT a.*, b.BOMName AS UpBOM_Name , c.BOMName AS DownBOM_Name, d.`WC_Name` AS WC_Name
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
                 FROM 
                t_'.BOM_DESIGN.' as a 
                 LEFT JOIN 
-                t_'.BOM_BASE.' as b
-<<<<<<< HEAD
-                ON a.UpBOM_ID=b.PK_BOM_ID             
-=======
+                t_'.BOM_BASE.' as b        
                 ON a.UpBOM_ID=b.PK_BOM_ID
                 LEFT JOIN 
                t_'.BOM_BASE.' as c
@@ -426,7 +438,7 @@ class Data_model extends CI_Model{
                 LEFT JOIN 
                t_'.WORK_CERTER.' as d
                 ON a.WC_ID = d.PK_WC_ID
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
+
                 '.$where.'
                 '.$order.'
                 ';
@@ -469,20 +481,7 @@ class Data_model extends CI_Model{
     }
 
 
-    //仓库列表
-    public  function stockList($where='',$order='')
-    {
-        $where = $where ? 'where (1=1) ' . $where : '';
-        $sql = 'SELECT * FROM 
-               t_' . STOCK . '
-                ' . $where . '
-                ' . $order . '
-                ';
-//        var_dump($sql);
-//        $res=  $this->cache_model->load_sql(STOCK,$sql,2);
-//        var_dump($res); exit;
-        return $this->cache_model->load_sql(STOCK, $sql, 2);
-    }
+
 
 
 //        public  function workcenterList($where='',$order=''){
@@ -561,6 +560,23 @@ class Data_model extends CI_Model{
     }
 
 
+    //日志列表
+    public function userList($where='',$order='') {
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Name as DepartmentName  FROM 
+            t_'.USER.' as a 
+            LEFT JOIN t_'
+            .DEPARTMENT.' as b
+            ON a.Part_ID=b.PK_Dept_ID
+            '.$where.'
+            '.$order.'
+            ';
+//        var_dump($sql);
+        return $this->cache_model->load_sql(USER,$sql,2);
+    }
+
+
+
     //调用存储过程更新成本，return:code 0失败，1成功
     public function updateCost($invsaid){
         try {
@@ -605,8 +621,7 @@ class Data_model extends CI_Model{
         return $this->cache_model->load_sql(WORK_CERTER,$sql,2);
     }
 
-<<<<<<< HEAD
-=======
+
     //地区分类列表
     public function areaList($where='',$order='') {
         $where = $where ? 'where (1=1) '.$where : '';
@@ -620,12 +635,11 @@ class Data_model extends CI_Model{
             ';
         return $this->cache_model->load_sql(AREA,$sql,2);
     }
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
+
 
     //部门列表
     public function departmentList($where='',$order='') {
         $where = $where ? 'where (1=1) '.$where : '';
-<<<<<<< HEAD
         $sql = 'select a.*,b.Username as Header
 		        FROM 
 		        t_'.DEPARTMENT.'as a 
@@ -641,17 +655,7 @@ class Data_model extends CI_Model{
 
     }
 
-=======
-        $sql = 'SELECT a.*, b.Username as headName  FROM 
-            t_'.DEPARTMENT.' as a 
-            LEFT JOIN t_'
-            .USER.' as b
-            ON a.Head_ID=b.PK_User_ID
-            '.$where.'
-            '.$order.'
-            ';
-        return $this->cache_model->load_sql(DEPARTMENT,$sql,2);
-    }
+
 
     //往来单位列表
     public function betweenunitList($where='',$order='') {
@@ -684,7 +688,7 @@ class Data_model extends CI_Model{
             ';
         return $this->cache_model->load_sql(STOCK,$sql,2);
     }
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
+
 
 }
 ?>
