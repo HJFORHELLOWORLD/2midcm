@@ -29,6 +29,36 @@ var curRow, curCol, loading = null,
 			function i(e) {
 				return e.replace('<span class="red">', "").replace("</span>", "")
 			}
+            function getUser(){
+                // debugger;
+                var getUser = "";
+                var i;
+                var list;
+                var contentType;
+                $.ajax({
+                    type:"get",
+                    async:false,
+                    url:basedata_getUser,
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify(list),
+                    success:function(result){
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i< result.length;i++ ){
+                            if(i != result.length-1){
+                                getUser += result[i].key + ":" + result[i].name +";";
+                            }else{
+                                getUser += result[i].key + ":" + result[i].name;
+                            }
+                        }
+                    },
+                    error: function(e){
+                        console.log(e.status);
+                        console.log(e.responseText);
+                    }
+                });
+                return getUser;
+            }
+
 			$("#grid").jqGrid("GridUnload");
 			var a = $(window).height() - $(".grid-wrap").offset().top - 94;
 			$("#grid").jqGrid({
@@ -42,20 +72,20 @@ var curRow, curCol, loading = null,
 				altRows: !0,
 				gridview: !0,
 				colModel: [
-				{	name: "locationName",
-					label: "仓库id",
+				{	name: "Stock_Name",
+					label: "仓库",
 					width: 100
 				},{
-					name: "invNumber",
+					name: "BOM_ID",
 					label: "物料编号",
 					width: 200
                 }, {
-					name: "invCost",
+					name: "Cost",
 					label: "单位成本",
 					width: 100,
 					align: "right"
 				}, {
-					name: "qty",
+					name: "Account",
 					label: "系统库存",
 					width: 100,
 					align: "right"
@@ -72,7 +102,13 @@ var curRow, curCol, loading = null,
                      width: 100,
                      title: !1,
                      align: "right",
-                     editable: !0
+                     editable: !0,
+					 edittype:'select',
+					 formatter:'select',
+				     editoptions:{
+                     	value:getUser()
+					 }
+
                 },{
 					name: "change",
 					label: "盘盈盘亏",
@@ -144,10 +180,10 @@ var curRow, curCol, loading = null,
 				var r, n = t[i],
 					o = $("#grid").jqGrid("getRowData", n);
 				r = {
-					locationName: o.locationName,
-					invNumber: o.invNumber,
-					invCost: o.invCost,
-					qty: o.qty,
+					Stock_Name: o.Stock_Name,
+					BOM_ID: o.BOM_ID,
+					Cost: o.Cost,
+					Account: o.Account,
 					checkInventory: o.checkInventory,
 					checker:o.checker,
 					change: o.change
@@ -159,14 +195,16 @@ var curRow, curCol, loading = null,
 		addEvent: function() {
 			var t = this;
 			$("#search").click(function() {
-				var  queryConditions = $("#goods").val() ;
+				 queryConditions ={
+					 // $("#goods").val() ;
 					//{ locationId: t.storageCombo.getValue(),
 					// categoryId: t.categoryTree.getValue(),
-					// goods: t.$_goods.val(),
-					// showZero: t.showZero.chkVal().join() ? 1 : 0 }
+					goods: t.$_goods.val(),
+					showZero: t.showZero.chkVal().join() ? 1 : 0
+			};
 
-             queryConditions=JSON.stringify(queryConditions);
-				console.log(queryConditions);
+             // queryConditions=JSON.stringify(queryConditions);
+				// console.log(queryConditions);
 				//t.loaded ? t.reloadData(queryConditions) : Public.ajaxGet("/scm/invOi.do?action=queryToPD", queryConditions, function(e) {
 				t.loaded ? t.reloadData(queryConditions) : Public.ajaxGet(inventory_lists, queryConditions, function(e) {																													  																										  
 					if (200 === e.status) {
