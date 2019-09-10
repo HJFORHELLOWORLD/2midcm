@@ -596,7 +596,7 @@ var list = {
 		target: "storage"
 	},
 	otherWarehouse: {
-		name: "入库",
+		name: "其他入库",
 		href: "<?=site_url('invoi/in')?>",
 		dataRight: "IO_ADD",
 		target: "storage"
@@ -608,7 +608,7 @@ var list = {
 		target: "storage"
 	},
 	otherOutbound: {
-		name: "出库",
+		name: "其他出库",
 		href: "<?=site_url('invoi/out')?>",
 		dataRight: "OO_ADD",
 		target: "storage"
