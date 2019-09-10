@@ -1,15 +1,15 @@
 function initDom() {
     function e(e, t, i) {
         conditions.typeNumber = e;
-        conditions.name = t;
+        conditions.name = "物料";
         i || $("#grid").setGridParam({
             postData: conditions
         }).trigger("reloadGrid");
-        parent.$("li.l-selected a").eq(0).text(conditions.name + "类别")
+        parent.$("li.l-selected a").eq(0).text("物料" + "类别")
     }
     var t, i = $(".ui-tab").on("click", "li", function() {
             var t = $(this),
-                i = t.data("id"),
+                i = 1,
                 r = t.html(),
                 a = conditions.typeNumber,
                 n = conditions.name;
@@ -27,7 +27,6 @@ function initDom() {
         }),
         r = [],
         a = {
-
             trade: "物料"
         };
     for (var n in a) r.push('<li data-id="' + n + '">' + a[n] + "</li>");
@@ -127,9 +126,10 @@ function initEvent() {
     $(window).resize(function() {
         Public.resizeGrid()
     })
-}
+};
 function initGrid() {
-    var e = [{
+    var e = [
+        {
         name: "operate",
         label: "操作",
         width: 60,
@@ -137,14 +137,19 @@ function initGrid() {
         align: "center",
         formatter: Public.operFmatter
     }, {
-        name: "name",
+        name: "Name",
         label: "类别",
         width: 200,
         formatter: function(e, t, i) {
             for (var r = parseInt(i.level) - 1, a = "", n = 0; r > n; n++) a += "   ";
             return a + e
         }
-    }, {
+    },{
+        name:"bom_id",
+        label:"bom编号",
+        width:200
+        },
+        {
         name: "id",
         label: "id",
         hidden: !0
@@ -159,10 +164,6 @@ function initGrid() {
     }, {
         name: "parentName",
         label: "parentName",
-        hidden: !0
-    }, {
-        name: "detail",
-        label: "是否叶",
         hidden: !0
     }];
     $("#grid").jqGrid({
@@ -257,7 +258,6 @@ function postData(e) {
             n.typeNumber = conditions.typeNumber;
             //Public.ajaxPost("../basedata/assist.do?action=" + r, n, function(e) {
             Public.ajaxPost(category_save+"?act=" + r, n, function(e) {
-
                 if (200 == e.status) {
                     parent.parent.Public.tips({
                         content: o + "成功！"
@@ -298,7 +298,7 @@ function verifyRight(e) {
 }
 //var typeNumber, showParentCategory, url = "../basedata/assist.do?action=list&isDelete=2",
 //	urlParam = Public.urlParam();
-var typeNumber, showParentCategory, url = basedata_category+"?isDelete=2",
+var typeNumber, showParentCategory, url = basedata_category1+"?isDelete=2",
     urlParam = Public.urlParam();
 urlParam.typeNumber && (typeNumber = urlParam.typeNumber);
 var conditions = {

@@ -62,16 +62,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
             this.$_date.datepicker({
                 onSelect: function(t) {
                     var i = t.format("yyyy-MM-dd");
-                    //e.$_number.text("");
-                    //Public.ajaxPost("/basedata/systemProfile.do?action=generateDocNo", {
-//						billType: "PUR",
-//						billDate: i
-//					}, function(t) {
-//						200 === t.status ? e.$_number.text(t.data.billNo) : parent.Public.tips({
-//							type: 1,
-//							content: t.msg
-//						})
-//					})
+
                 }
             });
             this.classes = this.$_classes.cssRadio({
@@ -191,57 +182,8 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
          //            }
          //        })
          //    });
-         //    //批量添加订单
-         //    $('.grid-wrap').on('focus','.order',function(){
-         //        var a = $("#grid").jqGrid('getGridParam','colModel');
-         //        // var name=a[$(this).closest('id').index()]['name'];
-         //        $.dialog({
-         //            width:775,
-         //            height:510,
-         //            title:'选择订单',
-         //            content:'url:'+settings_order_batch,
-         //            data:{
-         //                // skey:_self.skey,
-         //                name:name,
-         //                callback:function(newId,curID,curRow){
-         //                    if(curID === ''){
-         //                        $("#grid").jqGrid('addRowData',newId, {}, 'last');
-         //                        _self.newId = newId +1;
-         //                    };
-         //                    setTimeout( function(){
-         //                        $("#grid").jqGrid("editCell",curRow,2,true)},10);
-         //                    _self.calTotal();
-         //                }
-         //            }
-         //        })
-         //    });
-         //
-         //    //批量添加人员
-         //    $('.grid-wrap').on('focus','.company',function(){
-         //        var a = $("#grid").jqGrid('getGridParam','colModel');
-         //        // var name=a[$(this).closest('id').index()]['name'];
-         //        $.dialog({
-         //            width:775,
-         //            height:510,
-         //            title:'选择人员',
-         //            content:'url:'+settings_betweenUnit,
-         //            data:{
-         //                // skey:_self.skey,
-         //                name:name,
-         //                callback:function(newId,curID,curRow){
-         //                    if(curID === ''){
-         //                        $("#grid").jqGrid('addRowData',newId, {}, 'last');
-         //                        _self.newId = newId +1;
-         //                    };
-         //                    setTimeout( function(){
-         //                        $("#grid").jqGrid("editCell",curRow,2,true)},10);
-         //                    _self.calTotal();
-         //                }
-         //            }
-         //        })
-         //    });
+
             function getUser(){
-                // debugger;
                 var getUser = "";
                 var i;
                 var list;
@@ -271,7 +213,6 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
             }
 
             function getCompany(){
-                // debugger;
                 var getCompany = "";
                 var i;
                 var list;
@@ -301,7 +242,6 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
             }
 
             function getOrder(){
-                // debugger;
                 var getOrder = "";
                 var i;
                 var list;
@@ -380,9 +320,9 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
                             width: 220,
                             title: !0,
                             align:"right",
-                            edittable: !0,
-                            formatter: 'select',
+                            editable: !0,
                             edittype: 'select',
+                            formatter: 'select',
                             editoptions: {
                                  value:getOrder()
                             }
@@ -410,7 +350,6 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
                             width: 100,
                             fixed: !0,
                             align: "right",
-
                             editable: !0
                         },{
                             name: "Status",
@@ -471,19 +410,6 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
                     ];
 
             f.push(
-                ////   {
-//				name: "locationName",
-//				label: '仓库<small id="batchStorage">(批量)</small>',
-//				width: 100,
-//				editable: !0,
-//				edittype: "custom",
-//				editoptions: {
-//					custom_element: o,
-//					custom_value: s,
-//					handle: l,
-//					trigger: "ui-icon-triangle-1-s"e
-//				}
-//			},
 //                 {
 //                     name: "description",
 //                     label: "备注",
@@ -1077,7 +1003,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
             for (var t = [], e = $("#grid").jqGrid("getDataIDs"), i = 0, a = e.length; a > i; i++) {
                 var r, n = e[i],
                     o = $("#grid").jqGrid("getRowData", n);
-                if ("" !== o.billno) {
+                if ("" !== o.FK_Supplier_ID) {
                     var s = $("#" + n).data("goodsInfo"),
                         l = $("#" + n).data("storageInfo");
                     r = {

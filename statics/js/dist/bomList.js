@@ -12,6 +12,38 @@ function initTree() {
 		}
 	})
 }
+
+function getUnit(){
+    var getUnit = "";
+    var i;
+    var list;
+    var contentType;
+    $.ajax({
+        type:"get",
+        async:false,
+        url:basedata_getUnit,
+        contentType:"application/json;charset=UTF-8",
+        data:JSON.stringify(list),
+        success:function(result){
+            var result = eval('(' + result + ')');
+            for (i = 0; i< result.length;i++ ){
+                if(i != result.length-1){
+                    getUnit += result[i].key + ":" + result[i].name +";";
+                }else{
+                    getUnit += result[i].key + ":" + result[i].name;
+                }
+            }
+        },
+        error: function(e){
+            console.log(e.status);
+            console.log(e.responseText);
+        }
+    });
+    return getUnit;
+}
+
+
+
 function initGrid() {
 	var e = Public.setGrid(ajustH, ajustW),
 		t = ["操作", "bom编号","型号", "名称", "是否虚拟件", "大类", "小类", "描述", "单位类别", "属性描述", "属性1", "属性2", "属性3","属性4","属性5","属性6","属性7"],
@@ -49,14 +81,32 @@ function initGrid() {
 			align:"center"
 		},{
 			name:"isVirt",
-			index:"isVirt",
+			// index:"isVirt",
+			label:"是否虚拟件",
 			width:100,
-			align:"center"
+			title:!0,
+			editable:true,
+			edittype:'select',
+			hidden:false,
+			editrules:{
+				require:true
+			},
+			editoptions:{
+				value:"0:否;1:是"
+			}
+
 		},{
 		    name:"bomCat_id1",
 			index:"bomCat_id1",
 			width:100,
-			align:"center"
+			align:"center",
+            edittype:'select',
+            editrules:{
+                require:true
+            },
+            editoptions:{
+                value:"0:商品;1:产成品;2:半成品;3:原料;4低值或易耗品"
+            }
         },{     name:"bomCat_id2",
                 index:"bomCat_id2",
                 width:100,
@@ -75,7 +125,14 @@ function initGrid() {
 			index: "fk_unitClass_id",
 			width: 80,
 			align: "center",
-			title: !1
+			title: !1,
+			align:"right",
+			edittable:!0,
+			edittype:'select',
+			formatter:'select',
+			editoptions:{
+				value:getUnit()
+			}
 		},{
             name: "bomAttr",
             index: "bomAttr",

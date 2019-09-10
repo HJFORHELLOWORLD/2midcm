@@ -26,7 +26,7 @@ function initEvent() {
 	})
 }
 function initGrid() {
-	var t = ["操作","编号", "姓名","状态"],
+	var t = ["操作","编号", "姓名","部门","状态"],
 		e = [{
 			name: "operate",
 			width: 60,
@@ -41,6 +41,10 @@ function initGrid() {
 			name: "Username",
 			index: "Username",
 			width: 200
+		},{
+		  name:"DepartmentName",
+		  index:"DepartmentName",
+		  width: 200
 		},{
             name: "Status",
             index: "Status",

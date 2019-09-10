@@ -2,11 +2,13 @@
        $(".wrapper").on("click", "#registerBtn", function(t) {
         t.preventDefault();
         var i = {
-            pk_dept_id:$("#number").val(),
-            name: $("#id").val(),
-            desc:  $("#desc").val(),
-            head_id:$("#realName").val(),
-            creator_id: $("#founder").val()
+            PK_BOMCat_ID1:$("#select").val(),
+            PK_BOMCat_ID2:$("#define").val(),
+            Name: $("#name").val(),
+            bom_id: $("#id").val(),
+            pid: $("#upId").val(),
+            Desc:  $("#desc").val(),
+
         };
         // console.log(typeof(JSON.stringify(i)));
         // console.log(i);
