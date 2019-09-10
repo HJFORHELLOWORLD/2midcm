@@ -102,8 +102,15 @@ body{background: #fff;}
                 </li>
                 <li class="row-item">
                     <div class="label-wrap"><label for="name2">是否虚拟件</label></div>
-                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="name" id="name2"></div>
+                   <div class="ctn-wrap">
+                       <input type="text" value="" class="ui-input" name="name" id="name2">
+                       <datalist id="name2">
+                           <option value="0">否</option>
+                           <option value="1">是</option>
+                       </datalist>
+                   </div>
                 </li>
+
 
 
 <!--                <li class="row-item">
@@ -126,10 +133,9 @@ body{background: #fff;}
                     <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="desc" id="desc"/>
                     </div>
                 </li>
-                <li class="row-item">
-                    <div class="label-wrap"><label for="unitCost">单位类别</label></div>
-                    <div class="ctn-wrap"><input type="text" value="" class="ui-input" name="unitCost" id="unitCost">
-                    </div>
+                <li class="row-item row-category">
+                    <div class="label-wrap"><label for="unit">计量单位</label></div>
+                    <div class="ctn-wrap"><span id="unit"></span></div>
                 </li>
                 <li class="row-item">
                     <div class="label-wrap"><label for="attr">属性描述</label></div>
@@ -202,7 +208,7 @@ body{background: #fff;}
       <input type="text" class="textbox storageAuto" name="storage" autocomplete="off">
     </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/goodsManage.js?339787"></script>
+<script src="<?=skin_url()?>/js/dist/goodsManage.js?9787"></script>
 
 </body>
 </html>

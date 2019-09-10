@@ -56,6 +56,6 @@ var user_del = "<?=site_url('user/del')?>";
 	    <div id="page"></div>
 	  </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/userList.js?99"></script>
+<script src="<?=skin_url()?>/js/dist/userList.js?9669"></script>
 </body>
 </html>

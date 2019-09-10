@@ -40,7 +40,8 @@ var basedata_goods = "<?=site_url('basedata/goods')?>";
 var basedata_unit  = "<?=site_url('basedata/unit')?>";                      
 var settings_unit_manage = "<?=site_url('settings/unit_manage')?>";    
 var basedata_contact  = "<?=site_url('basedata/contact')?>";             
-var settings_inventory =  "<?=site_url('settings/inventory')?>";          
+var basedata_getUnit  = "<?=site_url('basedata/getUnit')?>";
+var settings_inventory =  "<?=site_url('settings/inventory')?>";
 var settings_skins =  "<?=site_url('settings/skins')?>"; 
 
 var bom_del = "<?=site_url('bom/del')?>";
@@ -100,6 +101,6 @@ h3{background: #EEEEEE;border: 1px solid #ddd;padding: 5px 10px;}
 <!--          </div>-->
 	</div>
 </div>
-<script src="<?=skin_url()?>/js/dist/bomList.js?6666"></script>
+<script src="<?=skin_url()?>/js/dist/bomList.js?999699"></script>
 </body>
 </html>

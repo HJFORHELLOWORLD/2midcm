@@ -71,32 +71,22 @@
                             </div>
                             <div class="ctn-wrap">
                                 <select  id="select" style="width:320px;height:30px;border-radius:3px;" onchange="change(this)">
-<!--                                    <option value="0"></option>-->
-                                    <option value="1">商品</option>
-                                    <option value="2">产成品</option>
-                                    <option value="3">半成品</option>
-                                    <option value="4">原料</option>
-                                    <option value="5">低值或易耗品</option>
+                                    <option value="0">商品</option>
+                                    <option value="1">产成品</option>
+                                    <option value="2">半成品</option>
+                                    <option value="3">原料</option>
+                                    <option value="4">低值或易耗品</option>
                                 </select>
-<!--                                <input name="box" style="width:300px;height:28px;border-radius:3px;position:absolute;left:130px">-->
-                                <!--                                <input type="text" id="number" list="category" class="ui-input"  style="ime-mode:disabled;" onpaste="return false;"/>-->
+<!--                                <input type="text" id="number" list="category" class="ui-input"  style="ime-mode:disabled;" onpaste="return false;"/>-->
 
                             </div>
                         </li>
-<!--                        <li class="row-item">-->
-<!--                            <div class="label-wrap">-->
-<!--                                <label for="define">自定义类别</label>-->
-<!--                            </div>-->
-<!--                            <div>-->
-<!--                                <input type="text"  id="define" class="ui-input" />-->
-<!--                            </div>-->
-<!--                        </li>-->
                         <li class="row-item">
                             <div class="label-wrap">
-                                <label for="name">物料名称</label>
+                                <label for="id">物料名称</label>
                             </div>
                             <div>
-                                <input type="text"  id="name" class="ui-input" />
+                                <input type="text"  id="id" class="ui-input" />
                             </div>
                         </li>
                         <li class="row-item">
@@ -109,10 +99,10 @@
                         </li>
                         <li class="row-item">
                             <div class="label-wrap">
-                                <label for="upId">上级栏目</label>
+                                <label for="id">物料名称</label>
                             </div>
                             <div>
-                                <input type="text"  id="upId" class="ui-input" />
+                                <input type="text"  id="id" class="ui-input" />
                             </div>
                         </li>
                         <li class="row-item">
@@ -120,9 +110,9 @@
                                 <label for="desc">描述</label>
                             </div>
                             <div class="ctn-wrap">
-                                <input type="text" id="desc" class="ui-input"  style="ime-mode:disabled;" onpaste="return false;"/>
-                            </div>
-                        </li>
+                        <input type="text" id="desc" class="ui-input"  style="ime-mode:disabled;" onpaste="return false;"/>
+            </div>
+            </li>
 
 
                         <li class="row-item">
@@ -137,8 +127,8 @@
                 </form>
             </div>
             <div>
-            </div>
+           </div>
         </div>
-        <script src="<?=skin_url()?>/js/dist/bomCategoryadd.js?921jjjsss4543659"></script>
+        <script src="<?=skin_url()?>/js/dist/bomCategoryadd.js?9214543659"></script>
 </body>
 </html>

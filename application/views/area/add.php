@@ -86,7 +86,8 @@
                             <div class="label-wrap">
                                 <label >上级区域</label>
                             </div>
-<<<<<<< HEAD
+                        </li>
+
                             <div class="ctn-wrap">
                         <li>
                             <select  class="ui-input">
@@ -95,12 +96,10 @@
                                 </div>
                             </select>
                         </li>
-=======
-                            <div>
-                                <input type="text" id="id" class="ui-input" />
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
-                            </div>
-                        </li>
+
+
+
+
                         <li class="row-item">
                             <div class="label-wrap">
                                 <label >创建人</label>

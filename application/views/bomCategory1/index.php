@@ -9,7 +9,6 @@
     <link href="<?=skin_url()?>/css/common.css?ver=20140815" rel="stylesheet" type="text/css">
     <link href="<?=skin_url()?>/css/<?=skin()?>/ui.min.css?ver=20140815" rel="stylesheet">
     <script src="<?=skin_url()?>/js/common/libs/jquery/jquery-1.10.2.min.js"></script>
-    <script src="<?=skin_url()?>/js/common/libs/echarts.js"></script>
     <script src="<?=skin_url()?>/js/common/libs/json2.js"></script>
     <script src="<?=skin_url()?>/js/common/common.js?ver=20140815"></script>
     <script src="<?=skin_url()?>/js/common/grid.js?ver=20140815"></script>
@@ -33,7 +32,6 @@
         var settings_customer_batch = "<?=site_url('settings/customer_batch')?>";
         var basedata_settlement = "<?=site_url('basedata/settlement')?>";
         var settings_settlement_manage = "<?=site_url('settings/settlement_manage')?>";
-        var basedata_category1 = "<?=site_url('basedata/category1')?>";
         var basedata_category = "<?=site_url('basedata/category')?>";
         var basedata_category_type= "<?=site_url('basedata/category_type')?>";
         var settings_goods_manage = "<?=site_url('settings/goods_manage')?>";
@@ -81,14 +79,16 @@
             <!--<a class="ui-btn" id="print" target="_blank" href="javascript:void(0);">打印</a>-->
             <!--<a class="ui-btn" id="export" target="_blank" href="javascript:void(0);">导出</a>--><a class="ui-btn dn" id="audit">审核</a><a class="ui-btn" id="reAudit">反审核</a></div>
     </div>
+    <!--  <div class="mod-toolbar-top cf">
+        <div class="fl"><strong class="tit">仓库</strong></div>
+        <div class="fr"><a class="ui-btn ui-btn-sp mrb" id="search">新增</a><a class="ui-btn" id="export">导出</a></div>
+      </div>-->
     <div class="grid-wrap">
         <table id="grid">
         </table>
         <div id="page"></div>
     </div>
-
-
 </div>
-<script src="<?=skin_url()?>/js/dist/bomCategory.js?971"></script>
+<script src="<?=skin_url()?>/js/dist/categoryList1.js?99"></script>
 </body>
 </html>

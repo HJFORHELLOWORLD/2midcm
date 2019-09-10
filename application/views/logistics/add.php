@@ -99,7 +99,7 @@
     </div>
 
 </div>
-<script src="<?=skin_url()?>/js/dist/logistics.js?99966669"></script>
+<script src="<?=skin_url()?>/js/dist/logistics.js?999"></script>
 </body>
 </html>
 
