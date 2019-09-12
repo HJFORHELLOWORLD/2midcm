@@ -6,14 +6,15 @@ function initEvent() {
 	$("#grid").on("click", ".operating .ui-icon-pencil", function(t) {
 		t.preventDefault();
 		if (Business.verifyRight("USER_UPDATE")) {
-			var e = $(this).parent().data("id");
+			var e = $(this).parent().data("PK_User_ID");
 			handle.operate("edit", e)
 		}
 	});
 	$("#grid").on("click", ".operating .ui-icon-trash", function(t) {
 		t.preventDefault();
 		if (Business.verifyRight("USER_DELETE")) {
-			var e = $(this).parent().data("id");
+			var e = $(this).parent().data("PK_User_ID");
+			console.log(e);
 			handle.del(e)
 		}
 	});
@@ -26,7 +27,7 @@ function initEvent() {
 	})
 }
 function initGrid() {
-	var t = ["操作","编号", "姓名","部门","状态"],
+	var t = ["操作","编号","姓名","部门","状态"],
 		e = [{
 			name: "operate",
 			width: 60,

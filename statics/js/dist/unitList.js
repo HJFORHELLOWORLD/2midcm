@@ -14,6 +14,7 @@ function initEvent() {
 		t.preventDefault();
 		if (Business.verifyRight("UNIT_DELETE")) {
 			var e = $(this).parent().data("id");
+			// console.log(e);
 			handle.del(e)
 		}
 	});

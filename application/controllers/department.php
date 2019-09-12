@@ -129,7 +129,7 @@ class department extends CI_Controller {
         $data['data']['records']   = count($list);   //总条数
         $data['data']['total']     = ceil($data['data']['records']/$rows);    //总分页数
         $data['data']['rows']      = is_array($v) ? $v : '';
-=======
+
       //  $skey   = str_enhtml($this->input->get('skey',TRUE));
         $page = max(intval($this->input->get_post('page',TRUE)),1);
         $rows = max(intval($this->input->get_post('rows',TRUE)),100);
@@ -154,8 +154,7 @@ class department extends CI_Controller {
             $v[$arr]['Status']       = $row['Status'];
         }
         $data['data']['items']   = is_array($v) ? $v : '';
-        $data['data']['totalsize']  = count($list);//$this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID desc');
->>>>>>> 75b3f7b9f9287a303b937a199d246c39842cc7d5
+        $data['data']['totalsize']  = count($list);//$this->cache_model->load_total(WORK_CERTER,'(Status=1) '.$where.' order by PK_WC_ID de
         die(json_encode($data));
     }
 

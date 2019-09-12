@@ -81,6 +81,6 @@ var invoi_type  = "<?=site_url('invoi/type')?>";
     <div id="page"></div>
   </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/otherOutboundList.js?s22"></script>
+<script src="<?=skin_url()?>/js/dist/otherOutboundList.js?9333"></script>
 </body>
 </html>

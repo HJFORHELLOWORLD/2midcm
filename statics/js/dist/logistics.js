@@ -898,7 +898,7 @@ var curRow, curCol, loading, SYSTEM = system = parent.SYSTEM,basedata_SelectSinp
                 //		LODOP.SET_SHOW_MODE("MESSAGE_GETING_URL",""); //该语句隐藏进度条或修改提示信息
                 //		LODOP.SET_SHOW_MODE("MESSAGE_PARSING_URL","");//该语句隐藏进度条或修改提示信息
                 //LODOP.PREVIEW();
-                return false
+                return false;
 
                 Business.verifyRight("PU_PRINT") && Public.print({
                     title: "购货单列表",

@@ -64,7 +64,7 @@ var invoi_export  = "<?=site_url('invoi/export')?>";
     <div class="fl">
       <ul class="ul-inline">
         <li>
-          <input type="text" id="matchCon" class="ui-input ui-input-ph con" value="请输入单据号或供应商或备注">
+          <input type="text" id="matchCon" class="ui-input ui-input-ph con" value="请输入单据号或仓库编号">
         </li>
         <li>
           <label>日期:</label>
@@ -83,6 +83,6 @@ var invoi_export  = "<?=site_url('invoi/export')?>";
     <div id="page"></div>
   </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/otherWarehouseList.js?s22"></script>
+<script src="<?=skin_url()?>/js/dist/otherWarehouseList.js?999"></script>
 </body>
 </html>

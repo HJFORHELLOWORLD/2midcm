@@ -47,35 +47,28 @@ var queryConditions = {
 					formatter: e,
 					align: "center"
 				}, {
-					name: "billDate",
+					name: "Create_Date",
 					label: "单据日期",
-					width: 100,
+					width: 200,
 					align: "center"
 				}, {
-					name: "billNo",
-					label: "单据编号",
+					name: "PK_BOM_SO_ID",
+					label: "库存变更单编号",
 					width: 150,
 					align: "center"
 				}, {
-					name: "transTypeName",
+					name: "Type",
 					label: "业务类别",
 					width: 150
+				},  {
+					name: "Stock",
+					label: "仓库名称",
+					width: 100
 				}, {
-					name: "amount",
-					label: "金额",
-					hidden: hiddenAmount,
-					width: 100,
-					align: "right",
-					formatter: "currency"
-				}, {
-					name: "contactName",
-					label: "客户",
-					width: 200
-				}, {
-					name: "userName",
+					name: "Creator",
 					label: "制单人",
 					index: "userName",
-					width: 80,
+					width: 100,
 					fixed: !0,
 					align: "center",
 					title: !1
@@ -114,7 +107,7 @@ var queryConditions = {
 		reloadData: function(e) {
 			$("#grid").jqGrid("setGridParam", {
 				//url: "/scm/invOi.do?action=listOut&type=out",
-				url: invoi_outlist+"?type=2",
+				url: invoi_outlist+"?Type=2",
 				datatype: "json",
 				postData: e
 			}).trigger("reloadGrid")

@@ -59,39 +59,31 @@ var queryConditions = {
 					formatter: e,
 					align: "center"
 				}, {
-					name: "billDate",
+					name: "Create_Date",
 					label: "入库日期",
 					width: 150,
 					align: "center"
 				}, {
-					name: "billNo",
-					label: "订单编号",
+					name: "PK_BOM_SO_ID",
+					label: "库存变更编号",
 					width: 150,
 					align: "center"
 				}, {
-					name: "transType",
+					name: "Type",
 					label: "业务类别",
 					width: 100,
 					formatter: t,
                     align: "center"
-				}, {
-					name: "amount",
-					label: "金额",
-					hidden: hiddenAmount,
-					width: 100,
-					align: "right",
-					formatter: "currency",
+				},{
+					name: "Stock",
+					label: "仓库名称",
+					width: 150,
                     align: "center"
 				}, {
-					name: "contactName",
-					label: "供应商",
-					width: 200,
-                    align: "center"
-				}, {
-					name: "userName",
+					name: "creator",
 					label: "制单人",
 					index: "userName",
-					width: 80,
+					width: 100,
 					fixed: !0,
 					align: "center",
 					title: !1

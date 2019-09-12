@@ -379,7 +379,6 @@ class Basedata extends CI_Controller {
 			$v[$arr]['beginDate']    = 1409500800000;
 			$v[$arr]['remark']       = $row['Desc'];
 			$v[$arr]['links'] = '';
-
 			$v[$arr]['Taxrate'] = (float)$row['Taxrate'] * 100;//对外展示百分数，因此*100
             $v[$arr]['Industry'] = $row['industry'];
 			$v[$arr]['Area'] = $row['area'];
@@ -616,6 +615,17 @@ class Basedata extends CI_Controller {
         $list = $this->cache_model->load_data(BETWEENUNIT,'(1=1) order by PK_BU_ID desc');
         foreach ($list as $arr => $row ){
             $data[]= array('key'=>intval($row['PK_BU_ID']),'name'=>$row['Name']);
+        }
+//      var_dump($data);
+        die(json_encode($data));
+    }
+
+    //查询仓库接口
+    public function  getStock(){
+        $data[]= array('key'=>'','name'=>'');
+        $list = $this->cache_model->load_data(STOCK,'(1=1) order by PK_Stock_ID desc');
+        foreach ($list as $arr => $row ){
+            $data[]= array('key'=>intval($row['PK_Stock_ID']),'name'=>$row['Stock_Name']);
         }
 //      var_dump($data);
         die(json_encode($data));

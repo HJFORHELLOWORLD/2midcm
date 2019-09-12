@@ -40,11 +40,10 @@ var basedata_goods = "<?=site_url('basedata/goods')?>";
 var basedata_unit  = "<?=site_url('basedata/unit')?>";                      
 var settings_unit_manage = "<?=site_url('settings/unit_manage')?>";    
 var basedata_contact  = "<?=site_url('basedata/contact')?>";             
-var settings_inventory =  "<?=site_url('settings/inventory')?>";          
+var basedata_getStock  = "<?=site_url('basedata/getStock')?>";
+var settings_inventory =  "<?=site_url('settings/inventory')?>";
 var settings_skins =  "<?=site_url('settings/skins')?>"; 
-var settings_select_customer =  "<?=site_url('settings/select_customer')?>";  
-
-
+var settings_select_customer =  "<?=site_url('settings/select_customer')?>";
 var invoi_inlist = "<?=site_url('invoi/inlist')?>";
 var invoi_outlist = "<?=site_url('invoi/outlist')?>";
 var invoi_in   = "<?=site_url('invoi/in')?>";
@@ -118,6 +117,6 @@ var plug_down = "<?=base_url()?>/install_lodop32.rar";
   <div id="storageBox" class="shadow target_box dn">
   </div>
 </div>
-<script src="<?=skin_url()?>/js/dist/otherOutbound.js?22"></script>
+<script src="<?=skin_url()?>/js/dist/otherOutbound.js?2999 2"></script>
 </body>
 </html>

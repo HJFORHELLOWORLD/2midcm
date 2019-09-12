@@ -692,5 +692,40 @@ class Data_model extends CI_Model{
         return $this->cache_model->load_sql(STOCK,$sql,2);
     }
 
+    //入库记录
+    public function otherInList(){
+        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Username as Creator,c.Stock_Name as Stock  FROM
+            t_'.BOM_STOCK_ORDER.' as a
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Creator_ID=b.PK_User_ID
+            LEFT JOIN t_'
+            .STOCK.' as c
+            ON a.Stock_ID=c.PK_Stock_ID
+            '.$where.'
+            '.$order.'
+            ';
+        return $this->cache_model->load_sql(BOM_STOCK_ORDER,$sql,2);
+    }
+
+    //出库记录
+    public function otherOutList(){
+//        $where = $where ? 'where (1=1) '.$where : '';
+        $sql = 'SELECT a.*, b.Username as Creator,c.Stock_Name as Stock  FROM
+            t_'.BOM_STOCK_ORDER.' as a
+            LEFT JOIN t_'
+            .USER.' as b
+            ON a.Creator_ID=b.PK_User_ID
+            LEFT JOIN t_'
+            .STOCK.' as c
+            ON a.Stock_ID=c.PK_Stock_ID
+//           '.$where.'
+//           '.$order.'
+             ';
+            var_dump($sql);
+        return $this->cache_model->load_sql(BOM_STOCK_ORDER,$sql,2);
+    }
+
 }
 ?>

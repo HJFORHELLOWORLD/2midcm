@@ -86,6 +86,34 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 			}
 		},
 		loadGrid: function(e) {
+            function getStock(){
+                var getStock = "";
+                var i;
+                var list;
+                var contentType;
+                $.ajax({
+                    type:"get",
+                    async:false,
+                    url:basedata_getStock,
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify(list),
+                    success:function(result){
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i< result.length;i++ ){
+                            if(i != result.length-1){
+                                getStock += result[i].key + ":" + result[i].name +";";
+                            }else{
+                                getStock += result[i].key + ":" + result[i].name;
+                            }
+                        }
+                    },
+                    error: function(e){
+                        console.log(e.status);
+                        console.log(e.responseText);
+                    }
+                });
+                return getStock;
+            }
 			function t(e, t, i) {
 				return e ? e : i.invNumber ? i.invSpec ? i.invNumber + " " + i.invName + "_" + i.invSpec : i.invNumber + " " + i.invName : "&#160;"
 			}
@@ -157,7 +185,7 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 						handle: r,
 						trigger: "ui-icon-ellipsis"
 					}
-				}, {
+				},{
 					name: "mainUnit",
 					label: "单位",
 					width: 60
@@ -171,7 +199,15 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 						decimalPlaces: qtyPlaces
 					},
 					editable: !0
-				}, {
+				},
+					// {
+                //     name: "bom_id",
+                //     label: "bom_id",
+                //     width: 150,
+                //     title: !0,
+                //     editable: !0
+                // },
+					{
 					name: "price",
 					label: "入库单价",
 					hidden: hiddenAmount,
@@ -198,26 +234,19 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 					},
 					editable: !0
 				},
-				//{
-//					name: "locationName",
-//					label: '仓库<small id="batchStorage">(批量)</small>',
-//					width: 100,
-//					title: !0,
-//					editable: !0,
-//					edittype: "custom",
-//					editoptions: {
-//						custom_element: n,
-//						custom_value: o,
-//						handle: s,
-//						trigger: "ui-icon-triangle-1-s"
-//					}
-//				}, 
 				{
-					name: "description",
-					label: "备注",
-					width: 150,
+					name: "PK_Stock_ID",
+					label: '仓库',
+					width: 100,
 					title: !0,
-					editable: !0
+					align:"left",
+					editable: !0,
+					formatter:'select',
+					edittype: 'select',
+					editrules:true,
+					editoptions: {
+						value:getStock()
+					}
 				}],
 				cmTemplate: {
 					sortable: !1,
@@ -303,9 +332,9 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 							var o = $("#grid").jqGrid("setRowData", e, {
 								mainUnit: n.unitName,
 								qty: 1,
-								price: n.purPrice,
-								amount: n.purPrice,
-								locationName: n.localtionName
+								price: n.price,
+								amount: n.amount,
+								PK_Stock_ID: n.PK_Stock_ID
 							});
 							o && THISPAGE.calTotal()
 						}
@@ -611,9 +640,11 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 						invSpec: s.spec,
 						unitId: s.unitId,
 						mainUnit: s.unitName,
+                        // PK_Stock_ID:s.PK_Stock_ID,
 						qty: o.qty,
 						price: o.price,
 						amount: o.amount,
+						PK_Stock_ID:o.PK_Stock_ID,
 						description: o.description
 						//locationId: l.id,
 						//locationName: l.name

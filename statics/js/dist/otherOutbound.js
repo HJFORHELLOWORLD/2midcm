@@ -85,6 +85,34 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 			}
 		},
 		loadGrid: function(e) {
+            function getStock(){
+                var getStock = "";
+                var i;
+                var list;
+                var contentType;
+                $.ajax({
+                    type:"get",
+                    async:false,
+                    url:basedata_getStock,
+                    contentType:"application/json;charset=UTF-8",
+                    data:JSON.stringify(list),
+                    success:function(result){
+                        var result = eval('(' + result + ')');
+                        for (i = 0; i< result.length;i++ ){
+                            if(i != result.length-1){
+                                getStock += result[i].key + ":" + result[i].name +";";
+                            }else{
+                                getStock += result[i].key + ":" + result[i].name;
+                            }
+                        }
+                    },
+                    error: function(e){
+                        console.log(e.status);
+                        console.log(e.responseText);
+                    }
+                });
+                return getStock;
+            }
 			function t(e, t, i) {
 				return e ? e : i.invNumber ? i.invSpec ? i.invNumber + " " + i.invName + "_" + i.invSpec : i.invNumber + " " + i.invName : "&#160;"
 			}
@@ -196,7 +224,20 @@ var curRow, curCol, loading, urlParam = Public.urlParam(),
 						decimalPlaces: amountPlaces
 					},
 					editable: !0
-				},
+				},{
+                    name: "PK_Stock_ID",
+                    label: '仓库',
+                    width: 100,
+                    title: !0,
+                    align:"left",
+                    editable: !0,
+                    formatter:'select',
+                    edittype: 'select',
+                    editrules:true,
+                    editoptions: {
+                        value:getStock()
+                    }
+                },
 				//{
 //					name: "locationName",
 //					label: '仓库<small id="batchStorage">(批量)</small>',
